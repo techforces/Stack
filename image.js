@@ -56,6 +56,15 @@ let minLength = 0;
 let maxLength = 0;
 let currLength = 0;
 
+// impulse ∈ [-1, 1]; delta ∈ [-delta_max, delta_max];
+let impulse = 0;
+let imDelta = 0;
+const imDeltaMax = 700;
+
+const rotAngle = 20;
+// the higher the value, the shorter the duration
+const rotAnimDuration = 10;
+
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
   //   console.log(
@@ -200,7 +209,7 @@ canvas.addEventListener("click", () => {
 // reduce plane
 document.addEventListener("keypress", (event) => {
   console.log("Key pressed:", event.key);
-  if (event.key === "p") {
+  if (event.key === " ") {
     targetX = (planeWidth + gapMin) * index;
     for (var i = 0; i < meshes.length; i++) {
       reducePlane(meshes[i], uniforms[i]);
@@ -209,8 +218,13 @@ document.addEventListener("keypress", (event) => {
 });
 
 document.addEventListener("wheel", (event) => {
-  // console.log(event.deltaY);
   if (!enlarged) {
+    // console.log(imDelta);
+    imDelta = Math.max(
+      -imDeltaMax,
+      Math.min(imDeltaMax, imDelta + event.deltaY)
+    );
+
     const targetPosX = Math.max(
       0,
       Math.min(currLength, camera.position.x + event.deltaY * 2)
@@ -234,8 +248,19 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    // greyscale/color animation on hover/click
+    // scrolling wave animation
+    if (imDelta > 0) {
+      imDelta = Math.max(0, imDelta - rotAnimDuration);
+    } else {
+      imDelta = Math.min(0, imDelta + rotAnimDuration);
+    }
+    impulse = imDelta / imDeltaMax;
+    console.log(impulse);
+
     for (var i = 0; i < meshes.length; i++) {
+      meshes[i].rotation.y = impulse * ((rotAngle * Math.PI) / 180);
+
+      // greyscale/color animation on hover/click
       if (uniforms[i].hovered.value || uniforms[i].selected.value) {
         uniforms[i].mixValue.value = Math.min(
           1,
@@ -252,13 +277,13 @@ function update() {
     // update positioning
     if (isRendered) {
       meshes[0].position.x = 0;
-      for (var i = 1; i < images.length; i++) {
+      for (var i = 1; i < meshes.length; i++) {
         meshes[i].position.x = (currentWidth + gap) * i;
       }
     } else {
       // Initial Positioning, for performance optimization!
       meshes[0].position.x = 0;
-      for (var i = 1; i < images.length; i++) {
+      for (var i = 1; i < meshes.length; i++) {
         meshes[i].position.x = ((currentWidth + gap) * i) / 10;
       }
       isRendered = true;
