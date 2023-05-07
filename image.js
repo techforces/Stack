@@ -3,6 +3,7 @@ import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import { PlaneGeometry } from "three";
 import gsap from "gsap";
+import { Tween } from "gsap/gsap-core";
 
 /* Set up */
 const perspective = 800;
@@ -205,10 +206,12 @@ document.addEventListener("keypress", (event) => {
 document.addEventListener("wheel", (event) => {
   // console.log(event.deltaY);
   if (!enlarged) {
-    camera.position.x = Math.max(
+    const targetPosX = Math.max(
       0,
-      Math.min(currLength, camera.position.x + event.deltaY)
+      Math.min(currLength, camera.position.x + event.deltaY * 2)
     );
+    gsap.to(camera.position, 0.5, { x: targetPosX });
+    console.log(targetPosX);
     // updateRaycaster();
   }
 });
