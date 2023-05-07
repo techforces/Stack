@@ -188,10 +188,12 @@ canvas.addEventListener("click", () => {
   if (intersects.length > 0) {
     index = intersects[0].object.arr_id;
     targetX = (planeWidthBig + gapMax) * index;
-    uniforms[index].selected.value = true;
+
     for (var i = 0; i < meshes.length; i++) {
       enlargePlane(meshes[i], uniforms[i]);
+      uniforms[i].selected.value = false;
     }
+    uniforms[index].selected.value = true;
   }
 });
 
