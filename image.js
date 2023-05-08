@@ -60,10 +60,12 @@ let currLength = 0;
 let impulse = 0;
 let imDelta = 0;
 const imDeltaMax = 700;
+const rotAngle = 25;
 
-const rotAngle = 20;
 // the higher the value, the shorter the duration
 const rotAnimDuration = 10;
+
+const maxWaveSize = 700;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -110,6 +112,9 @@ function updateRaycaster() {
 
   if (intersects.length > 0) {
     // console.log("", intersects[0].object.arr_id);
+    for (var i = 0; i < meshes.length; i++) {
+      uniforms[i].hovered.value = false;
+    }
     uniforms[intersects[0].object.arr_id].hovered.value = true;
   } else {
     for (var i = 0; i < meshes.length; i++) {
@@ -219,19 +224,27 @@ document.addEventListener("keypress", (event) => {
 
 document.addEventListener("wheel", (event) => {
   if (!enlarged) {
-    // console.log(imDelta);
-    imDelta = Math.max(
+    // Scrolling animation
+    const newDelta = Math.max(
       -imDeltaMax,
       Math.min(imDeltaMax, imDelta + event.deltaY)
     );
 
+    // Smoothly transition imDelta to new value
+    gsap.to({ val: imDelta }, 0.1, {
+      val: newDelta,
+      onUpdate: function () {
+        imDelta = this.targets()[0].val;
+        console.log(this);
+      },
+    });
+
+    // Move Camera
     const targetPosX = Math.max(
       0,
       Math.min(currLength, camera.position.x + event.deltaY * 2)
     );
     gsap.to(camera.position, 0.5, { x: targetPosX });
-    // console.log(targetPosX);
-    // updateRaycaster();
   }
 });
 
@@ -248,17 +261,34 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    // scrolling wave animation
+    // imitate impulse
     if (imDelta > 0) {
       imDelta = Math.max(0, imDelta - rotAnimDuration);
     } else {
       imDelta = Math.min(0, imDelta + rotAnimDuration);
     }
+    // imDelta = imDelta * 0.92;
     impulse = imDelta / imDeltaMax;
-    console.log(impulse);
+    // console.log(camera.position.x);
 
     for (var i = 0; i < meshes.length; i++) {
-      meshes[i].rotation.y = impulse * ((rotAngle * Math.PI) / 180);
+      // TODO: current rotation formula is dogshit
+      if (
+        (meshes[i].position.x < camera.position.x && impulse < 0) ||
+        (meshes[i].position.x > camera.position.x && impulse > 0)
+      ) {
+        meshes[i].rotation.y = impulse * (((-rotAngle / 2) * Math.PI) / 180);
+      } else {
+        meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
+      }
+      // Scaling: for wave effect ~
+      const diff = Math.abs(camera.position.x - meshes[i].position.x);
+      const scale_coef = 1 - Math.min(1, diff / maxWaveSize);
+      meshes[i].scale.set(
+        1 + (Math.abs(impulse) * scale_coef) / 2,
+        1 + (Math.abs(impulse) * scale_coef) / 2,
+        1
+      );
 
       // greyscale/color animation on hover/click
       if (uniforms[i].hovered.value || uniforms[i].selected.value) {
