@@ -59,11 +59,11 @@ let currLength = 0;
 // impulse ∈ [-1, 1]; delta ∈ [-delta_max, delta_max];
 let impulse = 0;
 let imDelta = 0;
-const imDeltaMax = 700;
+const imDeltaMax = 400;
 const rotAngle = 25;
 
 // the higher the value, the shorter the duration
-const rotAnimDuration = 10;
+const rotAnimDuration = 20;
 
 const maxWaveSize = 700;
 
@@ -231,11 +231,10 @@ document.addEventListener("wheel", (event) => {
     );
 
     // Smoothly transition imDelta to new value
-    gsap.to({ val: imDelta }, 0.1, {
+    gsap.to({ val: imDelta }, 0.2, {
       val: newDelta,
       onUpdate: function () {
         imDelta = this.targets()[0].val;
-        console.log(this);
       },
     });
 
@@ -262,14 +261,15 @@ function update() {
 
   if (isLoaded) {
     // imitate impulse
-    if (imDelta > 0) {
-      imDelta = Math.max(0, imDelta - rotAnimDuration);
-    } else {
-      imDelta = Math.min(0, imDelta + rotAnimDuration);
-    }
-    // imDelta = imDelta * 0.92;
+    // if (imDelta > 0) {
+    //   imDelta = Math.max(0, imDelta - rotAnimDuration);
+    // } else {
+    //   imDelta = Math.min(0, imDelta + rotAnimDuration);
+    // }
+
+    imDelta = imDelta * 0.97;
     impulse = imDelta / imDeltaMax;
-    // console.log(camera.position.x);
+    console.log(impulse);
 
     for (var i = 0; i < meshes.length; i++) {
       // TODO: current rotation formula is dogshit
@@ -285,8 +285,8 @@ function update() {
       const diff = Math.abs(camera.position.x - meshes[i].position.x);
       const scale_coef = 1 - Math.min(1, diff / maxWaveSize);
       meshes[i].scale.set(
-        1 + (Math.abs(impulse) * scale_coef) / 2,
-        1 + (Math.abs(impulse) * scale_coef) / 2,
+        1 + Math.abs(impulse) * scale_coef,
+        1 + Math.abs(impulse) * scale_coef,
         1
       );
 
