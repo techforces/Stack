@@ -60,7 +60,12 @@ let currLength = 0;
 let impulse = 0;
 let imDelta = 0;
 const imDeltaMax = 400;
-const rotAngle = 25;
+const rotAngle = 30;
+const roundAngle = 50;
+
+// Displacement
+const maxDisplacement = 110;
+const displacementWidth = 550;
 
 // the higher the value, the shorter the duration
 const rotAnimDuration = 20;
@@ -272,23 +277,55 @@ function update() {
     console.log(impulse);
 
     for (var i = 0; i < meshes.length; i++) {
-      // TODO: current rotation formula is dogshit
-      if (
-        (meshes[i].position.x < camera.position.x && impulse < 0) ||
-        (meshes[i].position.x > camera.position.x && impulse > 0)
-      ) {
-        meshes[i].rotation.y = impulse * (((-rotAngle / 2) * Math.PI) / 180);
-      } else {
-        meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
-      }
-      // Scaling: for wave effect ~
-      const diff = Math.abs(camera.position.x - meshes[i].position.x);
-      const scale_coef = 1 - Math.min(1, diff / maxWaveSize);
+      // Rotation coefficient: for wave effect ~
+      const diff = camera.position.x - meshes[i].position.x;
+      const wave_coef = Math.max(-1, Math.min(1, diff / maxWaveSize));
+      const alpha = roundAngle * Math.sin((wave_coef * Math.PI) / 2);
+
+      // Scaling coefficient: for wave effect ~
+      const abs_diff = Math.abs(diff);
+      const scale_coef = 1 - Math.min(1, abs_diff / maxWaveSize);
       meshes[i].scale.set(
         1 + Math.abs(impulse) * scale_coef,
         1 + Math.abs(impulse) * scale_coef,
         1
       );
+
+      // Rotation
+      if (
+        (meshes[i].position.x < camera.position.x && impulse < 0) ||
+        (meshes[i].position.x > camera.position.x && impulse > 0)
+      ) {
+        meshes[i].rotation.y = impulse * (((-rotAngle / 2) * Math.PI) / 180);
+        // meshes[i].rotation.y = (rotAngle * Math.PI) / 180;
+      } else {
+        meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
+        // meshes[i].rotation.y = (rotAngle * Math.PI) / 180;
+      }
+      // meshes[11].rotation.y = (-10 * Math.PI) / 180;
+      // meshes[12].rotation.y = (-25 * Math.PI) / 180;
+      // meshes[13].rotation.y = (-10 * Math.PI) / 180;
+      // meshes[14].rotation.y = (5 * Math.PI) / 180;
+      // meshes[15].rotation.y = (20 * Math.PI) / 180;
+      // meshes[16].rotation.y = (25 * Math.PI) / 180;
+      // meshes[17].rotation.y = (30 * Math.PI) / 180;
+      // meshes[18].rotation.y = (35 * Math.PI) / 180;
+      // meshes[19].rotation.y = (40 * Math.PI) / 180;
+      // meshes[20].rotation.y = (45 * Math.PI) / 180;
+      // meshes[21].rotation.y = (35 * Math.PI) / 180;
+      // meshes[22].rotation.y = (32 * Math.PI) / 180;
+
+      // meshes[10].scale.set(1, 1, 1);
+      // meshes[11].scale.set(1.1, 1.1, 1);
+      // meshes[12].scale.set(1.3, 1.3, 1);
+      // meshes[13].scale.set(1.6, 1.6, 1);
+      // meshes[14].scale.set(1.8, 1.8, 1);
+      // meshes[15].scale.set(2, 2, 1);
+      // meshes[16].scale.set(1.8, 1.8, 1);
+      // meshes[17].scale.set(1.6, 1.6, 1);
+      // meshes[18].scale.set(1.3, 1.3, 1);
+      // meshes[19].scale.set(1.1, 1.1, 1);
+      // meshes[20].scale.set(1, 1, 1);
 
       // greyscale/color animation on hover/click
       if (uniforms[i].hovered.value || uniforms[i].selected.value) {
@@ -306,9 +343,20 @@ function update() {
 
     // update positioning
     if (isRendered) {
-      meshes[0].position.x = 0;
-      for (var i = 1; i < meshes.length; i++) {
-        meshes[i].position.x = (currentWidth + gap) * i;
+      for (var i = 0; i < meshes.length; i++) {
+        const displacement =
+          Math.sin(
+            Math.min(
+              1,
+              Math.max(
+                -1,
+                (meshes[i].position.x - camera.position.x) / displacementWidth
+              )
+            ) * Math.PI
+          ) *
+          maxDisplacement *
+          Math.abs(impulse);
+        meshes[i].position.x = (currentWidth + gap) * i + displacement;
       }
     } else {
       // Initial Positioning, for performance optimization!
