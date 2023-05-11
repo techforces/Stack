@@ -68,6 +68,10 @@ const rotAnimDuration = 20;
 const maxWaveSize = 700;
 const waveHalf = maxWaveSize / 2;
 
+// color grading
+const coloredWidth = 300;
+const partiallyColoredWidth = 100;
+
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
   //   console.log(
@@ -232,10 +236,13 @@ document.addEventListener("wheel", (event) => {
     );
 
     // Smoothly transition imDelta to new value
+    // 0.2 on windows with high fps
+    // 0 on mac with low fps, quickfix
     gsap.to({ val: imDelta }, 0.2, {
       val: newDelta,
       onUpdate: function () {
         imDelta = this.targets()[0].val;
+        // console.log(event.deltaY);
       },
     });
 
@@ -261,13 +268,14 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    imDelta = imDelta * 0.97;
+    imDelta = imDelta * 0.95;
     impulse = imDelta / imDeltaMax;
-    console.log(impulse);
+    // console.log(imDelta);
 
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
+      const abs_diff = Math.abs(diff);
 
       const alpha =
         Math.sin(
@@ -278,7 +286,6 @@ function update() {
         ) * waveRotationAngle;
 
       // Scaling coefficient: for wave effect ~
-      const abs_diff = Math.abs(diff);
       const scale_coef = 1 - Math.min(1, abs_diff / waveHalf);
       meshes[i].position.z = (perspective / 2) * Math.abs(impulse) * scale_coef;
 
@@ -290,6 +297,19 @@ function update() {
         meshes[i].rotation.y =
           impulse * (((-rotAngle - alpha) * Math.PI) / 180);
       }
+
+      // color grade
+      let colorGrade = 0;
+      if (abs_diff > coloredWidth + partiallyColoredWidth) {
+        colorGrade = 0;
+      } else if (abs_diff <= coloredWidth) {
+        colorGrade = 1;
+      } else {
+        colorGrade = 1 - (abs_diff - coloredWidth) / partiallyColoredWidth;
+        // console.log("color grade", colorGrade);
+      }
+
+      colorGrade = colorGrade * Math.min(1, Math.abs(impulse) * 2);
 
       // greyscale/color animation on hover/click
       if (uniforms[i].hovered.value || uniforms[i].selected.value) {
@@ -303,6 +323,10 @@ function update() {
           Math.max(0, uniforms[i].mixValue.value - 0.1)
         );
       }
+      uniforms[i].mixValue.value = Math.max(
+        uniforms[i].mixValue.value,
+        colorGrade
+      );
     }
 
     // update positioning
@@ -377,11 +401,11 @@ function createPlanes() {
   maxLength = (planeWidthBig + gapMax) * (images.length - 1);
   currLength = minLength;
   isLoaded = true;
-  console.log(minLength, maxLength);
+  // console.log(minLength, maxLength);
 
   const markerGeo = new THREE.PlaneGeometry(10, 10);
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
-  scene.add(marker);
+  // scene.add(marker);
 }
