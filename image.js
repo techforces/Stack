@@ -41,8 +41,8 @@ let index = 0;
 let targetX = 0;
 let enlarged = false;
 
-let planeWidth = 75;
-let planeHeight = 260;
+let planeWidth = 79;
+let planeHeight = 290;
 let planeWidthBig = 740;
 let planeHeightBig = 420;
 let currentWidth = planeWidth;
@@ -61,12 +61,12 @@ let impulse = 0;
 let imDelta = 0;
 const imDeltaMax = 400;
 const rotAngle = 30;
-const roundAngle = 50;
-
+const waveRotationAngle = 40;
 // the higher the value, the shorter the duration
 const rotAnimDuration = 20;
 
 const maxWaveSize = 700;
+const waveHalf = maxWaveSize / 2;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -228,7 +228,7 @@ document.addEventListener("wheel", (event) => {
     // Scrolling animation
     const newDelta = Math.max(
       -imDeltaMax,
-      Math.min(imDeltaMax, imDelta + event.deltaY)
+      Math.min(imDeltaMax, imDelta + event.deltaY / 2)
     );
 
     // Smoothly transition imDelta to new value
@@ -261,13 +261,6 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    // imitate impulse
-    // if (imDelta > 0) {
-    //   imDelta = Math.max(0, imDelta - rotAnimDuration);
-    // } else {
-    //   imDelta = Math.min(0, imDelta + rotAnimDuration);
-    // }
-
     imDelta = imDelta * 0.97;
     impulse = imDelta / imDeltaMax;
     console.log(impulse);
@@ -275,40 +268,28 @@ function update() {
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
-      const wave_coef = Math.max(-1, Math.min(1, diff / maxWaveSize));
-      const alpha = roundAngle * Math.sin((wave_coef * Math.PI) / 2);
+
+      const alpha =
+        Math.sin(
+          Math.max(
+            -1,
+            Math.min(1, (meshes[i].position.x - camera.position.x) / waveHalf)
+          ) * Math.PI
+        ) * waveRotationAngle;
 
       // Scaling coefficient: for wave effect ~
       const abs_diff = Math.abs(diff);
-      const scale_coef = 1 - Math.min(1, abs_diff / maxWaveSize);
+      const scale_coef = 1 - Math.min(1, abs_diff / waveHalf);
       meshes[i].position.z = (perspective / 2) * Math.abs(impulse) * scale_coef;
 
       // Rotation
-      // if (
-      //   (meshes[i].position.x < camera.position.x && impulse < 0) ||
-      //   (meshes[i].position.x > camera.position.x && impulse > 0)
-      // ) {
-      //   meshes[i].rotation.y = impulse * (((-rotAngle / 2) * Math.PI) / 180);
-      //   // meshes[i].rotation.y = (rotAngle * Math.PI) / 180;
-      // } else {
-      //   meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
-      //   // meshes[i].rotation.y = (rotAngle * Math.PI) / 180;
-      // }
-
-      // meshes[i].rotation.y = (rotAngle * Math.PI) / 180;
-      // meshes[10].rotation.y = (0 * Math.PI) / 180;
-      // meshes[11].rotation.y = (-10 * Math.PI) / 180;
-      // meshes[12].rotation.y = (-25 * Math.PI) / 180;
-      // meshes[13].rotation.y = (-10 * Math.PI) / 180;
-      // meshes[14].rotation.y = (5 * Math.PI) / 180;
-
-      // meshes[15].rotation.y = (35 * Math.PI) / 180;
-      // meshes[16].rotation.y = (50 * Math.PI) / 180;
-      // meshes[17].rotation.y = (55 * Math.PI) / 180;
-      // meshes[18].rotation.y = (60 * Math.PI) / 180;
-      // meshes[19].rotation.y = (55 * Math.PI) / 180;
-      // meshes[20].rotation.y = (45 * Math.PI) / 180;
-      // meshes[21].rotation.y = (35 * Math.PI) / 180;
+      if (impulse > 0) {
+        meshes[i].rotation.y =
+          impulse * (((-rotAngle + alpha) * Math.PI) / 180);
+      } else {
+        meshes[i].rotation.y =
+          impulse * (((-rotAngle - alpha) * Math.PI) / 180);
+      }
 
       // greyscale/color animation on hover/click
       if (uniforms[i].hovered.value || uniforms[i].selected.value) {
