@@ -2,7 +2,7 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
-import UI from "./ui";
+import { ExploreButton, Case } from "./ui";
 
 /* Set up */
 const perspective = 800;
@@ -116,10 +116,9 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 /* UI */
-const ui = new UI();
-console.log(ui);
-const exploreBtn = ui.getExploreBtn();
-console.log(exploreBtn);
+const exploreBtn = new ExploreButton();
+const case0 = new Case("case-0");
+console.log(case0);
 
 let caseIsOpen = false;
 
@@ -127,7 +126,6 @@ exploreBtn.addEventListener("click", () => {
   const interval = 0.5;
   const ease = "power1.easeOut";
   let next, prev;
-  transitioning = true;
 
   if (meshes[index - 1]) {
     prev = meshes[index - 1].offset_x;
@@ -145,6 +143,8 @@ exploreBtn.addEventListener("click", () => {
 
   if (caseIsOpen) {
     // Close
+    transitioning = true;
+    case0.closeCase();
     caseIsOpen = false;
 
     if (meshes[index - 1]) {
@@ -171,17 +171,18 @@ exploreBtn.addEventListener("click", () => {
       posY: 0,
       ease: ease,
       onUpdate: function () {
-        console.log(transitioning);
         meshes[index].position.y = this.targets()[0].posY;
       },
       onComplete: function () {
         transitioning = false;
-        console.log(transitioning);
       },
     });
   } else {
     // Open
+    transitioning = true;
     caseIsOpen = true;
+
+    case0.openCase();
 
     if (meshes[index - 1]) {
       gsap.to(value, interval, {
@@ -207,12 +208,10 @@ exploreBtn.addEventListener("click", () => {
       posY: window.innerHeight / 2 + currentHeight / 2,
       ease: ease,
       onUpdate: function () {
-        console.log(transitioning);
         meshes[index].position.y = this.targets()[0].posY;
       },
       onComplete: function () {
         transitioning = false;
-        console.log(transitioning);
       },
     });
   }
@@ -223,7 +222,6 @@ function updateRaycaster() {
   const intersects = raycaster.intersectObjects(meshes);
 
   if (intersects.length > 0) {
-    // console.log("", intersects[0].object.arr_id);
     for (var i = 0; i < meshes.length; i++) {
       uniforms[i].hovered.value = false;
     }
@@ -245,6 +243,7 @@ canvas.addEventListener("mousemove", () => {
 
 function enlargePlane(mesh, uniform) {
   enlarged = true;
+  // transitioning = true;
   let value = {
     width: currentWidth,
     height: currentHeight,
@@ -253,7 +252,7 @@ function enlargePlane(mesh, uniform) {
     cameraPosX: camera.position.x,
   };
   gsap.to(value, {
-    duration: 1.5,
+    duration: 1.2,
     width: planeWidthBig,
     height: planeHeightBig,
     ease: "power2.inOut",
@@ -267,30 +266,31 @@ function enlargePlane(mesh, uniform) {
       currentHeight = value.height;
       currLength = value.length;
       camera.position.x = value.cameraPosX;
-      // console.log(currLength, maxLength);
       uniform.planeRatio = { value: value.width / value.height };
+    },
+    onComplete: () => {
+      transitioning = false;
     },
   });
 }
 
 function reducePlane(mesh, uniform) {
+  // transitioning = true;
   let value = {
     width: currentWidth,
     height: currentHeight,
     gap: gap,
     length: currLength,
     cameraPosX: camera.position.x,
-    enlarged: enlarged,
   };
   gsap.to(value, {
-    duration: 1.5,
+    duration: 1.2,
     width: planeWidth,
     height: planeHeight,
     ease: "power2.inOut",
     gap: gapMin,
     length: minLength,
     cameraPosX: targetX,
-    enlarged: false,
     onUpdate: () => {
       mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
       gap = value.gap;
@@ -298,8 +298,11 @@ function reducePlane(mesh, uniform) {
       currentHeight = value.height;
       currLength = value.length;
       camera.position.x = value.cameraPosX;
-      enlarged = value.enlarged;
       uniform.planeRatio = { value: value.width / value.height };
+    },
+    onComplete: () => {
+      transitioning = false;
+      enlarged = false;
     },
   });
 
@@ -328,10 +331,13 @@ canvas.addEventListener("click", () => {
 // reduce plane
 document.addEventListener("keypress", (event) => {
   console.log("Key pressed:", event.key);
+  exploreBtn.blur();
   if (event.key === " ") {
-    targetX = (planeWidth + gapMin) * index;
-    for (var i = 0; i < meshes.length; i++) {
-      reducePlane(meshes[i], uniforms[i]);
+    if (!caseIsOpen) {
+      targetX = (planeWidth + gapMin) * index;
+      for (var i = 0; i < meshes.length; i++) {
+        reducePlane(meshes[i], uniforms[i]);
+      }
     }
   }
 });
@@ -351,7 +357,6 @@ document.addEventListener("wheel", (event) => {
       val: newDelta,
       onUpdate: function () {
         imDelta = this.targets()[0].val;
-        // console.log(event.deltaY);
       },
     });
 
@@ -379,7 +384,6 @@ function update() {
   if (isLoaded) {
     imDelta = imDelta * 0.95;
     impulse = imDelta / imDeltaMax;
-    // console.log(imDelta);
 
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
@@ -415,7 +419,6 @@ function update() {
         colorGrade = 1;
       } else {
         colorGrade = 1 - (abs_diff - coloredWidth) / partiallyColoredWidth;
-        // console.log("color grade", colorGrade);
       }
 
       colorGrade = colorGrade * Math.min(1, Math.abs(impulse) * 2);
@@ -503,7 +506,6 @@ function createPlanes() {
     meshes.push(new THREE.Mesh(planeGeometry, planeMaterial));
     meshes[i].arr_id = i;
     meshes[i].offset_x = 0;
-    // console.log("add mesh", i);
     scene.add(meshes[i]);
   }
 
@@ -511,7 +513,6 @@ function createPlanes() {
   maxLength = (planeWidthBig + gapMax) * (images.length - 1);
   currLength = minLength;
   isLoaded = true;
-  // console.log(minLength, maxLength);
 
   const markerGeo = new THREE.PlaneGeometry(10, 10);
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });

@@ -48,4 +48,41 @@ button {
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
+  user-select: none;
+}
+
+.outer-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 13;
+  pointer-events: none;
+}
+
+.case {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.case-img-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.case-img-container {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  width: 740px;
+  height: 420px;
+  background-color: #ddd;
 }
