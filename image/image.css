@@ -38,3 +38,14 @@ img {
   object-position: center;
   margin: 0 7px;
 }
+
+button {
+}
+
+.explore-btn {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+}

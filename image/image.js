@@ -2,6 +2,7 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
+import UI from "./ui";
 
 /* Set up */
 const perspective = 800;
@@ -29,6 +30,9 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, perspective);
 
 // camera.position.set(0, 0, 1000);
+
+// Use this variable to check of it is animating, if so block interaction temporarily
+let transitioning = false;
 
 /* Preloader */
 let textures = [];
@@ -110,6 +114,109 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 /* Raycaster */
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+
+/* UI */
+const ui = new UI();
+console.log(ui);
+const exploreBtn = ui.getExploreBtn();
+console.log(exploreBtn);
+
+let caseIsOpen = false;
+
+exploreBtn.addEventListener("click", () => {
+  const interval = 0.5;
+  const ease = "power1.easeOut";
+  let next, prev;
+  transitioning = true;
+
+  if (meshes[index - 1]) {
+    prev = meshes[index - 1].offset_x;
+  }
+  if (meshes[index + 1]) {
+    next = meshes[index + 1].offset_x;
+  }
+
+  let value = {
+    posY: meshes[index].position.y,
+    prev: prev,
+    next: next,
+    transitioning: transitioning,
+  };
+
+  if (caseIsOpen) {
+    // Close
+    caseIsOpen = false;
+
+    if (meshes[index - 1]) {
+      gsap.to(value, interval, {
+        prev: 0,
+        ease: ease,
+        onUpdate: function () {
+          meshes[index - 1].offset_x = this.targets()[0].prev;
+        },
+      });
+    }
+
+    if (meshes[index + 1]) {
+      gsap.to(value, interval, {
+        next: 0,
+        ease: ease,
+        onUpdate: function () {
+          meshes[index + 1].offset_x = this.targets()[0].next;
+        },
+      });
+    }
+
+    gsap.to(value, interval, {
+      posY: 0,
+      ease: ease,
+      onUpdate: function () {
+        console.log(transitioning);
+        meshes[index].position.y = this.targets()[0].posY;
+      },
+      onComplete: function () {
+        transitioning = false;
+        console.log(transitioning);
+      },
+    });
+  } else {
+    // Open
+    caseIsOpen = true;
+
+    if (meshes[index - 1]) {
+      gsap.to(value, interval, {
+        prev: -window.innerWidth / 2 + currentWidth / 2 + gap,
+        ease: ease,
+        onUpdate: function () {
+          meshes[index - 1].offset_x = this.targets()[0].prev;
+        },
+      });
+    }
+
+    if (meshes[index + 1]) {
+      gsap.to(value, interval, {
+        next: window.innerWidth / 2 - currentWidth / 2 - gap,
+        ease: ease,
+        onUpdate: function () {
+          meshes[index + 1].offset_x = this.targets()[0].next;
+        },
+      });
+    }
+
+    gsap.to(value, interval, {
+      posY: window.innerHeight / 2 + currentHeight / 2,
+      ease: ease,
+      onUpdate: function () {
+        console.log(transitioning);
+        meshes[index].position.y = this.targets()[0].posY;
+      },
+      onComplete: function () {
+        transitioning = false;
+        console.log(transitioning);
+      },
+    });
+  }
+});
 
 function updateRaycaster() {
   raycaster.setFromCamera(mouse, camera);
@@ -201,18 +308,20 @@ function reducePlane(mesh, uniform) {
 
 // enlarge on click
 canvas.addEventListener("click", () => {
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(meshes);
+  if (!transitioning) {
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(meshes);
 
-  if (intersects.length > 0) {
-    index = intersects[0].object.arr_id;
-    targetX = (planeWidthBig + gapMax) * index;
+    if (intersects.length > 0) {
+      index = intersects[0].object.arr_id;
+      targetX = (planeWidthBig + gapMax) * index;
 
-    for (var i = 0; i < meshes.length; i++) {
-      enlargePlane(meshes[i], uniforms[i]);
-      uniforms[i].selected.value = false;
+      for (var i = 0; i < meshes.length; i++) {
+        enlargePlane(meshes[i], uniforms[i]);
+        uniforms[i].selected.value = false;
+      }
+      uniforms[index].selected.value = true;
     }
-    uniforms[index].selected.value = true;
   }
 });
 
@@ -332,7 +441,7 @@ function update() {
     // update positioning
     if (isRendered) {
       for (var i = 0; i < meshes.length; i++) {
-        meshes[i].position.x = (currentWidth + gap) * i;
+        meshes[i].position.x = (currentWidth + gap) * i + meshes[i].offset_x;
       }
     } else {
       // Initial Positioning, for performance optimization!
@@ -393,6 +502,7 @@ function createPlanes() {
 
     meshes.push(new THREE.Mesh(planeGeometry, planeMaterial));
     meshes[i].arr_id = i;
+    meshes[i].offset_x = 0;
     // console.log("add mesh", i);
     scene.add(meshes[i]);
   }
