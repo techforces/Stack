@@ -8,6 +8,14 @@ class ExploreButton {
   }
 }
 
+class ProjectsButton {
+  button = undefined;
+  constructor() {
+    this.button = document.getElementById("close-btn");
+    return this.button;
+  }
+}
+
 class Case {
   case = undefined;
   listViewer = undefined;
@@ -71,4 +79,4 @@ class Case {
   }
 }
 
-export { ExploreButton, Case };
+export { ExploreButton, Case, ProjectsButton };

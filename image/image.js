@@ -2,7 +2,7 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
-import { ExploreButton, Case } from "./ui";
+import { ExploreButton, ProjectsButton, Case } from "./ui";
 
 /* Set up */
 const perspective = 800;
@@ -76,6 +76,10 @@ const waveHalf = maxWaveSize / 2;
 const coloredWidth = 300;
 const partiallyColoredWidth = 100;
 
+// explore transition settings
+const explr_interval = 0.5;
+const explr_ease = "power1.easeOut";
+
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
   //   console.log(
@@ -117,14 +121,25 @@ const mouse = new THREE.Vector2();
 
 /* UI */
 const exploreBtn = new ExploreButton();
+const projectsBtn = new ProjectsButton();
 const case0 = new Case("case-0");
 console.log(case0);
 
 let caseIsOpen = false;
 
 exploreBtn.addEventListener("click", () => {
-  const interval = 0.5;
-  const ease = "power1.easeOut";
+  openCase();
+  projectsBtn.style.display = "block";
+});
+
+projectsBtn.addEventListener("click", () => {
+  closeCase();
+  projectsBtn.style.display = "none";
+});
+
+function openCase() {
+  exploreBtn.classList.add("pressed");
+
   let next, prev;
 
   if (meshes[index - 1]) {
@@ -141,81 +156,96 @@ exploreBtn.addEventListener("click", () => {
     transitioning: transitioning,
   };
 
-  if (caseIsOpen) {
-    // Close
-    transitioning = true;
-    case0.closeCase();
-    caseIsOpen = false;
+  transitioning = true;
+  caseIsOpen = true;
 
-    if (meshes[index - 1]) {
-      gsap.to(value, interval, {
-        prev: 0,
-        ease: ease,
-        onUpdate: function () {
-          meshes[index - 1].offset_x = this.targets()[0].prev;
-        },
-      });
-    }
+  case0.openCase();
 
-    if (meshes[index + 1]) {
-      gsap.to(value, interval, {
-        next: 0,
-        ease: ease,
-        onUpdate: function () {
-          meshes[index + 1].offset_x = this.targets()[0].next;
-        },
-      });
-    }
-
-    gsap.to(value, interval, {
-      posY: 0,
-      ease: ease,
+  if (meshes[index - 1]) {
+    gsap.to(value, explr_interval, {
+      prev: -window.innerWidth / 2 + currentWidth / 2 + gap,
+      ease: explr_ease,
       onUpdate: function () {
-        meshes[index].position.y = this.targets()[0].posY;
-      },
-      onComplete: function () {
-        transitioning = false;
-      },
-    });
-  } else {
-    // Open
-    transitioning = true;
-    caseIsOpen = true;
-
-    case0.openCase();
-
-    if (meshes[index - 1]) {
-      gsap.to(value, interval, {
-        prev: -window.innerWidth / 2 + currentWidth / 2 + gap,
-        ease: ease,
-        onUpdate: function () {
-          meshes[index - 1].offset_x = this.targets()[0].prev;
-        },
-      });
-    }
-
-    if (meshes[index + 1]) {
-      gsap.to(value, interval, {
-        next: window.innerWidth / 2 - currentWidth / 2 - gap,
-        ease: ease,
-        onUpdate: function () {
-          meshes[index + 1].offset_x = this.targets()[0].next;
-        },
-      });
-    }
-
-    gsap.to(value, interval, {
-      posY: window.innerHeight / 2 + currentHeight / 2,
-      ease: ease,
-      onUpdate: function () {
-        meshes[index].position.y = this.targets()[0].posY;
-      },
-      onComplete: function () {
-        transitioning = false;
+        meshes[index - 1].offset_x = this.targets()[0].prev;
       },
     });
   }
-});
+
+  if (meshes[index + 1]) {
+    gsap.to(value, explr_interval, {
+      next: window.innerWidth / 2 - currentWidth / 2 - gap,
+      ease: explr_ease,
+      onUpdate: function () {
+        meshes[index + 1].offset_x = this.targets()[0].next;
+      },
+    });
+  }
+
+  gsap.to(value, explr_interval, {
+    posY: window.innerHeight / 2 + currentHeight / 2,
+    ease: explr_ease,
+    onUpdate: function () {
+      meshes[index].position.y = this.targets()[0].posY;
+    },
+    onComplete: function () {
+      transitioning = false;
+    },
+  });
+}
+
+function closeCase() {
+  exploreBtn.classList.remove("pressed");
+  let next, prev;
+
+  if (meshes[index - 1]) {
+    prev = meshes[index - 1].offset_x;
+  }
+  if (meshes[index + 1]) {
+    next = meshes[index + 1].offset_x;
+  }
+
+  let value = {
+    posY: meshes[index].position.y,
+    prev: prev,
+    next: next,
+    transitioning: transitioning,
+  };
+
+  transitioning = true;
+  case0.closeCase();
+  caseIsOpen = false;
+
+  if (meshes[index - 1]) {
+    gsap.to(value, explr_interval, {
+      prev: 0,
+      ease: explr_ease,
+      onUpdate: function () {
+        meshes[index - 1].offset_x = this.targets()[0].prev;
+      },
+    });
+  }
+
+  if (meshes[index + 1]) {
+    gsap.to(value, explr_interval, {
+      next: 0,
+      ease: explr_ease,
+      onUpdate: function () {
+        meshes[index + 1].offset_x = this.targets()[0].next;
+      },
+    });
+  }
+
+  gsap.to(value, explr_interval, {
+    posY: 0,
+    ease: explr_ease,
+    onUpdate: function () {
+      meshes[index].position.y = this.targets()[0].posY;
+    },
+    onComplete: function () {
+      transitioning = false;
+    },
+  });
+}
 
 function updateRaycaster() {
   raycaster.setFromCamera(mouse, camera);
@@ -270,12 +300,14 @@ function enlargePlane(mesh, uniform) {
     },
     onComplete: () => {
       transitioning = false;
+      exploreBtn.style.display = "block";
     },
   });
 }
 
 function reducePlane(mesh, uniform) {
   // transitioning = true;
+  exploreBtn.style.display = "none";
   let value = {
     width: currentWidth,
     height: currentHeight,
@@ -331,7 +363,7 @@ canvas.addEventListener("click", () => {
 // reduce plane
 document.addEventListener("keypress", (event) => {
   console.log("Key pressed:", event.key);
-  exploreBtn.blur();
+
   if (event.key === " ") {
     if (!caseIsOpen) {
       targetX = (planeWidth + gapMin) * index;
@@ -339,6 +371,8 @@ document.addEventListener("keypress", (event) => {
         reducePlane(meshes[i], uniforms[i]);
       }
     }
+  } else if (event.key === "c") {
+    closeCase();
   }
 });
 
@@ -353,7 +387,7 @@ document.addEventListener("wheel", (event) => {
     // Smoothly transition imDelta to new value
     // 0.2 on windows with high fps
     // 0 on mac with low fps, quickfix
-    gsap.to({ val: imDelta }, 0.2, {
+    gsap.to({ val: imDelta }, 0, {
       val: newDelta,
       onUpdate: function () {
         imDelta = this.targets()[0].val;
@@ -382,7 +416,7 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    imDelta = imDelta * 0.95;
+    imDelta = imDelta * 0.94;
     impulse = imDelta / imDeltaMax;
 
     for (var i = 0; i < meshes.length; i++) {

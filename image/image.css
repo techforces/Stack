@@ -1,8 +1,12 @@
+@import url("./switzer/css/switzer.css");
+
 body {
   padding: 0;
   margin: 0;
   background-color: #333;
   overflow: hidden;
+
+  font-family: "Switzer-Regular";
 }
 
 .container {
@@ -39,9 +43,6 @@ img {
   margin: 0 7px;
 }
 
-button {
-}
-
 .explore-btn {
   position: absolute;
   top: 90%;
@@ -49,6 +50,75 @@ button {
   transform: translateX(-50%);
   z-index: 12;
   user-select: none;
+
+  color: white;
+  overflow: hidden;
+}
+
+#explr-btn {
+  text-transform: uppercase;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  display: none;
+
+  transform: translateY(-20%);
+  transition-duration: all 1s;
+  z-index: 14;
+}
+
+#explr-btn.hidden {
+  /* transition-duration: 0.4s; */
+  transform: translateY(120%);
+}
+
+#explr-btn.pressed {
+  /* transition-duration: 0.4s; */
+  transform: translateY(-140%);
+}
+
+#explr-btn::after {
+  content: "";
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid white;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  user-select: none;
+
+  color: white;
+  overflow: hidden;
+}
+
+#close-btn {
+  text-transform: uppercase;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  display: none;
+
+  transform: translateY(-20%);
+  transition-duration: all 1s;
+  z-index: 14;
+}
+
+#close-btn::after {
+  content: "";
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid white;
 }
 
 .outer-ui {
