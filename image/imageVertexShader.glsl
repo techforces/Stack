@@ -12,5 +12,7 @@ void main() {
     v_uv = vec2(uv.x / imageRatio * planeRatio + (1.0 - planeRatio / imageRatio) / 2.0, uv.y);
   }
 
+  // v_uv = uv;
+
   gl_Position = projectionMatrix * modelViewMatrix * pos;
 }

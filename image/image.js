@@ -2,7 +2,8 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
-import { ExploreButton, ProjectsButton, Case } from "./ui";
+import { Text, Case, Line, Icon } from "./ui";
+import routes from "./routes";
 
 /* Set up */
 const perspective = 800;
@@ -115,31 +116,79 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
   //   );
 };
 
+/* Page transitions */
+// window.addEventListener("hashchange", () => {
+//   const content = routes[path];
+//   console.log(path);
+//   const appContainer = document.getElementById("app");
+//   appContainer.innerHTML = content;
+// });
+
 /* Raycaster */
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 /* UI */
-const exploreBtn = new ExploreButton();
-const projectsBtn = new ProjectsButton();
+const exploreBtn = document.querySelector(".e-btn");
+const projectsBtn = document.querySelector(".p-btn");
+const exploreText = new Text(".e-t-c");
+const projectText = new Text(".p-t-c");
+
+const exploreLine = new Line(".e-l-c");
+const projectLine = new Line(".p-l-c");
+
+const exploreIcon = new Icon(".e-s-c");
+const projectIcon = new Icon(".p-s-c");
+
 const case0 = new Case("case-0");
 console.log(case0);
 
 let caseIsOpen = false;
 
-exploreBtn.addEventListener("click", () => {
+exploreBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
   openCase();
-  projectsBtn.style.display = "block";
+
+  if (typeof history.pushState != "undefined") {
+    var obj = {
+      title: "First",
+      url: "/image/first",
+    };
+
+    history.pushState(obj, obj.title, obj.url);
+  }
+
+  exploreText.toPressed();
+  exploreLine.toBottom();
+  exploreIcon.toTop();
+  projectText.toVisible();
+  projectLine.fromTop();
+  projectIcon.fromBottom();
 });
 
-projectsBtn.addEventListener("click", () => {
+projectsBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
   closeCase();
-  projectsBtn.style.display = "none";
+
+  if (typeof history.pushState != "undefined") {
+    var obj = {
+      title: "Hello",
+      url: "/image/",
+    };
+
+    history.pushState(obj, obj.title, obj.url);
+  }
+  exploreText.toVisible();
+  exploreLine.fromTop();
+  exploreIcon.fromBottom();
+  projectText.toHidden();
+  projectLine.toTop();
+  projectIcon.toBottom();
 });
 
 function openCase() {
-  exploreBtn.classList.add("pressed");
-
   let next, prev;
 
   if (meshes[index - 1]) {
@@ -194,7 +243,6 @@ function openCase() {
 }
 
 function closeCase() {
-  exploreBtn.classList.remove("pressed");
   let next, prev;
 
   if (meshes[index - 1]) {
@@ -300,14 +348,12 @@ function enlargePlane(mesh, uniform) {
     },
     onComplete: () => {
       transitioning = false;
-      exploreBtn.style.display = "block";
     },
   });
 }
 
 function reducePlane(mesh, uniform) {
   // transitioning = true;
-  exploreBtn.style.display = "none";
   let value = {
     width: currentWidth,
     height: currentHeight,
@@ -323,6 +369,9 @@ function reducePlane(mesh, uniform) {
     gap: gapMin,
     length: minLength,
     cameraPosX: targetX,
+    onStart: () => {
+      enlarged = false;
+    },
     onUpdate: () => {
       mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
       gap = value.gap;
@@ -334,7 +383,6 @@ function reducePlane(mesh, uniform) {
     },
     onComplete: () => {
       transitioning = false;
-      enlarged = false;
     },
   });
 
@@ -351,6 +399,12 @@ canvas.addEventListener("click", () => {
       index = intersects[0].object.arr_id;
       targetX = (planeWidthBig + gapMax) * index;
 
+      if (!enlarged) {
+        exploreText.toVisible();
+        exploreLine.fromTop();
+        exploreIcon.fromBottom();
+      }
+
       for (var i = 0; i < meshes.length; i++) {
         enlargePlane(meshes[i], uniforms[i]);
         uniforms[i].selected.value = false;
@@ -366,6 +420,10 @@ document.addEventListener("keypress", (event) => {
 
   if (event.key === " ") {
     if (!caseIsOpen) {
+      exploreText.toPressed();
+      exploreLine.toBottom();
+      exploreIcon.toTop();
+
       targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
         reducePlane(meshes[i], uniforms[i]);

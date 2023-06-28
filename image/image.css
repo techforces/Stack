@@ -9,6 +9,12 @@ body {
   font-family: "Switzer-Regular";
 }
 
+a,
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
 .container {
   position: relative;
   display: flex;
@@ -43,42 +49,57 @@ img {
   margin: 0 7px;
 }
 
-.explore-btn {
+.e-btn {
   position: absolute;
-  top: 90%;
+  top: 83%;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 12;
   user-select: none;
+  transform: translateX(-50%);
 
   color: white;
   overflow: hidden;
 }
 
-#explr-btn {
+.e-s {
+  position: relative;
+  margin: 15px auto 0;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.e-l {
+  position: relative;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.e-l-c {
+  width: 1px;
+  height: 35px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.e-t {
+  position: relative;
+  overflow: hidden;
+}
+
+.e-t-c {
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   position: relative;
   outline: none;
-  display: none;
-
+  display: block;
   transform: translateY(-20%);
   transition-duration: all 1s;
   z-index: 14;
 }
 
-#explr-btn.hidden {
-  /* transition-duration: 0.4s; */
-  transform: translateY(120%);
-}
-
-#explr-btn.pressed {
-  /* transition-duration: 0.4s; */
-  transform: translateY(-140%);
-}
-
-#explr-btn::after {
+.e-t-c::after {
   content: "";
   position: absolute;
   top: 110%;
@@ -87,9 +108,9 @@ img {
   border-bottom: 2px solid white;
 }
 
-.close-btn {
+.p-btn {
   position: absolute;
-  top: 10%;
+  top: 6%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
@@ -99,20 +120,44 @@ img {
   overflow: hidden;
 }
 
-#close-btn {
-  text-transform: uppercase;
-  font-size: 14px;
-  cursor: pointer;
+.p-s {
   position: relative;
-  outline: none;
-  display: none;
+  margin: 0 auto;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+}
 
+.p-l {
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.p-l-c {
+  width: 1px;
+  background-color: white;
+  height: 10px;
+  margin: 0 auto;
+}
+
+.p-t {
+  position: relative;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.p-t-c {
+  text-transform: uppercase;
+  font-size: 12px;
+  outline: none;
+  display: block;
+  position: relative;
   transform: translateY(-20%);
   transition-duration: all 1s;
   z-index: 14;
 }
 
-#close-btn::after {
+.p-t-c::after {
   content: "";
   position: absolute;
   top: 110%;
