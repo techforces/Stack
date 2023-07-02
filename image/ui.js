@@ -284,16 +284,27 @@ class Icon {
   }
 }
 
-class Case {
-  case = undefined;
-  listViewer = undefined;
+class ImageList {
+  list = undefined;
   images = [];
   idx = 0;
 
-  constructor(id) {
-    this.case = document.getElementById(id);
-    this.images = this.case.querySelectorAll(".case-img-container");
-    console.log(this.images);
+  selector = undefined;
+  minImgs = [];
+
+  constructor() {
+    this.list = document.querySelector(".image-list");
+    this.images = this.list.querySelectorAll(".case-img-container");
+    this.selector = document.querySelector(".image-selector");
+    this.minImgs = this.selector.querySelectorAll(".img-min-container");
+
+    console.log(this.minImgs);
+
+    for (var i = 0; i < this.minImgs.length; i++) {
+      this.minImgs[i].addEventListener("click", (e) => {
+        console.log(e.srcElement.dataset.index);
+      });
+    }
   }
 
   openCase() {
@@ -308,6 +319,7 @@ class Case {
     const value = {
       top: 100,
       translateY: 0,
+      selectorY: 100,
     };
 
     const that = this;
@@ -315,12 +327,16 @@ class Case {
     gsap.to(value, 0.5, {
       top: 50,
       translateY: -50,
+      selectorY: 0,
       ease: "power1.easeOut",
       onUpdate: function () {
         that.images[that.idx].style.top = `${this.targets()[0].top}%`;
         that.images[that.idx].style.transform = `translate(-50%, ${
           this.targets()[0].translateY
         }%)`;
+        that.selector.style.transform = `translateY(${
+          this.targets()[0].selectorY
+        }vh)`;
       },
     });
   }
@@ -329,6 +345,7 @@ class Case {
     const value = {
       top: 50,
       translateY: -50,
+      selectorY: 0,
     };
 
     const that = this;
@@ -336,15 +353,19 @@ class Case {
     gsap.to(value, 0.4, {
       top: 100,
       translateY: 10,
+      selectorY: 100,
       ease: "power1.easeOut",
       onUpdate: function () {
         that.images[that.idx].style.top = `${this.targets()[0].top}%`;
         that.images[that.idx].style.transform = `translate(-50%, ${
           this.targets()[0].translateY
         }%)`;
+        that.selector.style.transform = `translateY(${
+          this.targets()[0].selectorY
+        }vh)`;
       },
     });
   }
 }
 
-export { Case, Text, Line, Icon };
+export { ImageList, Text, Line, Icon };

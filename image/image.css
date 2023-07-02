@@ -166,16 +166,6 @@ img {
   border-bottom: 2px solid white;
 }
 
-.outer-ui {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 13;
-  pointer-events: none;
-}
-
 .case {
   position: absolute;
   top: 0;
@@ -190,6 +180,8 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 14;
+  pointer-events: none;
 }
 
 .case-img-container {
@@ -200,4 +192,33 @@ img {
   width: 740px;
   height: 420px;
   background-color: #ddd;
+}
+
+.image-selector {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 50px;
+  width: auto;
+  height: 100%;
+  z-index: 15;
+}
+
+.img-min-container {
+  width: 82px;
+  height: 46px;
+  background-color: #ccc;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.img-min-container:first-child {
+  margin-top: 0px;
+}
+
+.transformed {
+  background-color: red;
+  transform: translateY(100vh);
 }

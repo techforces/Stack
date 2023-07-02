@@ -2,7 +2,7 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
-import { Text, Case, Line, Icon } from "./ui";
+import { Text, ImageList, Line, Icon } from "./ui";
 import routes from "./routes";
 
 /* Set up */
@@ -140,8 +140,7 @@ const projectLine = new Line(".p-l-c");
 const exploreIcon = new Icon(".e-s-c");
 const projectIcon = new Icon(".p-s-c");
 
-const case0 = new Case("case-0");
-console.log(case0);
+const imageList = new ImageList();
 
 let caseIsOpen = false;
 
@@ -208,7 +207,7 @@ function openCase() {
   transitioning = true;
   caseIsOpen = true;
 
-  case0.openCase();
+  imageList.openCase();
 
   if (meshes[index - 1]) {
     gsap.to(value, explr_interval, {
@@ -260,7 +259,7 @@ function closeCase() {
   };
 
   transitioning = true;
-  case0.closeCase();
+  imageList.closeCase();
   caseIsOpen = false;
 
   if (meshes[index - 1]) {
@@ -445,7 +444,7 @@ document.addEventListener("wheel", (event) => {
     // Smoothly transition imDelta to new value
     // 0.2 on windows with high fps
     // 0 on mac with low fps, quickfix
-    gsap.to({ val: imDelta }, 0, {
+    gsap.to({ val: imDelta }, 0.2, {
       val: newDelta,
       onUpdate: function () {
         imDelta = this.targets()[0].val;
@@ -474,7 +473,7 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    imDelta = imDelta * 0.94;
+    imDelta = imDelta * 0.95;
     impulse = imDelta / imDeltaMax;
 
     for (var i = 0; i < meshes.length; i++) {
