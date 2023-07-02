@@ -217,8 +217,3 @@ img {
 .img-min-container:first-child {
   margin-top: 0px;
 }
-
-.transformed {
-  background-color: red;
-  transform: translateY(100vh);
-}

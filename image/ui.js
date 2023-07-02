@@ -322,12 +322,36 @@ class ImageList {
       selectorY: 100,
     };
 
+    const offsets = [
+      { offset: 0 },
+      { offset: 200 },
+      { offset: 400 },
+      { offset: 600 },
+      { offset: 800 },
+      { offset: 1000 },
+      { offset: 1200 },
+      { offset: 1400 },
+      { offset: 1600 },
+      { offset: 1800 },
+    ];
+
+    function slideMinImg(i, image) {
+      gsap.to(offsets[i], 0.9 + i * 0.04, {
+        offset: 0,
+        ease: "power1.easeOut",
+        onUpdate: function () {
+          image.style.transform = `translateY(${this.targets()[0].offset}px)`;
+        },
+      });
+    }
+
     const that = this;
 
-    gsap.to(value, 0.5, {
+    gsap.to(value, 0.7, {
       top: 50,
       translateY: -50,
       selectorY: 0,
+
       ease: "power1.easeOut",
       onUpdate: function () {
         that.images[that.idx].style.top = `${this.targets()[0].top}%`;
@@ -339,6 +363,10 @@ class ImageList {
         }vh)`;
       },
     });
+
+    for (var i = 0; i < this.minImgs.length; i++) {
+      slideMinImg(i, this.minImgs[i]);
+    }
   }
 
   closeImages() {

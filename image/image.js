@@ -174,7 +174,7 @@ projectsBtn.addEventListener("click", (e) => {
   if (typeof history.pushState != "undefined") {
     var obj = {
       title: "Hello",
-      url: "/image/",
+      url: "/image/image.html",
     };
 
     history.pushState(obj, obj.title, obj.url);
