@@ -292,18 +292,52 @@ class ImageList {
   selector = undefined;
   minImgs = [];
 
+  indicator = undefined;
+  indicatorY = 0;
+  currentIndY = 0;
+  indicatorIdx = 0;
+
   constructor() {
     this.list = document.querySelector(".image-list");
     this.images = this.list.querySelectorAll(".case-img-container");
     this.selector = document.querySelector(".image-selector");
     this.minImgs = this.selector.querySelectorAll(".img-min-container");
-
-    console.log(this.minImgs);
+    this.indicator = this.selector.querySelector(".selector-indicator");
 
     for (var i = 0; i < this.minImgs.length; i++) {
       this.minImgs[i].addEventListener("click", (e) => {
-        console.log(e.srcElement.dataset.index);
+        this.moveIndicator(e.srcElement.dataset.index);
       });
+    }
+
+    this.indicator.style.top = `${this.minImgs[0].offsetTop - 6}px`;
+    this.currentIndY = this.minImgs[0].offsetTop - 6;
+  }
+
+  moveIndicator(i) {
+    const value = {
+      y: this.currentIndY,
+    };
+
+    const that = this;
+
+    gsap.to(value, 0.4, {
+      y: that.minImgs[i - 1].offsetTop - 6,
+      ease: "power1.easeOut",
+      onUpdate: function () {
+        that.indicator.style.top = `${this.targets()[0].y}px`;
+        that.currentIndY = this.targets()[0].y;
+      },
+    });
+  }
+
+  adjustSelector(object) {
+    for (var i = 0; i < object.images.length; i++) {
+      if (object.images[i] == undefined) {
+        this.minImgs[i].classList.add("min-img-hidden");
+      } else {
+        this.minImgs[i].classList.remove("min-img-hidden");
+      }
     }
   }
 
@@ -335,14 +369,36 @@ class ImageList {
       { offset: 1800 },
     ];
 
-    function slideMinImg(i, image) {
-      gsap.to(offsets[i], 0.9 + i * 0.04, {
-        offset: 0,
-        ease: "power1.easeOut",
-        onUpdate: function () {
-          image.style.transform = `translateY(${this.targets()[0].offset}px)`;
-        },
-      });
+    for (var i = 0; i < this.minImgs.length; i++) {
+      if (!this.minImgs[i].classList.contains("min-img-hidden")) {
+        this.indicator.style.top = `${this.minImgs[i].offsetTop - 6}px`;
+        this.currentIndY = this.minImgs[i].offsetTop - 6;
+        this.indicatorIdx = i;
+        break;
+      }
+    }
+
+    function slideMinImg(i, image, indIdx) {
+      if (i == indIdx) {
+        gsap.to(offsets[i], 0.66 + i * 0.04, {
+          offset: 0,
+          ease: "power1.easeOut",
+          onUpdate: function () {
+            image.style.transform = `translateY(${this.targets()[0].offset}px)`;
+            that.indicator.style.transform = `translateY(${
+              this.targets()[0].offset
+            }px)`;
+          },
+        });
+      } else {
+        gsap.to(offsets[i], 0.66 + i * 0.04, {
+          offset: 0,
+          ease: "power1.easeOut",
+          onUpdate: function () {
+            image.style.transform = `translateY(${this.targets()[0].offset}px)`;
+          },
+        });
+      }
     }
 
     const that = this;
@@ -365,7 +421,7 @@ class ImageList {
     });
 
     for (var i = 0; i < this.minImgs.length; i++) {
-      slideMinImg(i, this.minImgs[i]);
+      slideMinImg(i, this.minImgs[i], this.indicatorIdx);
     }
   }
 
@@ -383,6 +439,7 @@ class ImageList {
       translateY: 10,
       selectorY: 100,
       ease: "power1.easeOut",
+
       onUpdate: function () {
         that.images[that.idx].style.top = `${this.targets()[0].top}%`;
         that.images[that.idx].style.transform = `translate(-50%, ${

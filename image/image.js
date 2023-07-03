@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { Text, ImageList, Line, Icon } from "./ui";
 import routes from "./routes";
 
+import { data } from "./data";
+
 /* Set up */
 const perspective = 800;
 const canvas = document.getElementById("stage");
@@ -80,6 +82,9 @@ const partiallyColoredWidth = 100;
 // explore transition settings
 const explr_interval = 0.5;
 const explr_ease = "power1.easeOut";
+
+// case animation variables
+let caseIndex = 0;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -403,6 +408,9 @@ canvas.addEventListener("click", () => {
         exploreLine.fromTop();
         exploreIcon.fromBottom();
       }
+
+      caseIndex = intersects[0].object.arr_id;
+      imageList.adjustSelector(data[caseIndex]);
 
       for (var i = 0; i < meshes.length; i++) {
         enlargePlane(meshes[i], uniforms[i]);
