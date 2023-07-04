@@ -366,7 +366,7 @@ function reducePlane(mesh, uniform) {
     cameraPosX: camera.position.x,
   };
   gsap.to(value, {
-    duration: 1.2,
+    duration: 0.8,
     width: planeWidth,
     height: planeHeight,
     ease: "power2.inOut",
@@ -411,6 +411,7 @@ canvas.addEventListener("click", () => {
 
       caseIndex = intersects[0].object.arr_id;
       imageList.adjustSelector(data[caseIndex]);
+      imageList.adjustStack(data[caseIndex]);
 
       for (var i = 0; i < meshes.length; i++) {
         enlargePlane(meshes[i], uniforms[i]);
@@ -423,9 +424,10 @@ canvas.addEventListener("click", () => {
 
 // reduce plane
 document.addEventListener("keypress", (event) => {
-  console.log("Key pressed:", event.key);
+  console.log("Key pressed: ", event.key);
 
   if (event.key === " ") {
+    console.log("spacebar");
     if (!caseIsOpen) {
       exploreText.toPressed();
       exploreLine.toBottom();
@@ -465,6 +467,17 @@ document.addEventListener("wheel", (event) => {
       Math.min(currLength, camera.position.x + event.deltaY * 2)
     );
     gsap.to(camera.position, 0.5, { x: targetPosX });
+  } else {
+    if (!caseIsOpen) {
+      exploreText.toPressed();
+      exploreLine.toBottom();
+      exploreIcon.toTop();
+
+      targetX = (planeWidth + gapMin) * index;
+      for (var i = 0; i < meshes.length; i++) {
+        reducePlane(meshes[i], uniforms[i]);
+      }
+    }
   }
 });
 

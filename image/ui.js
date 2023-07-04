@@ -288,6 +288,9 @@ class ImageList {
   list = undefined;
   images = [];
   idx = 0;
+  prevIdx = 0;
+
+  imgPos = [50, 125, 125, 125, 125, 125, 125, 125, 125, 125];
 
   selector = undefined;
   minImgs = [];
@@ -306,7 +309,9 @@ class ImageList {
 
     for (var i = 0; i < this.minImgs.length; i++) {
       this.minImgs[i].addEventListener("click", (e) => {
+        console.log(this.imgPos[0], this.images[0]);
         this.moveIndicator(e.srcElement.dataset.index);
+        this.slideStack(this.prevIdx, e.srcElement.dataset.index);
       });
     }
 
@@ -315,6 +320,9 @@ class ImageList {
   }
 
   moveIndicator(i) {
+    this.prevIdx = this.idx;
+    this.idx = i;
+
     const value = {
       y: this.currentIndY,
     };
@@ -322,7 +330,7 @@ class ImageList {
     const that = this;
 
     gsap.to(value, 0.4, {
-      y: that.minImgs[i - 1].offsetTop - 6,
+      y: that.minImgs[i].offsetTop - 6,
       ease: "power1.easeOut",
       onUpdate: function () {
         that.indicator.style.top = `${this.targets()[0].y}px`;
@@ -331,12 +339,91 @@ class ImageList {
     });
   }
 
+  slideStack(hide, show) {
+    if (hide != show) {
+      let hideObj = this.list.querySelector(`[data-stack="${hide}"]`);
+      let showObj = this.list.querySelector(`[data-stack="${show}"]`);
+
+      const value = {
+        hide: this.imgPos[hide],
+        show: this.imgPos[show],
+      };
+
+      const that = this;
+
+      if (show > hide) {
+        gsap.to(value, 0.4, {
+          hide: -25,
+          show: 50,
+          ease: "power1.easeOut",
+          onStart: () => {
+            for (var i = 0; i < show; i++) {
+              if (i != hide) {
+                that.imgPos[i] = -25;
+              }
+            }
+          },
+          onUpdate: () => {
+            hideObj.style.top = `${value.hide}%`;
+            that.imgPos[hide] = value.hide;
+            showObj.style.top = `${value.show}%`;
+            that.imgPos[show] = value.show;
+          },
+        });
+      } else {
+        gsap.to(value, 0.4, {
+          hide: 125,
+          show: 50,
+          ease: "power1.easeOut",
+          onStart: () => {
+            for (var i = that.imgPos.length; i > show; i--) {
+              if (i != hide) {
+                that.imgPos[i] = 125;
+              }
+            }
+          },
+          onUpdate: () => {
+            hideObj.style.top = `${value.hide}%`;
+            that.imgPos[hide] = value.hide;
+            showObj.style.top = `${value.show}%`;
+            that.imgPos[show] = value.show;
+          },
+        });
+      }
+    }
+  }
+
+  resetStack() {
+    this.prevIdx = 0;
+    this.idx = 0;
+    this.imgPos = [125, 125, 125, 125, 125, 125, 125, 125, 125, 125];
+    for (var i = 0; i < this.imgPos.length; i++) {
+      if (i != this.idx) {
+        this.images[i].style.top = `${this.imgPos[i]}%`;
+      }
+    }
+  }
+
   adjustSelector(object) {
     for (var i = 0; i < object.images.length; i++) {
+      this.minImgs[i].querySelector("img").src = object.images[i];
+
       if (object.images[i] == undefined) {
         this.minImgs[i].classList.add("min-img-hidden");
       } else {
         this.minImgs[i].classList.remove("min-img-hidden");
+      }
+    }
+  }
+
+  adjustStack(object) {
+    for (var i = 0; i < object.images.length; i++) {
+      this.images[i].querySelector("img").src = object.images[i];
+
+      if (object.images[i] == undefined) {
+        this.images[i].classList.add("img-hidden");
+      } else {
+        this.images[i].classList.remove("img-hidden");
       }
     }
   }
@@ -351,8 +438,7 @@ class ImageList {
 
   openImages() {
     const value = {
-      top: 100,
-      translateY: 0,
+      top: 125,
       selectorY: 100,
     };
 
@@ -405,15 +491,13 @@ class ImageList {
 
     gsap.to(value, 0.7, {
       top: 50,
-      translateY: -50,
       selectorY: 0,
 
       ease: "power1.easeOut",
       onUpdate: function () {
-        that.images[that.idx].style.top = `${this.targets()[0].top}%`;
-        that.images[that.idx].style.transform = `translate(-50%, ${
-          this.targets()[0].translateY
-        }%)`;
+        that.images[0].style.top = `${this.targets()[0].top}%`;
+
+        that.imgPos[0] = this.targets()[0].top;
         that.selector.style.transform = `translateY(${
           this.targets()[0].selectorY
         }vh)`;
@@ -428,15 +512,15 @@ class ImageList {
   closeImages() {
     const value = {
       top: 50,
-      translateY: -50,
       selectorY: 0,
     };
 
     const that = this;
 
+    this.resetStack();
+
     gsap.to(value, 0.4, {
-      top: 100,
-      translateY: 10,
+      top: 125,
       selectorY: 100,
       ease: "power1.easeOut",
 

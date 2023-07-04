@@ -40,13 +40,13 @@ canvas {
 img {
   /* width: 400px;
   height: 250px; */
-  width: 75px;
+  /* width: 75px;
   height: 250px;
   display: block;
   position: relative;
   object-fit: cover;
   object-position: center;
-  margin: 0 7px;
+  margin: 0 7px; */
 }
 
 .e-btn {
@@ -186,12 +186,20 @@ img {
 
 .case-img-container {
   position: absolute;
-  top: 100%;
+  top: 125%;
   left: 50%;
-  transform: translate(-50%, 10%);
+  transform: translate(-50%, -50%);
   width: 740px;
   height: 420px;
   background-color: #ddd;
+}
+.case-img-container img {
+  object-fit: cover;
+  user-select: none;
+}
+
+.img-hidden {
+  visibility: hidden;
 }
 
 .image-selector {
@@ -216,6 +224,14 @@ img {
   cursor: pointer;
   pointer-events: all;
   z-index: 15;
+}
+
+.img-min-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
 }
 
 .img-min-container:first-child {
