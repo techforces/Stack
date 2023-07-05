@@ -163,9 +163,12 @@ exploreBtn.addEventListener("click", (e) => {
     history.pushState(obj, obj.title, obj.url);
   }
 
+  // Hide EXPLORE button
   exploreText.toPressed();
   exploreLine.toBottom();
   exploreIcon.toTop();
+
+  // Show PROJECTS button
   projectText.toVisible();
   projectLine.fromTop();
   projectIcon.fromBottom();
@@ -184,9 +187,13 @@ projectsBtn.addEventListener("click", (e) => {
 
     history.pushState(obj, obj.title, obj.url);
   }
+
+  // Show EXPLORE button
   exploreText.toVisible();
   exploreLine.fromTop();
   exploreIcon.fromBottom();
+
+  // Hide PROJECTS button
   projectText.toHidden();
   projectLine.toTop();
   projectIcon.toBottom();
@@ -404,9 +411,22 @@ canvas.addEventListener("click", () => {
       targetX = (planeWidthBig + gapMax) * index;
 
       if (!enlarged) {
+        // Show EXPLORE button
         exploreText.toVisible();
         exploreLine.fromTop();
         exploreIcon.fromBottom();
+      } else {
+        // Hide EXPLORE button
+        exploreText.toPressed();
+        exploreLine.toBottom();
+        exploreIcon.toTop();
+
+        setTimeout(() => {
+          // Show EXPLORE button
+          exploreText.toVisible();
+          exploreLine.fromTop();
+          exploreIcon.fromBottom();
+        }, 500);
       }
 
       caseIndex = intersects[0].object.arr_id;
@@ -429,6 +449,7 @@ document.addEventListener("keypress", (event) => {
   if (event.key === " ") {
     console.log("spacebar");
     if (!caseIsOpen) {
+      // Hide EXPLORE button
       exploreText.toPressed();
       exploreLine.toBottom();
       exploreIcon.toTop();
@@ -469,6 +490,7 @@ document.addEventListener("wheel", (event) => {
     gsap.to(camera.position, 0.5, { x: targetPosX });
   } else {
     if (!caseIsOpen) {
+      // Hide EXPLORE button
       exploreText.toPressed();
       exploreLine.toBottom();
       exploreIcon.toTop();
