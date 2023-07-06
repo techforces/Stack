@@ -1,4 +1,5 @@
-@import url("./switzer/css/switzer.css");
+@import url("./fonts/css/switzer.css");
+@import url("./fonts/css/t.css");
 
 body {
   padding: 0;
@@ -253,4 +254,50 @@ img {
 .min-img-hidden {
   visibility: hidden;
   pointer-events: none;
+}
+
+.inner-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  pointer-events: none;
+}
+
+ul {
+  display: block;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: block;
+  height: 100%;
+}
+
+.t {
+  font-family: T;
+  font-size: 37vh;
+  height: 28vh;
+  line-height: 28vh;
+  color: white;
+  left: 40px;
+}
+
+.tt {
+  position: absolute;
+  top: calc(50% - 35vh);
+}
+
+.tb {
+  position: absolute;
+  top: calc(50% - 7vh);
+}
+
+.t > div {
+  display: inline-block;
+  overflow: hidden;
 }
