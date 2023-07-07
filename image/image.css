@@ -281,10 +281,14 @@ li {
 .t {
   font-family: T;
   font-size: 37vh;
-  height: 28vh;
   line-height: 28vh;
-  color: white;
+  letter-spacing: -0.024em;
+
+  display: flex;
+  width: min-content;
+  height: 28vh;
   left: 40px;
+  color: white;
 }
 
 .tt {
