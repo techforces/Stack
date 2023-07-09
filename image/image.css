@@ -291,6 +291,16 @@ li {
   color: white;
 }
 
+.t > div {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.t > div > div {
+  transform: translateX(100%);
+  padding: 0 3.333vh;
+}
+
 .tt {
   position: absolute;
   top: calc(50% - 35vh);
@@ -299,9 +309,4 @@ li {
 .tb {
   position: absolute;
   top: calc(50% - 7vh);
-}
-
-.t > div {
-  display: inline-block;
-  overflow: hidden;
 }

@@ -309,7 +309,6 @@ class ImageList {
 
     for (var i = 0; i < this.minImgs.length; i++) {
       this.minImgs[i].addEventListener("click", (e) => {
-        console.log(this.imgPos[0], this.images[0]);
         this.moveIndicator(e.srcElement.dataset.index);
         this.slideStack(this.prevIdx, e.srcElement.dataset.index);
       });

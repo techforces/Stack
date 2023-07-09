@@ -3,6 +3,7 @@ import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
 import { Text, ImageList, Line, Icon } from "./ui";
+import { Typography } from "./text";
 import routes from "./routes";
 
 import { data } from "./data";
@@ -45,6 +46,7 @@ let isLoaded = false;
 let isRendered = false;
 
 let index = 0;
+// let lastIndex = 99999;
 let targetX = 0;
 let enlarged = false;
 
@@ -146,6 +148,9 @@ const exploreIcon = new Icon(".e-s-c");
 const projectIcon = new Icon(".p-s-c");
 
 const imageList = new ImageList();
+
+/* Typography */
+const typo = new Typography();
 
 let caseIsOpen = false;
 
@@ -411,11 +416,15 @@ canvas.addEventListener("click", () => {
       targetX = (planeWidthBig + gapMax) * index;
 
       if (!enlarged) {
+        // from wave state to enlarged state
         // Show EXPLORE button
         exploreText.toVisible();
         exploreLine.fromTop();
         exploreIcon.fromBottom();
+
+        typo.openText(index);
       } else {
+        // from enlarged state to enlarged state
         // Hide EXPLORE button
         exploreText.toPressed();
         exploreLine.toBottom();
@@ -494,6 +503,8 @@ document.addEventListener("wheel", (event) => {
       exploreText.toPressed();
       exploreLine.toBottom();
       exploreIcon.toTop();
+
+      typo.closeText(index);
 
       targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
