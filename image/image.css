@@ -280,13 +280,13 @@ li {
 
 .t {
   font-family: T;
-  font-size: 37vh;
-  line-height: 28vh;
+  font-size: 33vh;
+  line-height: 25vh;
   letter-spacing: -0.024em;
 
   display: flex;
   width: min-content;
-  height: 28vh;
+  height: 25vh;
   left: 40px;
   color: white;
 }
@@ -294,6 +294,10 @@ li {
 .t > div {
   display: inline-block;
   overflow: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .t > div > div {
@@ -308,5 +312,5 @@ li {
 
 .tb {
   position: absolute;
-  top: calc(50% - 7vh);
+  top: calc(50% - 10vh);
 }

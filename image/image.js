@@ -177,6 +177,8 @@ exploreBtn.addEventListener("click", (e) => {
   projectText.toVisible();
   projectLine.fromTop();
   projectIcon.fromBottom();
+
+  typo.squishText(0);
 });
 
 projectsBtn.addEventListener("click", (e) => {
@@ -202,6 +204,8 @@ projectsBtn.addEventListener("click", (e) => {
   projectText.toHidden();
   projectLine.toTop();
   projectIcon.toBottom();
+
+  typo.unsquishText(0);
 });
 
 function openCase() {
