@@ -60,8 +60,18 @@ class Typography {
         this.ttLetMaxSum[i][j] = maxSum;
         this.ttLetMinSum[i][j] = minSum;
 
-        maxSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
-        minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
+        // get integer part if the value is not float
+        if (this.ttLetWMax[i][j].match(/\d+\.\d+/) == null) {
+          maxSum += parseFloat(this.ttLetWMax[i][j].match(/\d+/)[0]);
+        } else {
+          maxSum += parseFloat(this.ttLetWMax[i][j].match(/\d+\.\d+/)[0]);
+        }
+
+        if (this.ttLetWMin[i][j].match(/\d+\.\d+/) == null) {
+          minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+/)[0]);
+        } else {
+          minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
+        }
       }
 
       this.tb[i] = this.list[i].querySelector(".tb");
@@ -89,8 +99,18 @@ class Typography {
           this.tbLetMaxSum[i][j] = maxSum;
           this.tbLetMinSum[i][j] = minSum;
 
-          maxSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
-          minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
+          // get integer part if the value is not float
+          if (this.tbLetWMax[i][j].match(/\d+\.\d+/) == null) {
+            maxSum += parseFloat(this.tbLetWMax[i][j].match(/\d+/)[0]);
+          } else {
+            maxSum += parseFloat(this.tbLetWMax[i][j].match(/\d+\.\d+/)[0]);
+          }
+
+          if (this.tbLetWMin[i][j].match(/\d+\.\d+/) == null) {
+            minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+/)[0]);
+          } else {
+            minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
+          }
         }
       } else {
         this.tbCov[i] = null;
@@ -198,14 +218,9 @@ class Typography {
       const value = {
         l: this.ttLetMaxSum[idx][i],
       };
-
       let el = this.ttCov[idx][i];
       const l = this.ttLetMinSum[idx][i];
-
       const that = this;
-      if (i == 0) {
-        console.log("sqqq");
-      }
 
       gsap.to(value, 0.5, {
         l: l,
@@ -215,16 +230,13 @@ class Typography {
         },
       });
     }
-
     for (var i = 0; i < this.tbCov[idx].length; i++) {
       const value = {
         l: this.tbLetMaxSum[idx][i],
       };
-
       let el = this.tbCov[idx][i];
       const l = this.tbLetMinSum[idx][i];
       const that = this;
-
       gsap.to(value, 0.4, {
         l: l,
         ease: "power1.easeOut",
@@ -236,16 +248,36 @@ class Typography {
   }
 
   unsquishText(idx) {
-    let sum = 0;
-
     for (var i = 0; i < this.ttCov[idx].length; i++) {
-      this.ttCov[idx][i].style.left = `${sum}px`;
-      sum += parseFloat(this.ttLetWMax[idx][i].match(/\d+\.\d+/)[0]);
+      const value = {
+        l: this.ttLetMinSum[idx][i],
+      };
+      let el = this.ttCov[idx][i];
+      const l = this.ttLetMaxSum[idx][i];
+      const that = this;
+
+      gsap.to(value, 0.5, {
+        l: l,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.left = `${value.l}px`;
+        },
+      });
     }
-    sum = 0;
     for (var i = 0; i < this.tbCov[idx].length; i++) {
-      this.tbCov[idx][i].style.left = `${sum}px`;
-      sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]);
+      const value = {
+        l: this.tbLetMinSum[idx][i],
+      };
+      let el = this.tbCov[idx][i];
+      const l = this.tbLetMaxSum[idx][i];
+      const that = this;
+      gsap.to(value, 0.4, {
+        l: l,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.left = `${value.l}px`;
+        },
+      });
     }
   }
 
