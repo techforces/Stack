@@ -3,7 +3,7 @@ import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
 import { Text, ImageList, Line, Icon } from "./ui";
-import { Typography } from "./text";
+import { Typography, Information } from "./text";
 import routes from "./routes";
 
 import { data } from "./data";
@@ -151,6 +151,7 @@ const imageList = new ImageList();
 
 /* Typography */
 const typo = new Typography();
+const info = new Information();
 
 let caseIsOpen = false;
 
@@ -427,6 +428,7 @@ canvas.addEventListener("click", () => {
         exploreIcon.fromBottom();
 
         typo.openText(index);
+        info.openText(index);
       } else {
         // from enlarged state to enlarged state
         // Hide EXPLORE button
@@ -509,6 +511,7 @@ document.addEventListener("wheel", (event) => {
       exploreIcon.toTop();
 
       typo.closeText(index);
+      info.closeText(index);
 
       targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {

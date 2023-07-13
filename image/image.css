@@ -314,3 +314,56 @@ li {
   position: absolute;
   top: calc(50% - 10vh);
 }
+
+.i-l {
+  display: flex;
+  flex-direction: column;
+  color: white;
+
+  font-size: 10px;
+  text-transform: uppercase;
+
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-100%);
+}
+
+.i-l > div {
+  display: flex;
+  overflow: hidden;
+}
+
+.i-l > div > div,
+.i-r > div > div {
+  transform: translateY(100%);
+  opacity: 0.8;
+}
+
+.i-l > div > div:nth-child(1) {
+  width: 30px;
+}
+
+.i-l > div > div:nth-child(2) {
+  width: 130px;
+}
+
+.i-l > div > div:nth-child(3) {
+  width: 250px;
+}
+
+.i-r {
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+  position: absolute;
+  bottom: 50px;
+  left: calc(50% + 140px);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.i-r > div {
+  overflow: hidden;
+}

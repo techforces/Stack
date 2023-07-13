@@ -119,16 +119,6 @@ class Typography {
     }
 
     this.setDefaultPositions(0);
-
-    // console.log(this.tt);
-    // console.log(this.ttCov);
-    // console.log(this.ttCovLet);
-    // console.log(this.ttLetterW);
-
-    console.log(this.ttLetMaxSum);
-    // console.log(this.tb);
-    // console.log(this.tbCov);
-    // console.log(this.tbCovLet);
   }
 
   openText(idx) {
@@ -296,4 +286,108 @@ class Typography {
   }
 }
 
-export { Typography };
+class Information {
+  left = [];
+  right = [];
+
+  constructor() {
+    const listL = document.querySelectorAll(".i-l");
+    const listR = document.querySelectorAll(".i-r");
+
+    for (var i = 0; i < listL.length; i++) {
+      this.left[i] = [];
+      const lines = listL[i].querySelectorAll(":scope > div");
+      for (var j = 0; j < lines.length; j++) {
+        this.left[i][j] = [];
+        const cells = lines[j].querySelectorAll("div");
+        for (var k = 0; k < cells.length; k++) {
+          this.left[i][j][k] = cells[k];
+        }
+      }
+    }
+
+    for (var i = 0; i < listR.length; i++) {
+      this.right[i] = [];
+      const lines = listR[i].querySelectorAll(":scope > div > div");
+      for (var j = 0; j < lines.length; j++) {
+        this.right[i][j] = lines[j];
+      }
+    }
+  }
+
+  openText(index) {
+    for (var j = 0; j < this.left[index].length; j++) {
+      for (var k = 0; k < this.left[index][k].length; k++) {
+        const value = {
+          y: 100,
+        };
+
+        let el = this.left[index][j][k];
+
+        gsap.to(value, 0.5, {
+          y: 0,
+          delay: 0.5 + 0.08 * j,
+          ease: "power1.easeOut",
+          onUpdate: () => {
+            el.style.transform = `translateY(${value.y}%)`;
+          },
+        });
+      }
+    }
+
+    for (var j = 0; j < this.right[index].length; j++) {
+      const value = {
+        y: 100,
+      };
+
+      let el = this.right[index][j];
+
+      gsap.to(value, 0.5, {
+        y: 0,
+        delay: 0.5 + 0.08 * (2 + j),
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.transform = `translateY(${value.y}%)`;
+        },
+      });
+    }
+  }
+
+  closeText(index) {
+    for (var j = 0; j < this.left[index].length; j++) {
+      for (var k = 0; k < this.left[index][k].length; k++) {
+        const value = {
+          y: 0,
+        };
+
+        let el = this.left[index][j][k];
+
+        gsap.to(value, 0.5, {
+          y: -100,
+          ease: "power1.easeOut",
+          onUpdate: () => {
+            el.style.transform = `translateY(${value.y}%)`;
+          },
+        });
+      }
+    }
+
+    for (var j = 0; j < this.right[index].length; j++) {
+      const value = {
+        y: 0,
+      };
+
+      let el = this.right[index][j];
+
+      gsap.to(value, 0.5, {
+        y: -100,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.transform = `translateY(${value.y}%)`;
+        },
+      });
+    }
+  }
+}
+
+export { Typography, Information };
