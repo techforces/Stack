@@ -367,3 +367,34 @@ li {
 .i-r > div {
   overflow: hidden;
 }
+
+.nav {
+  color: white;
+  text-transform: uppercase;
+}
+
+.email {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  font-size: 10px;
+}
+
+.links {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  font-size: 12px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.about {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  font-size: 12px;
+}
