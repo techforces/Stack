@@ -118,10 +118,17 @@ class Typography {
       }
     }
 
-    this.setDefaultPositions(0);
+    // Set up
+    for (var i = 0; i < this.tt.length; i++) {
+      this.setDefaultPositions(i);
+    }
   }
 
   openText(idx) {
+    console.log(this.ttCovLet[idx]);
+    console.log(this.ttLetWMax[idx]);
+    console.log(this.ttLetMaxSum[idx]);
+
     let t = 0.08;
     this.visible = true;
 
@@ -129,6 +136,8 @@ class Typography {
       const value = {
         x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
       };
+
+      console.log(this.ttCovLet[idx][i].style.transform.match(/\d+/)[0]);
 
       const el = this.ttCovLet[idx][i];
 
@@ -279,9 +288,11 @@ class Typography {
       sum += parseFloat(this.ttLetWMax[idx][i].match(/\d+\.\d+/)[0]);
     }
     sum = 0;
-    for (var i = 0; i < this.tbCov[idx].length; i++) {
-      this.tbCov[idx][i].style.left = `${sum}px`;
-      sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]);
+    if (this.tbCov[idx] != null) {
+      for (var i = 0; i < this.tbCov[idx].length; i++) {
+        this.tbCov[idx][i].style.left = `${sum}px`;
+        sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]);
+      }
     }
   }
 }

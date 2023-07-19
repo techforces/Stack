@@ -537,10 +537,24 @@ function update() {
     imDelta = imDelta * 0.95;
     impulse = imDelta / imDeltaMax;
 
+    // console.log(
+    //   Math.sin(
+    //     Math.max(
+    //       -1,
+    //       Math.min(1, (meshes[9].position.x - camera.position.x) / waveHalf)
+    //     ) * Math.PI
+    //   ) * waveRotationAngle
+    // );
+
+    console.log(Math.sin(Math.PI));
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
       const abs_diff = Math.abs(diff);
+
+      // Alpha is an angle based on displacement.
+      // Sin(Max(-1, Min([-inf, +inf], 1)
+      // meaning that the possible range is [-1, 1] * waveRotationAngle
 
       const alpha =
         Math.sin(
