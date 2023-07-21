@@ -69,12 +69,16 @@ let currLength = 0;
 let impulse = 0;
 let imDelta = 0;
 const imDeltaMax = 400;
-const rotAngle = 30;
-const waveRotationAngle = 40;
+
+const rotAngle = 25;
+// const rotAngle = 0;
+
+const waveRotationAngle = 33;
+
 // the higher the value, the shorter the duration
 const rotAnimDuration = 20;
 
-const maxWaveSize = 700;
+const maxWaveSize = window.innerWidth / 1.6;
 const waveHalf = maxWaveSize / 2;
 
 // color grading
@@ -484,7 +488,7 @@ document.addEventListener("wheel", (event) => {
     // Scrolling animation
     const newDelta = Math.max(
       -imDeltaMax,
-      Math.min(imDeltaMax, imDelta + event.deltaY / 2)
+      Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
     );
 
     // Smoothly transition imDelta to new value
@@ -500,9 +504,11 @@ document.addEventListener("wheel", (event) => {
     // Move Camera
     const targetPosX = Math.max(
       0,
-      Math.min(currLength, camera.position.x + event.deltaY * 2)
+      Math.min(currLength, camera.position.x + event.deltaY * 2.7)
     );
     gsap.to(camera.position, 0.5, { x: targetPosX });
+
+    console.log(impulse);
   } else {
     if (!caseIsOpen) {
       // Hide EXPLORE button
@@ -534,7 +540,7 @@ function update() {
   requestAnimationFrame(update);
 
   if (isLoaded) {
-    imDelta = imDelta * 0.95;
+    imDelta = imDelta * 0.92;
     impulse = imDelta / imDeltaMax;
 
     // console.log(
@@ -547,6 +553,8 @@ function update() {
     // );
 
     console.log(Math.sin(Math.PI));
+
+    // console.log(Math.sin(Math.PI));
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
@@ -556,7 +564,7 @@ function update() {
       // Sin(Max(-1, Min([-inf, +inf], 1)
       // meaning that the possible range is [-1, 1] * waveRotationAngle
 
-      const alpha =
+      let alpha =
         Math.sin(
           Math.max(
             -1,
@@ -565,14 +573,28 @@ function update() {
         ) * waveRotationAngle;
 
       // Scaling coefficient: for wave effect ~
-      const scale_coef = 1 - Math.min(1, abs_diff / waveHalf);
+      const scale_coef =
+        1 - Math.min(1, 0.25 + Math.pow(abs_diff / waveHalf, 2));
       meshes[i].position.z = (perspective / 2) * Math.abs(impulse) * scale_coef;
 
-      // Rotation
+      // Rotation (converted to radians)
       if (impulse > 0) {
+        if (alpha > 0) {
+          alpha *= 2.2;
+        } else {
+          alpha *= 0.9;
+        }
+
         meshes[i].rotation.y =
           impulse * (((-rotAngle + alpha) * Math.PI) / 180);
+        // meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
       } else {
+        if (alpha < 0) {
+          alpha *= 2.2;
+        } else {
+          alpha *= 0.9;
+        }
+
         meshes[i].rotation.y =
           impulse * (((-rotAngle - alpha) * Math.PI) / 180);
       }
