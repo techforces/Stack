@@ -185,9 +185,9 @@ class Line {
 
 class Icon {
   states = {
-    top: -100,
+    top: -105,
     middle: 0,
-    bottom: 100,
+    bottom: 105,
   };
 
   available = undefined;

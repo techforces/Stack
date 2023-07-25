@@ -38,6 +38,16 @@ canvas {
   /* display: none; */
 }
 
+.cover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  background-color: #333;
+}
+
 img {
   /* width: 400px;
   height: 250px; */
@@ -60,6 +70,8 @@ img {
 
   color: white;
   overflow: hidden;
+
+  display: none;
 }
 
 .e-s {
@@ -119,6 +131,8 @@ img {
 
   color: white;
   overflow: hidden;
+
+  display: none;
 }
 
 .p-s {

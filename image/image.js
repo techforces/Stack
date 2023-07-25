@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { Text, ImageList, Line, Icon } from "./ui";
 import { Typography, Information } from "./text";
 import routes from "./routes";
+import { CustomEase } from "gsap/all";
 
 import { data } from "./data";
 
@@ -44,6 +45,7 @@ let meshes = [];
 let uniforms = [];
 let isLoaded = false;
 let isRendered = false;
+let isSetup = false;
 
 let index = 0;
 // let lastIndex = 99999;
@@ -91,6 +93,15 @@ const explr_ease = "power1.easeOut";
 
 // case animation variables
 let caseIndex = 0;
+
+// "Paper landing" animation that happens after loading ends
+const initLandDispX = 1600;
+const initLandDispZ = 200;
+const initLandAlpha = -90;
+
+let landDispX = 0;
+let landDispZ = 0;
+let landAlpha = 0;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -141,7 +152,9 @@ const mouse = new THREE.Vector2();
 
 /* UI */
 const exploreBtn = document.querySelector(".e-btn");
+exploreBtn.style.display = "block";
 const projectsBtn = document.querySelector(".p-btn");
+projectsBtn.style.display = "block";
 const exploreText = new Text(".e-t-c");
 const projectText = new Text(".p-t-c");
 
@@ -152,6 +165,8 @@ const exploreIcon = new Icon(".e-s-c");
 const projectIcon = new Icon(".p-s-c");
 
 const imageList = new ImageList();
+
+const coverDiv = document.querySelector(".cover");
 
 /* Typography */
 const typo = new Typography();
@@ -463,8 +478,6 @@ canvas.addEventListener("click", () => {
 
 // reduce plane
 document.addEventListener("keypress", (event) => {
-  console.log("Key pressed: ", event.key);
-
   if (event.key === " ") {
     console.log("spacebar");
     if (!caseIsOpen) {
@@ -543,18 +556,6 @@ function update() {
     imDelta = imDelta * 0.92;
     impulse = imDelta / imDeltaMax;
 
-    // console.log(
-    //   Math.sin(
-    //     Math.max(
-    //       -1,
-    //       Math.min(1, (meshes[9].position.x - camera.position.x) / waveHalf)
-    //     ) * Math.PI
-    //   ) * waveRotationAngle
-    // );
-
-    console.log(Math.sin(Math.PI));
-
-    // console.log(Math.sin(Math.PI));
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
@@ -575,18 +576,22 @@ function update() {
       // Scaling coefficient: for wave effect ~
       const scale_coef =
         1 - Math.min(1, 0.25 + Math.pow(abs_diff / waveHalf, 2));
-      meshes[i].position.z = (perspective / 2) * Math.abs(impulse) * scale_coef;
+      meshes[i].position.z =
+        (perspective / 2) * Math.abs(impulse) * scale_coef +
+        landDispZ * (i + 1);
 
       // Rotation (converted to radians)
       if (impulse > 0) {
         if (alpha > 0) {
+          // To create a rounded shape of the wave we need to compensate for the rotation and subtract the alpha
           alpha *= 2.2;
         } else {
           alpha *= 0.9;
         }
 
         meshes[i].rotation.y =
-          impulse * (((-rotAngle + alpha) * Math.PI) / 180);
+          ((impulse * (-rotAngle + alpha) + landAlpha * (i + 1)) * Math.PI) /
+          180;
         // meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
       } else {
         if (alpha < 0) {
@@ -596,7 +601,8 @@ function update() {
         }
 
         meshes[i].rotation.y =
-          impulse * (((-rotAngle - alpha) * Math.PI) / 180);
+          ((impulse * (-rotAngle - alpha) + landAlpha * (i + 1)) * Math.PI) /
+          180;
       }
 
       // color grade
@@ -630,16 +636,50 @@ function update() {
     }
 
     // update positioning
-    if (isRendered) {
+    if (isSetup) {
       for (var i = 0; i < meshes.length; i++) {
-        meshes[i].position.x = (currentWidth + gap) * i + meshes[i].offset_x;
+        meshes[i].position.x =
+          (currentWidth + gap) * i +
+          meshes[i].offset_x +
+          landDispX +
+          landDispX * 0.001 * i;
       }
+    } else if (isRendered) {
+      landDispX = initLandDispX;
+      landDispZ = initLandDispZ;
+      landAlpha = initLandAlpha;
+
+      const value = {
+        dispX: landDispX,
+        dispZ: landDispZ,
+        alpha: landAlpha,
+      };
+      // Start displacement animation
+      gsap.to(value, 1.2, {
+        dispX: 0,
+        dispZ: 0,
+        alpha: 0,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          landDispX = value.dispX;
+          landDispZ = value.dispZ;
+          landAlpha = value.alpha;
+        },
+      });
+
+      // Cover the first frame then remove it
+      // Not a big fan of this solution
+      setTimeout(() => {
+        coverDiv.style.display = "none";
+      }, 10);
+      isSetup = true;
     } else {
       // Initial Positioning, for performance optimization!
       meshes[0].position.x = 0;
       for (var i = 1; i < meshes.length; i++) {
         meshes[i].position.x = ((currentWidth + gap) * i) / 10;
       }
+
       isRendered = true;
     }
 
@@ -697,11 +737,13 @@ function createPlanes() {
     scene.add(meshes[i]);
   }
 
+  // Set scene limits for camera
   minLength = (currentWidth + gap) * (images.length - 1);
   maxLength = (planeWidthBig + gapMax) * (images.length - 1);
   currLength = minLength;
   isLoaded = true;
 
+  // Red dot
   const markerGeo = new THREE.PlaneGeometry(10, 10);
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
