@@ -125,10 +125,6 @@ class Typography {
   }
 
   openText(idx) {
-    console.log(this.ttCovLet[idx]);
-    console.log(this.ttLetWMax[idx]);
-    console.log(this.ttLetMaxSum[idx]);
-
     let t = 0.08;
     this.visible = true;
 
@@ -136,8 +132,6 @@ class Typography {
       const value = {
         x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
       };
-
-      console.log(this.ttCovLet[idx][i].style.transform.match(/\d+/)[0]);
 
       const el = this.ttCovLet[idx][i];
 

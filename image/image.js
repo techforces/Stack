@@ -498,21 +498,27 @@ document.addEventListener("keypress", (event) => {
 
 document.addEventListener("wheel", (event) => {
   if (!enlarged) {
-    // Scrolling animation
-    const newDelta = Math.max(
-      -imDeltaMax,
-      Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
-    );
+    console.log(camera.position.x, currLength);
 
-    // Smoothly transition imDelta to new value
-    // 0.2 on windows with high fps
-    // 0 on mac with low fps, quickfix
-    gsap.to({ val: imDelta }, 0.2, {
-      val: newDelta,
-      onUpdate: function () {
-        imDelta = this.targets()[0].val;
-      },
-    });
+    if (camera.position.x > 100 && currLength - camera.position.x > 100) {
+      // Scrolling animation for wave
+      const newDelta = Math.max(
+        -imDeltaMax,
+        Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
+      );
+
+      // console.log(imDelta);
+
+      // Smoothly transition imDelta to new value
+      // 0.2 on windows with high fps
+      // 0 on mac with low fps, quickfix
+      gsap.to({ val: imDelta }, 0.2, {
+        val: newDelta,
+        onUpdate: function () {
+          imDelta = this.targets()[0].val;
+        },
+      });
+    }
 
     // Move Camera
     const targetPosX = Math.max(
@@ -521,7 +527,7 @@ document.addEventListener("wheel", (event) => {
     );
     gsap.to(camera.position, 0.5, { x: targetPosX });
 
-    console.log(impulse);
+    console.log(camera.position.x, targetPosX);
   } else {
     if (!caseIsOpen) {
       // Hide EXPLORE button
