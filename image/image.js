@@ -68,6 +68,8 @@ let minLength = 0;
 let maxLength = 0;
 let currLength = 0;
 
+let camPosPercent = 0;
+
 // impulse ∈ [-1, 1]; delta ∈ [-delta_max, delta_max];
 let impulse = 0;
 let imDelta = 0;
@@ -419,7 +421,7 @@ function reducePlane(mesh, uniform) {
       currentWidth = value.width;
       currentHeight = value.height;
       currLength = value.length;
-      camera.position.x = value.cameraPosX;
+      camera.position.x = camPosPercent * value.length;
       uniform.planeRatio = { value: value.width / value.height };
     },
     onComplete: () => {
@@ -499,16 +501,14 @@ document.addEventListener("keypress", (event) => {
 
 document.addEventListener("wheel", (event) => {
   if (!enlarged) {
-    console.log(camera.position.x, currLength);
+    // console.log(currLength, camera.position.x, camPosPercent);
 
     if (camera.position.x > 100 && currLength - camera.position.x > 100) {
-      // Scrolling animation for wave
+      // IMPULSE CONTROL
       const newDelta = Math.max(
         -imDeltaMax,
         Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
       );
-
-      // console.log(imDelta);
 
       // Smoothly transition imDelta to new value
       // 0.2 on windows with high fps
@@ -522,13 +522,30 @@ document.addEventListener("wheel", (event) => {
     }
 
     // Move Camera
+    // const targetPosX = Math.max(
+    //   0,
+    //   Math.min(currLength, camera.position.x + event.deltaY * 2.7)
+    // );
+
     const targetPosX = Math.max(
       0,
-      Math.min(currLength, camera.position.x + event.deltaY * 2.7)
+      Math.min(1, camPosPercent + (event.deltaY * 2.7) / currLength)
     );
-    gsap.to(camera.position, 0.5, { x: targetPosX });
 
-    console.log(camera.position.x, targetPosX);
+    console.log(camPosPercent, (event.deltaY * 2.7) / maxLength);
+
+    let value = {
+      posPerc: camPosPercent,
+    };
+
+    // gsap.to(camera.position, 0.5, { x: targetPosX * minLength });
+
+    gsap.to(value, 0.5, {
+      posPerc: targetPosX,
+      onUpdate: () => {
+        camera.position.x = value.posPerc * currLength;
+      },
+    });
   } else {
     if (!caseIsOpen) {
       // Hide EXPLORE button
@@ -539,7 +556,13 @@ document.addEventListener("wheel", (event) => {
       typo.closeText(index);
       info.closeText(index);
 
-      targetX = (planeWidth + gapMin) * index;
+      // gsap.to(camera.position, 0.8, {
+      //   x: camPosPercent * currLength,
+      //   onUpdate: () => {
+      //     console.log(currLength);
+      //   },
+      // });
+
       for (var i = 0; i < meshes.length; i++) {
         reducePlane(meshes[i], uniforms[i]);
       }
@@ -562,6 +585,8 @@ function update() {
   if (isLoaded) {
     imDelta = imDelta * 0.92;
     impulse = imDelta / imDeltaMax;
+
+    camPosPercent = camera.position.x / currLength;
 
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
