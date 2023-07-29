@@ -16,6 +16,7 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
   alpha: true,
+  antialias: true,
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
