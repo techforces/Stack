@@ -53,6 +53,9 @@ let index = 0;
 let targetX = 0;
 let enlarged = false;
 
+let absoluteShift = 0;
+let localShift = 0;
+
 let planeWidth = 79;
 let planeHeight = 290;
 let planeWidthBig = 740;
@@ -419,7 +422,7 @@ function reducePlane(mesh, uniform) {
       currentWidth = value.width;
       currentHeight = value.height;
       currLength = value.length;
-      camera.position.x = value.cameraPosX;
+      // camera.position.x = value.cameraPosX;
       uniform.planeRatio = { value: value.width / value.height };
     },
     onComplete: () => {
@@ -438,7 +441,12 @@ canvas.addEventListener("click", () => {
 
     if (intersects.length > 0) {
       index = intersects[0].object.arr_id;
-      targetX = (planeWidthBig + gapMax) * index;
+
+      localShift = index * (planeWidth + gap) - absoluteShift;
+      absoluteShift = index * (planeWidth + gap);
+      camera.position.x -= localShift;
+
+      targetX = 0;
 
       if (!enlarged) {
         // from wave state to enlarged state
@@ -499,9 +507,10 @@ document.addEventListener("keypress", (event) => {
 
 document.addEventListener("wheel", (event) => {
   if (!enlarged) {
-    console.log(camera.position.x, currLength);
-
-    if (camera.position.x > 100 && currLength - camera.position.x > 100) {
+    if (
+      camera.position.x > 100 - absoluteShift &&
+      currLength - camera.position.x - absoluteShift > 100
+    ) {
       // Scrolling animation for wave
       const newDelta = Math.max(
         -imDeltaMax,
@@ -523,12 +532,13 @@ document.addEventListener("wheel", (event) => {
 
     // Move Camera
     const targetPosX = Math.max(
-      0,
-      Math.min(currLength, camera.position.x + event.deltaY * 2.7)
+      -absoluteShift,
+      Math.min(
+        currLength - absoluteShift,
+        camera.position.x + event.deltaY * 2.7
+      )
     );
     gsap.to(camera.position, 0.5, { x: targetPosX });
-
-    console.log(camera.position.x, targetPosX);
   } else {
     if (!caseIsOpen) {
       // Hide EXPLORE button
@@ -539,7 +549,7 @@ document.addEventListener("wheel", (event) => {
       typo.closeText(index);
       info.closeText(index);
 
-      targetX = (planeWidth + gapMin) * index;
+      // targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
         reducePlane(meshes[i], uniforms[i]);
       }
@@ -644,12 +654,15 @@ function update() {
 
     // update positioning
     if (isSetup) {
+      absoluteShift = index * (currentWidth + gap);
+
       for (var i = 0; i < meshes.length; i++) {
         meshes[i].position.x =
           (currentWidth + gap) * i +
           meshes[i].offset_x +
           landDispX +
-          landDispX * 0.001 * i;
+          landDispX * 0.001 * i -
+          absoluteShift;
       }
     } else if (isRendered) {
       landDispX = initLandDispX;
