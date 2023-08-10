@@ -47,6 +47,7 @@ let uniforms = [];
 let isLoaded = false;
 let isRendered = false;
 let isSetup = false;
+let imgIndex = 0;
 
 let index = 0;
 // let lastIndex = 99999;
@@ -109,15 +110,15 @@ let landAlpha = 0;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
-  //   console.log(
-  //     "Started loading file: " +
-  //       url +
-  //       ".\nLoaded " +
-  //       itemsLoaded +
-  //       " of " +
-  //       itemsTotal +
-  //       " files."
-  //   );
+  console.log(
+    "Started loading file: " +
+      url +
+      ".\nLoaded " +
+      itemsLoaded +
+      " of " +
+      itemsTotal +
+      " files."
+  );
 };
 
 manager.onLoad = function () {
@@ -131,15 +132,15 @@ manager.onError = function () {
 };
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-  //   console.log(
-  //     "Loading file: " +
-  //       url +
-  //       ".\nLoaded " +
-  //       itemsLoaded +
-  //       " of " +
-  //       itemsTotal +
-  //       " files."
-  //   );
+  console.log(
+    "Loading file: " +
+      url +
+      ".\nLoaded " +
+      itemsLoaded +
+      " of " +
+      itemsTotal +
+      " files."
+  );
 };
 
 /* Page transitions */
@@ -560,11 +561,26 @@ document.addEventListener("wheel", (event) => {
 /* Load textures */
 const loader = new THREE.TextureLoader(manager);
 const images = document.querySelectorAll(".image");
-for (var i = 0; i < images.length; i++) {
-  loader.load(images[i].src, (el) => {
-    textures.push(el);
-  });
+
+function loadImage(i) {
+  if (i < images.length) {
+    loader.load(
+      images[i].src,
+      (el) => {
+        textures.push(el);
+        console.log(i);
+        imgIndex++;
+        loadImage(imgIndex);
+      },
+      undefined,
+      function () {
+        loadImage(loadedImages);
+      }
+    );
+  }
 }
+
+loadImage(imgIndex);
 
 function update() {
   requestAnimationFrame(update);
