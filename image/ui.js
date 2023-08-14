@@ -516,8 +516,6 @@ class ImageList {
 
     const that = this;
 
-    this.resetStack();
-
     gsap.to(value, 0.4, {
       top: 125,
       selectorY: 100,
@@ -531,6 +529,9 @@ class ImageList {
         that.selector.style.transform = `translateY(${
           this.targets()[0].selectorY
         }vh)`;
+      },
+      onComplete: function () {
+        that.resetStack();
       },
     });
   }

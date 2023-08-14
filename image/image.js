@@ -110,37 +110,37 @@ let landAlpha = 0;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
-  console.log(
-    "Started loading file: " +
-      url +
-      ".\nLoaded " +
-      itemsLoaded +
-      " of " +
-      itemsTotal +
-      " files."
-  );
+  // console.log(
+  //   "Started loading file: " +
+  //     url +
+  //     ".\nLoaded " +
+  //     itemsLoaded +
+  //     " of " +
+  //     itemsTotal +
+  //     " files."
+  // );
 };
 
 manager.onLoad = function () {
-  console.log("Loading complete!");
+  // console.log("Loading complete!");
 
   createPlanes();
 };
 
 manager.onError = function () {
-  console.log("There was an error loading " + url);
+  // console.log("There was an error loading " + url);
 };
 
 manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-  console.log(
-    "Loading file: " +
-      url +
-      ".\nLoaded " +
-      itemsLoaded +
-      " of " +
-      itemsTotal +
-      " files."
-  );
+  // console.log(
+  //   "Loading file: " +
+  //     url +
+  //     ".\nLoaded " +
+  //     itemsLoaded +
+  //     " of " +
+  //     itemsTotal +
+  //     " files."
+  // );
 };
 
 /* Page transitions */
@@ -197,11 +197,13 @@ exploreBtn.addEventListener("click", (e) => {
   exploreText.toPressed();
   exploreLine.toBottom();
   exploreIcon.toTop();
+  exploreBtn.style.pointerEvents = "none";
 
   // Show PROJECTS button
   projectText.toVisible();
   projectLine.fromTop();
   projectIcon.fromBottom();
+  projectsBtn.style.pointerEvents = "all";
 
   typo.squishText(0);
 });
@@ -224,11 +226,13 @@ projectsBtn.addEventListener("click", (e) => {
   exploreText.toVisible();
   exploreLine.fromTop();
   exploreIcon.fromBottom();
+  exploreBtn.style.pointerEvents = "all";
 
   // Hide PROJECTS button
   projectText.toHidden();
   projectLine.toTop();
   projectIcon.toBottom();
+  projectsBtn.style.pointerEvents = "none";
 
   typo.unsquishText(0);
 });
@@ -335,6 +339,7 @@ function closeCase() {
       meshes[index].position.y = this.targets()[0].posY;
     },
     onComplete: function () {
+      console.log("hoba");
       transitioning = false;
     },
   });
@@ -455,21 +460,26 @@ canvas.addEventListener("click", () => {
         exploreText.toVisible();
         exploreLine.fromTop();
         exploreIcon.fromBottom();
+        exploreBtn.style.pointerEvents = "all";
 
         typo.openText(index);
         info.openText(index);
       } else {
+        // TODO: REFINE THIS INTERACTION, SWITCHING BETWEEN CASES
+
         // from enlarged state to enlarged state
         // Hide EXPLORE button
         exploreText.toPressed();
         exploreLine.toBottom();
         exploreIcon.toTop();
+        exploreBtn.style.pointerEvents = "none";
 
         setTimeout(() => {
           // Show EXPLORE button
           exploreText.toVisible();
           exploreLine.fromTop();
           exploreIcon.fromBottom();
+          exploreBtn.style.pointerEvents = "all";
         }, 500);
       }
 
@@ -495,6 +505,7 @@ document.addEventListener("keypress", (event) => {
       exploreText.toPressed();
       exploreLine.toBottom();
       exploreIcon.toTop();
+      exploreBtn.style.pointerEvents = "none";
 
       targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
@@ -517,8 +528,6 @@ document.addEventListener("wheel", (event) => {
         -imDeltaMax,
         Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
       );
-
-      // console.log(imDelta);
 
       // Smoothly transition imDelta to new value
       // 0.2 on windows with high fps
@@ -546,6 +555,7 @@ document.addEventListener("wheel", (event) => {
       exploreText.toPressed();
       exploreLine.toBottom();
       exploreIcon.toTop();
+      exploreBtn.style.pointerEvents = "none";
 
       typo.closeText(index);
       info.closeText(index);
@@ -568,7 +578,6 @@ function loadImage(i) {
       images[i].src,
       (el) => {
         textures.push(el);
-        console.log(i);
         imgIndex++;
         loadImage(imgIndex);
       },
