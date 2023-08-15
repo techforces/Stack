@@ -339,7 +339,6 @@ function closeCase() {
       meshes[index].position.y = this.targets()[0].posY;
     },
     onComplete: function () {
-      console.log("hoba");
       transitioning = false;
     },
   });
@@ -379,7 +378,7 @@ function enlargePlane(mesh, uniform) {
     length: currLength,
     cameraPosX: camera.position.x,
   };
-  gsap.to(value, {
+  const anim = gsap.to(value, {
     duration: 1.2,
     width: planeWidthBig,
     height: planeHeightBig,
@@ -388,13 +387,17 @@ function enlargePlane(mesh, uniform) {
     length: maxLength,
     cameraPosX: targetX,
     onUpdate: () => {
-      mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
-      gap = value.gap;
-      currentWidth = value.width;
-      currentHeight = value.height;
-      currLength = value.length;
-      camera.position.x = value.cameraPosX;
-      uniform.planeRatio = { value: value.width / value.height };
+      if (enlarged) {
+        mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
+        gap = value.gap;
+        currentWidth = value.width;
+        currentHeight = value.height;
+        currLength = value.length;
+        camera.position.x = value.cameraPosX;
+        uniform.planeRatio = { value: value.width / value.height };
+      } else {
+        anim.kill();
+      }
     },
     onComplete: () => {
       transitioning = false;
@@ -404,6 +407,7 @@ function enlargePlane(mesh, uniform) {
 
 function reducePlane(mesh, uniform) {
   // transitioning = true;
+  enlarged = false;
   let value = {
     width: currentWidth,
     height: currentHeight,
@@ -411,7 +415,7 @@ function reducePlane(mesh, uniform) {
     length: currLength,
     cameraPosX: camera.position.x,
   };
-  gsap.to(value, {
+  const anim = gsap.to(value, {
     duration: 0.8,
     width: planeWidth,
     height: planeHeight,
@@ -419,17 +423,18 @@ function reducePlane(mesh, uniform) {
     gap: gapMin,
     length: minLength,
     cameraPosX: targetX,
-    onStart: () => {
-      enlarged = false;
-    },
     onUpdate: () => {
-      mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
-      gap = value.gap;
-      currentWidth = value.width;
-      currentHeight = value.height;
-      currLength = value.length;
-      // camera.position.x = value.cameraPosX;
-      uniform.planeRatio = { value: value.width / value.height };
+      if (!enlarged) {
+        mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
+        gap = value.gap;
+        currentWidth = value.width;
+        currentHeight = value.height;
+        currLength = value.length;
+        // camera.position.x = value.cameraPosX;
+        uniform.planeRatio = { value: value.width / value.height };
+      } else {
+        anim.kill();
+      }
     },
     onComplete: () => {
       transitioning = false;

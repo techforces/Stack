@@ -128,6 +128,7 @@ class Typography {
     let t = 0.08;
     this.visible = true;
 
+    // tt - text top animation
     for (var i = 0; i < this.ttCovLet[idx].length; i++) {
       const value = {
         x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
@@ -135,18 +136,21 @@ class Typography {
 
       const el = this.ttCovLet[idx][i];
 
-      gsap.to(value, 1.2, {
+      const anim = gsap.to(value, 1.2, {
         x: 0,
         ease: "power1.easeOut",
         delay: t * i,
         onUpdate: () => {
           if (this.visible) {
             el.style.transform = `translateX(${value.x}%)`;
+          } else {
+            anim.kill();
           }
         },
       });
     }
 
+    // tb - text bottom animation
     if (this.tbCovLet[idx] != null) {
       for (var i = 0; i < this.tbCovLet[idx].length; i++) {
         const value = {
@@ -155,13 +159,15 @@ class Typography {
 
         const el = this.tbCovLet[idx][i];
 
-        gsap.to(value, 1.2, {
+        const anim = gsap.to(value, 1.2, {
           x: 0,
           ease: "power1.easeOut",
           delay: t * i,
           onUpdate: () => {
             if (this.visible) {
               el.style.transform = `translateX(${value.x}%)`;
+            } else {
+              anim.kill();
             }
           },
         });
@@ -294,6 +300,7 @@ class Typography {
 class Information {
   left = [];
   right = [];
+  visible = false;
 
   constructor() {
     const listL = document.querySelectorAll(".i-l");
@@ -321,6 +328,7 @@ class Information {
   }
 
   openText(index) {
+    this.visible = true;
     for (var j = 0; j < this.left[index].length; j++) {
       for (var k = 0; k < this.left[index][k].length; k++) {
         const value = {
@@ -329,12 +337,16 @@ class Information {
 
         let el = this.left[index][j][k];
 
-        gsap.to(value, 0.5, {
+        const anim = gsap.to(value, 0.5, {
           y: 0,
           delay: 0.5 + 0.08 * j,
           ease: "power1.easeOut",
           onUpdate: () => {
-            el.style.transform = `translateY(${value.y}%)`;
+            if (this.visible) {
+              el.style.transform = `translateY(${value.y}%)`;
+            } else {
+              anim.kill();
+            }
           },
         });
       }
@@ -347,18 +359,23 @@ class Information {
 
       let el = this.right[index][j];
 
-      gsap.to(value, 0.5, {
+      const anim = gsap.to(value, 0.5, {
         y: 0,
         delay: 0.5 + 0.08 * (2 + j),
         ease: "power1.easeOut",
         onUpdate: () => {
-          el.style.transform = `translateY(${value.y}%)`;
+          if (this.visible) {
+            el.style.transform = `translateY(${value.y}%)`;
+          } else {
+            anim.kill();
+          }
         },
       });
     }
   }
 
   closeText(index) {
+    this.visible = false;
     for (var j = 0; j < this.left[index].length; j++) {
       for (var k = 0; k < this.left[index][k].length; k++) {
         const value = {
