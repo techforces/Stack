@@ -50,7 +50,7 @@ let isSetup = false;
 let imgIndex = 0;
 
 let index = 0;
-// let lastIndex = 99999;
+let lastIndex = 0;
 let targetX = 0;
 let enlarged = false;
 
@@ -453,8 +453,8 @@ canvas.addEventListener("click", () => {
     if (intersects.length > 0) {
       index = intersects[0].object.arr_id;
 
-      localShift = index * (planeWidth + gap) - absoluteShift;
-      absoluteShift = index * (planeWidth + gap);
+      localShift = index * (currentWidth + gap) - absoluteShift;
+      absoluteShift = index * (currentWidth + gap);
       camera.position.x -= localShift;
 
       targetX = 0;
@@ -470,22 +470,30 @@ canvas.addEventListener("click", () => {
         typo.openText(index);
         info.openText(index);
       } else {
-        // TODO: REFINE THIS INTERACTION, SWITCHING BETWEEN CASES
+        if (lastIndex != index) {
+          typo.closeText(lastIndex);
+          info.closeText(lastIndex);
 
-        // from enlarged state to enlarged state
-        // Hide EXPLORE button
-        exploreText.toPressed();
-        exploreLine.toBottom();
-        exploreIcon.toTop();
-        exploreBtn.style.pointerEvents = "none";
+          setTimeout(() => {
+            typo.openText(index);
+            info.openText(index);
+          }, 150);
 
-        setTimeout(() => {
-          // Show EXPLORE button
-          exploreText.toVisible();
-          exploreLine.fromTop();
-          exploreIcon.fromBottom();
-          exploreBtn.style.pointerEvents = "all";
-        }, 500);
+          // from enlarged state to enlarged state
+          // Hide EXPLORE button
+          exploreText.toPressed();
+          exploreLine.toBottom();
+          exploreIcon.toTop();
+          exploreBtn.style.pointerEvents = "none";
+
+          setTimeout(() => {
+            // Show EXPLORE button
+            exploreText.toVisible();
+            exploreLine.fromTop();
+            exploreIcon.fromBottom();
+            exploreBtn.style.pointerEvents = "all";
+          }, 500);
+        }
       }
 
       caseIndex = intersects[0].object.arr_id;
@@ -497,6 +505,8 @@ canvas.addEventListener("click", () => {
         uniforms[i].selected.value = false;
       }
       uniforms[index].selected.value = true;
+
+      lastIndex = index;
     }
   }
 });
@@ -595,6 +605,7 @@ function loadImage(i) {
 }
 
 loadImage(imgIndex);
+loader.load();
 
 function update() {
   requestAnimationFrame(update);
@@ -798,5 +809,5 @@ function createPlanes() {
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
-  // scene.add(marker);
+  scene.add(marker);
 }

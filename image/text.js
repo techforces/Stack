@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 
 class Typography {
+  index = undefined;
   list = undefined;
   t = undefined;
 
@@ -127,6 +128,7 @@ class Typography {
   openText(idx) {
     let t = 0.08;
     this.visible = true;
+    this.index = idx;
 
     // tt - text top animation
     for (var i = 0; i < this.ttCovLet[idx].length; i++) {
@@ -141,7 +143,7 @@ class Typography {
         ease: "power1.easeOut",
         delay: t * i,
         onUpdate: () => {
-          if (this.visible) {
+          if (this.visible && this.index == idx) {
             el.style.transform = `translateX(${value.x}%)`;
           } else {
             anim.kill();
@@ -164,7 +166,7 @@ class Typography {
           ease: "power1.easeOut",
           delay: t * i,
           onUpdate: () => {
-            if (this.visible) {
+            if (this.visible && this.index == idx) {
               el.style.transform = `translateX(${value.x}%)`;
             } else {
               anim.kill();
@@ -301,6 +303,7 @@ class Information {
   left = [];
   right = [];
   visible = false;
+  index = undefined;
 
   constructor() {
     const listL = document.querySelectorAll(".i-l");
@@ -328,6 +331,7 @@ class Information {
   }
 
   openText(index) {
+    this.index = index;
     this.visible = true;
     for (var j = 0; j < this.left[index].length; j++) {
       for (var k = 0; k < this.left[index][k].length; k++) {
@@ -342,7 +346,7 @@ class Information {
           delay: 0.5 + 0.08 * j,
           ease: "power1.easeOut",
           onUpdate: () => {
-            if (this.visible) {
+            if (this.visible && this.index == index) {
               el.style.transform = `translateY(${value.y}%)`;
             } else {
               anim.kill();
@@ -364,7 +368,7 @@ class Information {
         delay: 0.5 + 0.08 * (2 + j),
         ease: "power1.easeOut",
         onUpdate: () => {
-          if (this.visible) {
+          if (this.visible && this.index == index) {
             el.style.transform = `translateY(${value.y}%)`;
           } else {
             anim.kill();
