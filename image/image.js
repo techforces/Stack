@@ -388,6 +388,7 @@ function enlargePlane(mesh, uniform) {
     cameraPosX: targetX,
     onUpdate: () => {
       if (enlarged) {
+        mesh.geometry.dispose();
         mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
         gap = value.gap;
         currentWidth = value.width;
@@ -425,6 +426,7 @@ function reducePlane(mesh, uniform) {
     cameraPosX: targetX,
     onUpdate: () => {
       if (!enlarged) {
+        mesh.geometry.dispose();
         mesh.geometry = new THREE.PlaneGeometry(value.width, value.height);
         gap = value.gap;
         currentWidth = value.width;
