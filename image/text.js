@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 
 class Typography {
   index = undefined;
+  lastIndex = undefined;
   list = undefined;
   t = undefined;
 
@@ -132,9 +133,20 @@ class Typography {
 
     // tt - text top animation
     for (var i = 0; i < this.ttCovLet[idx].length; i++) {
-      const value = {
-        x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
-      };
+      let value;
+      if (this.index >= this.lastIndex || this.lastIndex == undefined) {
+        value = {
+          x: 100,
+        };
+      } else {
+        value = {
+          x: -100,
+        };
+      }
+
+      // const value = {
+      //   x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
+      // };
 
       const el = this.ttCovLet[idx][i];
 
@@ -155,9 +167,20 @@ class Typography {
     // tb - text bottom animation
     if (this.tbCovLet[idx] != null) {
       for (var i = 0; i < this.tbCovLet[idx].length; i++) {
-        const value = {
-          x: this.tbCovLet[idx][i].style.transform.match(/\d+/)[0],
-        };
+        let value;
+        if (this.index >= this.lastIndex || this.lastIndex == undefined) {
+          value = {
+            x: 100,
+          };
+        } else {
+          value = {
+            x: -100,
+          };
+        }
+
+        // const value = {
+        //   x: this.tbCovLet[idx][i].style.transform.match(/\d+/)[0],
+        // };
 
         const el = this.tbCovLet[idx][i];
 
@@ -177,8 +200,10 @@ class Typography {
     }
   }
 
-  closeText(idx) {
+  closeText(idx, nextIdx) {
     this.visible = false;
+    this.lastIndex = idx;
+
     for (var i = 0; i < this.ttCovLet[idx].length; i++) {
       const value = {
         x: this.ttCovLet[idx][i].style.transform.match(/\d+/)[0],
@@ -186,8 +211,15 @@ class Typography {
 
       const el = this.ttCovLet[idx][i];
 
-      gsap.to(value, 0.5, {
-        x: 100,
+      let closeTarget;
+      if (idx >= nextIdx) {
+        closeTarget = 100;
+      } else {
+        closeTarget = -100;
+      }
+
+      gsap.to(value, 0.4, {
+        x: closeTarget,
         ease: "power1.easeOut",
         onUpdate: () => {
           el.style.transform = `translateX(${value.x}%)`;
@@ -203,8 +235,15 @@ class Typography {
 
         const el = this.tbCovLet[idx][i];
 
-        gsap.to(value, 0.5, {
-          x: 100,
+        let closeTarget;
+        if (idx >= nextIdx) {
+          closeTarget = 100;
+        } else {
+          closeTarget = -100;
+        }
+
+        gsap.to(value, 0.4, {
+          x: closeTarget,
           ease: "power1.easeOut",
           onUpdate: () => {
             el.style.transform = `translateX(${value.x}%)`;
@@ -223,7 +262,7 @@ class Typography {
       const l = this.ttLetMinSum[idx][i];
       const that = this;
 
-      gsap.to(value, 0.5, {
+      gsap.to(value, 0.4, {
         l: l,
         ease: "power1.easeOut",
         onUpdate: () => {
@@ -257,7 +296,7 @@ class Typography {
       const l = this.ttLetMaxSum[idx][i];
       const that = this;
 
-      gsap.to(value, 0.5, {
+      gsap.to(value, 0.4, {
         l: l,
         ease: "power1.easeOut",
         onUpdate: () => {
@@ -341,9 +380,9 @@ class Information {
 
         let el = this.left[index][j][k];
 
-        const anim = gsap.to(value, 0.5, {
+        const anim = gsap.to(value, 0.4, {
           y: 0,
-          delay: 0.5 + 0.08 * j,
+          delay: 0.4 + 0.08 * j,
           ease: "power1.easeOut",
           onUpdate: () => {
             if (this.visible && this.index == index) {
@@ -363,9 +402,9 @@ class Information {
 
       let el = this.right[index][j];
 
-      const anim = gsap.to(value, 0.5, {
+      const anim = gsap.to(value, 0.4, {
         y: 0,
-        delay: 0.5 + 0.08 * (2 + j),
+        delay: 0.4 + 0.08 * (2 + j),
         ease: "power1.easeOut",
         onUpdate: () => {
           if (this.visible && this.index == index) {
@@ -388,7 +427,7 @@ class Information {
 
         let el = this.left[index][j][k];
 
-        gsap.to(value, 0.5, {
+        gsap.to(value, 0.4, {
           y: -100,
           ease: "power1.easeOut",
           onUpdate: () => {
@@ -405,7 +444,7 @@ class Information {
 
       let el = this.right[index][j];
 
-      gsap.to(value, 0.5, {
+      gsap.to(value, 0.4, {
         y: -100,
         ease: "power1.easeOut",
         onUpdate: () => {

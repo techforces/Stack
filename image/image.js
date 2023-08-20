@@ -416,7 +416,7 @@ function reducePlane(mesh, uniform) {
     cameraPosX: camera.position.x,
   };
   const anim = gsap.to(value, {
-    duration: 0.8,
+    duration: 0.6,
     width: planeWidth,
     height: planeHeight,
     ease: "power2.inOut",
@@ -471,8 +471,8 @@ canvas.addEventListener("click", () => {
         info.openText(index);
       } else {
         if (lastIndex != index) {
-          typo.closeText(lastIndex);
-          info.closeText(lastIndex);
+          typo.closeText(lastIndex, index);
+          info.closeText(lastIndex, index);
 
           setTimeout(() => {
             typo.openText(index);
@@ -572,8 +572,8 @@ document.addEventListener("wheel", (event) => {
       exploreIcon.toTop();
       exploreBtn.style.pointerEvents = "none";
 
-      typo.closeText(index);
-      info.closeText(index);
+      typo.closeText(index, index);
+      info.closeText(index, index);
 
       // targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
@@ -809,5 +809,5 @@ function createPlanes() {
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
-  scene.add(marker);
+  // scene.add(marker);
 }
