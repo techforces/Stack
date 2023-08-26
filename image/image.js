@@ -6,6 +6,7 @@ import { Text, ImageList, Line, Icon } from "./ui";
 import { Typography, Information } from "./text";
 import routes from "./routes";
 import { CustomEase } from "gsap/all";
+import Colors from "./color";
 
 import { data } from "./data";
 
@@ -72,6 +73,9 @@ let planeRatio = planeWidth / planeHeight;
 let minLength = 0;
 let maxLength = 0;
 let currLength = 0;
+
+let opacity = 0.8;
+let hoverRate = 0;
 
 // impulse ∈ [-1, 1]; delta ∈ [-delta_max, delta_max];
 let impulse = 0;
@@ -159,8 +163,11 @@ const mouse = new THREE.Vector2();
 /* UI */
 const exploreBtn = document.querySelector(".e-btn");
 exploreBtn.style.display = "block";
+exploreBtn.style.pointerEvents = "none";
 const projectsBtn = document.querySelector(".p-btn");
 projectsBtn.style.display = "block";
+projectsBtn.style.pointerEvents = "none";
+
 const exploreText = new Text(".e-t-c");
 const projectText = new Text(".p-t-c");
 
@@ -173,6 +180,8 @@ const projectIcon = new Icon(".p-s-c");
 const imageList = new ImageList();
 
 const coverDiv = document.querySelector(".cover");
+
+const colors = new Colors();
 
 /* Typography */
 const typo = new Typography();
@@ -380,6 +389,7 @@ function enlargePlane(mesh, uniform) {
     length: currLength,
     cameraPosX: camera.position.x,
   };
+
   const anim = gsap.to(value, {
     duration: 1.2,
     width: planeWidthBig,
@@ -388,6 +398,7 @@ function enlargePlane(mesh, uniform) {
     gap: gapMax,
     length: maxLength,
     cameraPosX: targetX,
+
     onUpdate: () => {
       if (enlarged) {
         mesh.geometry.dispose();
@@ -407,6 +418,17 @@ function enlargePlane(mesh, uniform) {
       changing = false;
     },
   });
+
+  let value2 = {
+    opacity: opacity,
+  };
+  gsap.to(value2, 1.2, {
+    opacity: 0.5,
+    onUpdate: () => {
+      opacity = value2.opacity;
+      uniform.opacity = { value: value2.opacity };
+    },
+  });
 }
 
 function reducePlane(mesh, uniform) {
@@ -420,8 +442,7 @@ function reducePlane(mesh, uniform) {
     length: currLength,
     cameraPosX: camera.position.x,
   };
-  const anim = gsap.to(value, {
-    duration: 0.6,
+  const anim = gsap.to(value, 0.6, {
     width: planeWidth,
     height: planeHeight,
     ease: "power2.inOut",
@@ -445,6 +466,17 @@ function reducePlane(mesh, uniform) {
     onComplete: () => {
       transitioning = false;
       changing = false;
+    },
+  });
+
+  let value2 = {
+    opacity: opacity,
+  };
+  gsap.to(value2, 1.2, {
+    opacity: 1,
+    onUpdate: () => {
+      opacity = value2.opacity;
+      uniform.opacity = { value: value2.opacity };
     },
   });
 
@@ -476,6 +508,7 @@ canvas.addEventListener("click", () => {
 
         typo.openText(index);
         info.openText(index);
+        colors.toColor(data[index].bgColor, data[index].color);
       } else {
         if (lastIndex != index) {
           typo.closeText(lastIndex, index);
@@ -492,6 +525,8 @@ canvas.addEventListener("click", () => {
           exploreLine.toBottom();
           exploreIcon.toTop();
           exploreBtn.style.pointerEvents = "none";
+
+          colors.toColor(data[index].bgColor, data[index].color);
 
           setTimeout(() => {
             // Show EXPLORE button
@@ -536,6 +571,8 @@ document.addEventListener("keypress", (event) => {
     }
   } else if (event.key === "c") {
     closeCase();
+  } else if (event.keyCode === 9) {
+    console.log("tab");
   }
 });
 
@@ -581,6 +618,7 @@ document.addEventListener("wheel", (event) => {
 
       typo.closeText(index, index);
       info.closeText(index, index);
+      colors.resetColors();
 
       // targetX = (planeWidth + gapMin) * index;
       for (var i = 0; i < meshes.length; i++) {
@@ -683,9 +721,19 @@ function update() {
       colorGrade = colorGrade * Math.min(1, Math.abs(impulse) * 2);
 
       // greyscale/color animation on hover/click
-      if (uniforms[i].hovered.value || uniforms[i].selected.value) {
+      if (uniforms[i].selected.value) {
         uniforms[i].mixValue.value = Math.min(
           1,
+          Math.max(0, uniforms[i].mixValue.value + 0.1)
+        );
+      } else if (uniforms[i].hovered.value && !enlarged) {
+        uniforms[i].mixValue.value = Math.min(
+          1,
+          Math.max(0, uniforms[i].mixValue.value + 0.1)
+        );
+      } else if (uniforms[i].hovered.value) {
+        uniforms[i].mixValue.value = Math.min(
+          0.5,
           Math.max(0, uniforms[i].mixValue.value + 0.1)
         );
       } else {
@@ -783,7 +831,7 @@ function createPlanes() {
         value: 0,
       },
       opacity: {
-        value: 1,
+        value: opacity,
       },
       selected: {
         value: false,

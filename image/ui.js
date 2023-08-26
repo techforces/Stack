@@ -29,7 +29,7 @@ class Text {
     gsap.to(value, 0.7, {
       state: that.states.visible,
       ease: "power1.easeOut",
-      delay: 0.7,
+      delay: 0.4,
       onUpdate: function () {
         if (that.available) {
           that.state = this.targets()[0].state;
@@ -110,7 +110,7 @@ class Line {
     gsap.to(value, 0.7, {
       state: that.states.middle,
       ease: "power1.easeOut",
-      delay: 0.7,
+      delay: 0.4,
       onUpdate: function () {
         if (that.available) {
           that.state = this.targets()[0].state;
@@ -132,7 +132,7 @@ class Line {
     gsap.to(value, 0.7, {
       state: that.states.middle,
       ease: "power1.easeOut",
-      delay: 0.7,
+      delay: 0.4,
       onUpdate: function () {
         if (that.available) {
           that.state = this.targets()[0].state;
@@ -211,7 +211,7 @@ class Icon {
     gsap.to(value, 0.7, {
       state: that.states.middle,
       ease: "power1.easeOut",
-      delay: 0.7,
+      delay: 0.4,
       onUpdate: function () {
         if (that.available) {
           that.state = this.targets()[0].state;
@@ -233,7 +233,7 @@ class Icon {
     gsap.to(value, 0.7, {
       state: that.states.middle,
       ease: "power1.easeOut",
-      delay: 0.7,
+      delay: 0.4,
       onUpdate: function () {
         if (that.available) {
           that.state = this.targets()[0].state;

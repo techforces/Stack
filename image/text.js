@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { data } from "./data";
 
 class Typography {
   index = undefined;
@@ -36,7 +37,7 @@ class Typography {
   constructor() {
     this.list = document.querySelectorAll(".text-list li");
 
-    for (var i = 0; i < this.list.length; i++) {
+    for (var i = 0; i < this.list.length - 1; i++) {
       this.tt[i] = this.list[i].querySelector(".tt");
       this.ttCov[i] = this.tt[i].querySelectorAll(".tc");
       this.ttCovLet[i] = this.tt[i].querySelectorAll(".tc div");
@@ -52,6 +53,9 @@ class Typography {
 
       for (var j = 0; j < this.ttCovLet[i].length; j++) {
         this.ttCovLet[i][j].style.transform = "translateX(100%)";
+        this.ttCovLet[i][
+          j
+        ].style.color = `rgb(${data[i].color.r}, ${data[i].color.g}, ${data[i].color.b})`;
         this.ttLetWMax[i][j] = window
           .getComputedStyle(this.ttCov[i][j], null)
           .getPropertyValue("width");
@@ -91,6 +95,9 @@ class Typography {
 
         for (var j = 0; j < this.tbCovLet[i].length; j++) {
           this.tbCovLet[i][j].style.transform = "translateX(100%)";
+          this.tbCovLet[i][
+            j
+          ].style.color = `rgb(${data[i].color.r}, ${data[i].color.g}, ${data[i].color.b})`;
           this.tbLetWMax[i][j] = window
             .getComputedStyle(this.tbCov[i][j], null)
             .getPropertyValue("width");
