@@ -39,6 +39,7 @@ camera.position.set(0, 0, perspective);
 
 // Use this variable to check of it is animating, if so block interaction temporarily
 let transitioning = false;
+let changing = false;
 
 /* Preloader */
 let textures = [];
@@ -205,7 +206,7 @@ exploreBtn.addEventListener("click", (e) => {
   projectIcon.fromBottom();
   projectsBtn.style.pointerEvents = "all";
 
-  typo.squishText(0);
+  typo.squishText(index);
 });
 
 projectsBtn.addEventListener("click", (e) => {
@@ -234,7 +235,7 @@ projectsBtn.addEventListener("click", (e) => {
   projectIcon.toBottom();
   projectsBtn.style.pointerEvents = "none";
 
-  typo.unsquishText(0);
+  typo.unsquishText(index);
 });
 
 function openCase() {
@@ -370,6 +371,7 @@ canvas.addEventListener("mousemove", () => {
 
 function enlargePlane(mesh, uniform) {
   enlarged = true;
+  changing = true;
   // transitioning = true;
   let value = {
     width: currentWidth,
@@ -402,6 +404,7 @@ function enlargePlane(mesh, uniform) {
     },
     onComplete: () => {
       transitioning = false;
+      changing = false;
     },
   });
 }
@@ -409,6 +412,7 @@ function enlargePlane(mesh, uniform) {
 function reducePlane(mesh, uniform) {
   // transitioning = true;
   enlarged = false;
+  changing = true;
   let value = {
     width: currentWidth,
     height: currentHeight,
@@ -440,6 +444,7 @@ function reducePlane(mesh, uniform) {
     },
     onComplete: () => {
       transitioning = false;
+      changing = false;
     },
   });
 
@@ -448,7 +453,7 @@ function reducePlane(mesh, uniform) {
 
 // enlarge on click
 canvas.addEventListener("click", () => {
-  if (!transitioning) {
+  if (!transitioning && !changing) {
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(meshes);
 
