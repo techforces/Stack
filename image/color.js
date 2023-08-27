@@ -13,6 +13,8 @@ class Colors {
   e_t_line = undefined;
   e_s_i = undefined;
 
+  selector = undefined;
+
   r = 51;
   g = 51;
   b = 51;
@@ -32,6 +34,8 @@ class Colors {
     this.e_t_c = document.querySelector(".e-t-c");
     this.e_t_line = document.querySelector(".e-t-line");
     this.e_s_i = document.querySelector(".e-s-i");
+
+    this.selector = document.querySelector(".selector-indicator");
   }
 
   toColor(bgObj, colObj) {
@@ -74,6 +78,8 @@ class Colors {
         this.p_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
         this.p_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
         this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
+        this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
       },
     });
   }
@@ -118,6 +124,8 @@ class Colors {
         this.p_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
         this.p_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
         this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
+        this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
       },
     });
   }
