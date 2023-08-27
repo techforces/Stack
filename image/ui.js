@@ -488,15 +488,24 @@ class ImageList {
 
     const that = this;
 
+    var firstImage = 0;
+    while (
+      this.images[firstImage].classList.contains("img-hidden") &&
+      firstImage < 10
+    ) {
+      firstImage++;
+    }
+    this.idx = firstImage;
+
     gsap.to(value, 0.7, {
       top: 50,
       selectorY: 0,
 
       ease: "power1.easeOut",
       onUpdate: function () {
-        that.images[0].style.top = `${this.targets()[0].top}%`;
+        that.images[firstImage].style.top = `${this.targets()[0].top}%`;
 
-        that.imgPos[0] = this.targets()[0].top;
+        that.imgPos[firstImage] = this.targets()[0].top;
         that.selector.style.transform = `translateY(${
           this.targets()[0].selectorY
         }vh)`;
