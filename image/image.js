@@ -591,7 +591,19 @@ document.addEventListener("wheel", (event) => {
       // Smoothly transition imDelta to new value
       // 0.2 on windows with high fps
       // 0 on mac with low fps, quickfix
-      gsap.to({ val: imDelta }, 0.2, {
+      var isTrackpad = false;
+      var duration = 0.2;
+      if (event.wheelDeltaY) {
+        if (event.wheelDeltaY === event.deltaY * -3) {
+          isTrackpad = true;
+          duration = 0;
+        }
+      } else if (event.deltaMode === 0) {
+        isTrackpad = true;
+        duration = 0;
+      }
+
+      gsap.to({ val: imDelta }, duration, {
         val: newDelta,
         onUpdate: function () {
           imDelta = this.targets()[0].val;
