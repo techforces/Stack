@@ -653,8 +653,6 @@ loadImage(imgIndex);
 loader.load();
 
 function update() {
-  requestAnimationFrame(update);
-
   if (isLoaded) {
     imDelta = imDelta * 0.92;
     impulse = imDelta / imDeltaMax;
@@ -805,7 +803,13 @@ function update() {
   renderer.render(scene, camera);
 }
 
-update();
+const fpsCap = createFpsCap(update, 144);
+
+function onAnimationFrame(time) {
+  fpsCap.loop(time);
+  requestAnimationFrame(onAnimationFrame);
+}
+requestAnimationFrame(onAnimationFrame);
 
 function createPlanes() {
   const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
@@ -865,4 +869,47 @@ function createPlanes() {
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
   // scene.add(marker);
+}
+
+function createFpsCap(loop, fps = 60) {
+  let targetFps = 0,
+    fpsInterval = 0;
+  let lastTime = 0,
+    lastOverTime = 0,
+    prevOverTime = 0,
+    deltaTime = 0;
+
+  function updateFps(value) {
+    targetFps = value;
+    fpsInterval = 1000 / targetFps;
+  }
+
+  updateFps(fps);
+
+  return {
+    // the targeted frame rate
+    get fps() {
+      return targetFps;
+    },
+    set fps(value) {
+      updateFps(value);
+    },
+
+    // the frame-capped loop function
+    loop: function (time) {
+      deltaTime = time - lastTime;
+
+      if (deltaTime < fpsInterval) {
+        return;
+      }
+
+      prevOverTime = lastOverTime;
+      lastOverTime = deltaTime % fpsInterval;
+      lastTime = time - lastOverTime;
+
+      deltaTime -= prevOverTime;
+
+      return loop(deltaTime);
+    },
+  };
 }
