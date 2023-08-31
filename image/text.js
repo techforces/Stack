@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { data } from "./data";
 
 class Typography {
+  container = undefined;
   index = undefined;
   lastIndex = undefined;
   list = undefined;
@@ -35,6 +36,115 @@ class Typography {
   tbLetMinSum = [];
 
   constructor() {
+    this.container = document.querySelector(".text-list");
+
+    console.log(data.length);
+
+    // Add text content from data.js
+    for (var i = 0; i < data.length; i++) {
+      var li = document.createElement("li");
+
+      // top title
+      var temp_tt = document.createElement("div");
+      var temp_tt_classes = ["t", `t${i}`, "tt"];
+      temp_tt.classList.add(...temp_tt_classes);
+      for (var j = 0; j < data[i].topTitle.length; j++) {
+        var temp_tc = document.createElement("div");
+        temp_tc.classList.add("tc");
+        var temp_char = document.createElement("div");
+        temp_char.innerHTML = data[i].topTitle.charAt(j).toUpperCase();
+        temp_tc.appendChild(temp_char);
+        temp_tt.appendChild(temp_tc);
+      }
+
+      // bottom title
+      var temp_tb = document.createElement("div");
+      var temp_tb_classes = ["t", `t${i}`, "tb"];
+      temp_tb.classList.add(...temp_tb_classes);
+      for (var j = 0; j < data[i].botTitle.length; j++) {
+        var temp_tc = document.createElement("div");
+        temp_tc.classList.add("tc");
+        var temp_char = document.createElement("div");
+        temp_char.innerHTML = data[i].botTitle.charAt(j).toUpperCase();
+        temp_tc.appendChild(temp_char);
+        temp_tb.appendChild(temp_tc);
+      }
+
+      var i_l = document.createElement("div");
+      i_l.classList.add("i-l");
+
+      var d1 = document.createElement("div");
+      var d2 = document.createElement("div");
+      var d3 = document.createElement("div");
+      var d4 = document.createElement("div");
+
+      var d1_1 = document.createElement("div");
+      var d1_2 = document.createElement("div");
+      var d1_3 = document.createElement("div");
+      d1_1.innerHTML = "A";
+      d1_2.innerHTML = data[i].infoLeft.a[0];
+      d1_3.innerHTML = data[i].infoLeft.a[1];
+      d1.appendChild(d1_1);
+      d1.appendChild(d1_2);
+      d1.appendChild(d1_3);
+
+      var d2_1 = document.createElement("div");
+      var d2_2 = document.createElement("div");
+      var d2_3 = document.createElement("div");
+      d2_1.innerHTML = "A";
+      d2_2.innerHTML = data[i].infoLeft.b[0];
+      d2_3.innerHTML = data[i].infoLeft.b[1];
+      d2.appendChild(d2_1);
+      d2.appendChild(d2_2);
+      d2.appendChild(d2_3);
+
+      var d3_1 = document.createElement("div");
+      var d3_2 = document.createElement("div");
+      var d3_3 = document.createElement("div");
+      d3_1.innerHTML = "A";
+      d3_2.innerHTML = data[i].infoLeft.c[0];
+      d3_3.innerHTML = data[i].infoLeft.c[1];
+      d3.appendChild(d3_1);
+      d3.appendChild(d3_2);
+      d3.appendChild(d3_3);
+
+      var d4_1 = document.createElement("div");
+      var d4_2 = document.createElement("div");
+      var d4_3 = document.createElement("div");
+      d4_1.innerHTML = "A";
+      d4_2.innerHTML = data[i].infoLeft.d[0];
+      d4_3.innerHTML = data[i].infoLeft.d[1];
+      d4.appendChild(d4_1);
+      d4.appendChild(d4_2);
+      d4.appendChild(d4_3);
+
+      i_l.appendChild(d1);
+      i_l.appendChild(d2);
+      i_l.appendChild(d3);
+      i_l.appendChild(d4);
+
+      var i_r = document.createElement("div");
+      i_r.classList.add("i-r");
+
+      var b1 = document.createElement("div");
+      var b1_1 = document.createElement("div");
+      b1_1.innerHTML = data[i].infoRight.top;
+      b1.appendChild(b1_1);
+      i_r.appendChild(b1);
+
+      var b2 = document.createElement("div");
+      var b2_1 = document.createElement("div");
+      b2_1.innerHTML = data[i].infoRight.bot;
+      b2.appendChild(b2_1);
+      i_r.appendChild(b2);
+
+      li.appendChild(temp_tt);
+      li.appendChild(temp_tb);
+      li.appendChild(i_l);
+      li.appendChild(i_r);
+      this.container.appendChild(li);
+    }
+
     this.list = document.querySelectorAll(".text-list li");
 
     for (var i = 0; i < this.list.length - 1; i++) {
