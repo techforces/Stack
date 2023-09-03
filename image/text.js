@@ -8,6 +8,8 @@ class Typography {
   list = undefined;
   t = undefined;
 
+  screenFraction = undefined;
+
   // State management, check if the text should be hidden in fact
   visible = false;
 
@@ -37,8 +39,7 @@ class Typography {
 
   constructor() {
     this.container = document.querySelector(".text-list");
-
-    console.log(data.length);
+    this.screenFraction = window.innerWidth / 100;
 
     // Add text content from data.js
     for (var i = 0; i < data.length; i++) {
@@ -146,101 +147,111 @@ class Typography {
     }
 
     this.list = document.querySelectorAll(".text-list li");
+    setTimeout(() => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.tt[i] = this.list[i].querySelector(".tt");
+        this.ttCov[i] = this.tt[i].querySelectorAll(".tc");
+        this.ttCovLet[i] = this.tt[i].querySelectorAll(".tc div");
 
-    for (var i = 0; i < this.list.length - 1; i++) {
-      this.tt[i] = this.list[i].querySelector(".tt");
-      this.ttCov[i] = this.tt[i].querySelectorAll(".tc");
-      this.ttCovLet[i] = this.tt[i].querySelectorAll(".tc div");
+        this.ttLetWMax[i] = [];
+        this.ttLetWMin[i] = [];
 
-      this.ttLetWMax[i] = [];
-      this.ttLetWMin[i] = [];
+        this.ttLetMaxSum[i] = [];
+        this.ttLetMinSum[i] = [];
 
-      this.ttLetMaxSum[i] = [];
-      this.ttLetMinSum[i] = [];
+        let maxSum = 0;
+        let minSum = 0;
 
-      let maxSum = 0;
-      let minSum = 0;
-
-      for (var j = 0; j < this.ttCovLet[i].length; j++) {
-        this.ttCovLet[i][j].style.transform = "translateX(100%)";
-        this.ttCovLet[i][
-          j
-        ].style.color = `rgb(${data[i].color.r}, ${data[i].color.g}, ${data[i].color.b})`;
-        this.ttLetWMax[i][j] = window
-          .getComputedStyle(this.ttCov[i][j], null)
-          .getPropertyValue("width");
-        this.ttLetWMin[i][j] = window
-          .getComputedStyle(this.ttCovLet[i][j], null)
-          .getPropertyValue("width");
-
-        this.ttLetMaxSum[i][j] = maxSum;
-        this.ttLetMinSum[i][j] = minSum;
-
-        // get integer part if the value is not float
-        if (this.ttLetWMax[i][j].match(/\d+\.\d+/) == null) {
-          maxSum += parseFloat(this.ttLetWMax[i][j].match(/\d+/)[0]);
-        } else {
-          maxSum += parseFloat(this.ttLetWMax[i][j].match(/\d+\.\d+/)[0]);
-        }
-
-        if (this.ttLetWMin[i][j].match(/\d+\.\d+/) == null) {
-          minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+/)[0]);
-        } else {
-          minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
-        }
-      }
-
-      this.tb[i] = this.list[i].querySelector(".tb");
-      if (this.tb[i] != null) {
-        this.tbCov[i] = this.tb[i].querySelectorAll(".tc");
-        this.tbCovLet[i] = this.tb[i].querySelectorAll(".tc div");
-        this.tbLetWMin[i] = [];
-        this.tbLetWMax[i] = [];
-
-        this.tbLetMaxSum[i] = [];
-        this.tbLetMinSum[i] = [];
-
-        maxSum = 0;
-        minSum = 0;
-
-        for (var j = 0; j < this.tbCovLet[i].length; j++) {
-          this.tbCovLet[i][j].style.transform = "translateX(100%)";
-          this.tbCovLet[i][
+        for (var j = 0; j < this.ttCovLet[i].length; j++) {
+          this.ttCovLet[i][j].style.transform = "translateX(100%)";
+          this.ttCovLet[i][
             j
           ].style.color = `rgb(${data[i].color.r}, ${data[i].color.g}, ${data[i].color.b})`;
-          this.tbLetWMax[i][j] = window
-            .getComputedStyle(this.tbCov[i][j], null)
+          this.ttLetWMax[i][j] = window
+            .getComputedStyle(this.ttCov[i][j], null)
             .getPropertyValue("width");
-          this.tbLetWMin[i][j] = window
-            .getComputedStyle(this.tbCovLet[i][j], null)
+          this.ttLetWMin[i][j] = window
+            .getComputedStyle(this.ttCovLet[i][j], null)
             .getPropertyValue("width");
-
-          this.tbLetMaxSum[i][j] = maxSum;
-          this.tbLetMinSum[i][j] = minSum;
 
           // get integer part if the value is not float
-          if (this.tbLetWMax[i][j].match(/\d+\.\d+/) == null) {
-            maxSum += parseFloat(this.tbLetWMax[i][j].match(/\d+/)[0]);
+          if (this.ttLetWMax[i][j].match(/\d+\.\d+/) == null) {
+            maxSum +=
+              parseFloat(this.ttLetWMax[i][j].match(/\d+/)[0]) +
+              data[i].topGaps[j] * this.screenFraction;
           } else {
-            maxSum += parseFloat(this.tbLetWMax[i][j].match(/\d+\.\d+/)[0]);
+            maxSum +=
+              parseFloat(this.ttLetWMax[i][j].match(/\d+\.\d+/)[0]) +
+              data[i].topGaps[j] * this.screenFraction;
           }
 
-          if (this.tbLetWMin[i][j].match(/\d+\.\d+/) == null) {
-            minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+/)[0]);
+          this.ttLetMaxSum[i][j] = maxSum;
+          this.ttLetMinSum[i][j] = minSum;
+
+          if (this.ttLetWMin[i][j].match(/\d+\.\d+/) == null) {
+            minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+/)[0]);
           } else {
-            minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
+            minSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
           }
         }
-      } else {
-        this.tbCov[i] = null;
-        this.tbCovLet[i] = null;
-      }
-    }
 
-    // Set up
-    for (var i = 0; i < this.tt.length; i++) {
-      this.setDefaultPositions(i);
-    }
+        this.tb[i] = this.list[i].querySelector(".tb");
+        if (this.tb[i] != null) {
+          this.tbCov[i] = this.tb[i].querySelectorAll(".tc");
+          this.tbCovLet[i] = this.tb[i].querySelectorAll(".tc div");
+          this.tbLetWMin[i] = [];
+          this.tbLetWMax[i] = [];
+
+          this.tbLetMaxSum[i] = [];
+          this.tbLetMinSum[i] = [];
+
+          maxSum = 0;
+          minSum = 0;
+
+          for (var j = 0; j < this.tbCovLet[i].length; j++) {
+            this.tbCovLet[i][j].style.transform = "translateX(100%)";
+            this.tbCovLet[i][
+              j
+            ].style.color = `rgb(${data[i].color.r}, ${data[i].color.g}, ${data[i].color.b})`;
+            this.tbLetWMax[i][j] = window
+              .getComputedStyle(this.tbCov[i][j], null)
+              .getPropertyValue("width");
+            this.tbLetWMin[i][j] = window
+              .getComputedStyle(this.tbCovLet[i][j], null)
+              .getPropertyValue("width");
+
+            // get integer part if the value is not float
+            if (this.tbLetWMax[i][j].match(/\d+\.\d+/) == null) {
+              maxSum +=
+                parseFloat(this.tbLetWMax[i][j].match(/\d+/)[0]) +
+                data[i].botGaps[j] * this.screenFraction;
+            } else {
+              maxSum +=
+                parseFloat(this.tbLetWMax[i][j].match(/\d+\.\d+/)[0]) +
+                data[i].botGaps[j] * this.screenFraction;
+            }
+
+            this.tbLetMaxSum[i][j] = maxSum;
+            this.tbLetMinSum[i][j] = minSum;
+
+            if (this.tbLetWMin[i][j].match(/\d+\.\d+/) == null) {
+              minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+/)[0]);
+            } else {
+              minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
+            }
+          }
+        } else {
+          this.tbCov[i] = null;
+          this.tbCovLet[i] = null;
+        }
+      }
+
+      // Set up
+
+      for (var i = 0; i < this.tt.length; i++) {
+        this.setDefaultPositions(i);
+      }
+    }, 100);
   }
 
   openText(idx) {
@@ -415,6 +426,7 @@ class Typography {
 
       gsap.to(value, 0.4, {
         l: l,
+        delay: i * 0.015,
         ease: "power1.easeOut",
         onUpdate: () => {
           el.style.left = `${value.l}px`;
@@ -430,6 +442,7 @@ class Typography {
       const that = this;
       gsap.to(value, 0.4, {
         l: l,
+        delay: i * 0.015,
         ease: "power1.easeOut",
         onUpdate: () => {
           el.style.left = `${value.l}px`;
@@ -442,14 +455,18 @@ class Typography {
     let sum = 0;
 
     for (var i = 0; i < this.ttCov[idx].length; i++) {
+      sum +=
+        parseFloat(this.ttLetWMax[idx][i].match(/\d+\.\d+/)[0]) +
+        data[idx].topGaps[i] * this.screenFraction;
       this.ttCov[idx][i].style.left = `${sum}px`;
-      sum += parseFloat(this.ttLetWMax[idx][i].match(/\d+\.\d+/)[0]);
     }
     sum = 0;
     if (this.tbCov[idx] != null) {
       for (var i = 0; i < this.tbCov[idx].length; i++) {
+        sum +=
+          parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]) +
+          data[idx].botGaps[i] * this.screenFraction;
         this.tbCov[idx][i].style.left = `${sum}px`;
-        sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]);
       }
     }
   }

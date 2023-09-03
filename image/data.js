@@ -5,7 +5,9 @@ export const data = [
     bgColor: { r: 51, g: 51, b: 51 },
     color: { r: 255, g: 255, b: 255 },
     topTitle: "Autumn",
+    topGaps: [2, 3, 4, 2, 10, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -35,7 +37,9 @@ export const data = [
     bgColor: { r: 161, g: 99, b: 77 },
     color: { r: 237, g: 238, b: 240 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -65,7 +69,9 @@ export const data = [
     bgColor: { r: 213, g: 213, b: 213 },
     color: { r: 42, g: 42, b: 42 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -95,7 +101,9 @@ export const data = [
     bgColor: { r: 120, g: 95, b: 78 },
     color: { r: 205, g: 185, b: 121 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -125,7 +133,9 @@ export const data = [
     bgColor: { r: 248, g: 248, b: 248 },
     color: { r: 211, g: 180, b: 38 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -155,7 +165,9 @@ export const data = [
     bgColor: { r: 51, g: 51, b: 51 },
     color: { r: 207, g: 196, b: 190 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -185,7 +197,9 @@ export const data = [
     bgColor: { r: 213, g: 226, b: 207 },
     color: { r: 221, g: 158, b: 124 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -215,7 +229,9 @@ export const data = [
     bgColor: { r: 12, g: 24, b: 17 },
     color: { r: 215, g: 222, b: 236 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -245,7 +261,9 @@ export const data = [
     bgColor: { r: 247, g: 234, b: 222 },
     color: { r: 139, g: 167, b: 168 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -275,7 +293,9 @@ export const data = [
     bgColor: { r: 222, g: 222, b: 222 },
     color: { r: 255, g: 142, b: 50 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -306,7 +326,9 @@ export const data = [
     bgColor: { r: 219, g: 226, b: 234 },
     color: { r: 192, g: 112, b: 5 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -336,7 +358,9 @@ export const data = [
     bgColor: { r: 207, g: 217, b: 229 },
     color: { r: 201, g: 49, b: 20 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -367,7 +391,9 @@ export const data = [
     bgColor: { r: 216, g: 239, b: 255 },
     color: { r: 216, g: 165, b: 52 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -397,7 +423,9 @@ export const data = [
     bgColor: { r: 206, g: 206, b: 217 },
     color: { r: 28, g: 28, b: 26 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -427,7 +455,9 @@ export const data = [
     bgColor: { r: 199, g: 195, b: 184 },
     color: { r: 189, g: 96, b: 74 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -457,7 +487,9 @@ export const data = [
     bgColor: { r: 128, g: 176, b: 211 },
     color: { r: 211, g: 33, b: 0 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -487,7 +519,9 @@ export const data = [
     bgColor: { r: 221, g: 221, b: 221 },
     color: { r: 128, g: 176, b: 0 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -517,7 +551,9 @@ export const data = [
     bgColor: { r: 154, g: 153, b: 152 },
     color: { r: 255, g: 182, b: 40 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -547,7 +583,9 @@ export const data = [
     bgColor: { r: 156, g: 168, b: 182 },
     color: { r: 41, g: 32, b: 26 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -578,7 +616,9 @@ export const data = [
     bgColor: { r: 144, g: 151, b: 152 },
     color: { r: 205, g: 197, b: 187 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -608,7 +648,9 @@ export const data = [
     bgColor: { r: 183, g: 202, b: 203 },
     color: { r: 176, g: 65, b: 19 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -638,7 +680,9 @@ export const data = [
     bgColor: { r: 65, g: 51, b: 40 },
     color: { r: 166, g: 189, b: 88 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -668,7 +712,9 @@ export const data = [
     bgColor: { r: 241, g: 229, b: 171 },
     color: { r: 65, g: 70, b: 64 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -698,7 +744,9 @@ export const data = [
     bgColor: { r: 68, g: 64, b: 53 },
     color: { r: 225, g: 211, b: 190 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -728,7 +776,9 @@ export const data = [
     bgColor: { r: 225, g: 184, b: 163 },
     color: { r: 250, g: 254, b: 255 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -758,7 +808,9 @@ export const data = [
     bgColor: { r: 17, g: 11, b: 7 },
     color: { r: 223, g: 150, b: 63 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -788,7 +840,9 @@ export const data = [
     bgColor: { r: 253, g: 253, b: 253 },
     color: { r: 83, g: 70, b: 38 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -818,7 +872,9 @@ export const data = [
     bgColor: { r: 51, g: 51, b: 51 },
     color: { r: 255, g: 255, b: 255 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -848,7 +904,9 @@ export const data = [
     bgColor: { r: 228, g: 212, b: 187 },
     color: { r: 81, g: 120, b: 221 },
     topTitle: "Autumn",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
@@ -878,7 +936,9 @@ export const data = [
     bgColor: { r: 196, g: 199, b: 205 },
     color: { r: 117, g: 79, b: 57 },
     topTitle: "Spring",
+    topGaps: [0, 3, 4, 2, 5, 1],
     botTitle: "Silence",
+    botGaps: [4, 1, 5, 2, 7, 1, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
