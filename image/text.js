@@ -174,10 +174,6 @@ class Typography {
             .getComputedStyle(this.ttCovLet[i][j], null)
             .getPropertyValue("width");
 
-          if (i == 0) {
-            console.log(this.ttCovLet[i][j]);
-          }
-
           this.ttLetMaxSum[i][j] = 0;
           this.ttLetMinSum[i][j] = 0;
 

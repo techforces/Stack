@@ -7,6 +7,7 @@ import { Typography, Information } from "./text";
 import routes from "./routes";
 import { CustomEase } from "gsap/all";
 import Colors from "./color";
+import StackBar from "./bar";
 
 import { data } from "./data";
 
@@ -186,6 +187,9 @@ const colors = new Colors();
 /* Typography */
 const typo = new Typography();
 const info = new Information();
+
+/* StackBar */
+const bar = new StackBar();
 
 let caseIsOpen = false;
 
@@ -508,6 +512,7 @@ canvas.addEventListener("click", () => {
 
         typo.openText(index);
         info.openText(index);
+        bar.openIndex(index);
         colors.toColor(data[index].bgColor, data[index].color);
       } else {
         if (lastIndex != index) {
@@ -517,6 +522,7 @@ canvas.addEventListener("click", () => {
           setTimeout(() => {
             typo.openText(index);
             info.openText(index);
+            bar.openIndex(index);
           }, 150);
 
           // from enlarged state to enlarged state
@@ -633,6 +639,7 @@ document.addEventListener("wheel", (event) => {
 
       typo.closeText(index, index);
       info.closeText(index, index);
+      bar.closeIndex();
       colors.resetColors();
 
       // targetX = (planeWidth + gapMin) * index;

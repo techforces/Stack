@@ -411,6 +411,33 @@ li {
   font-size: 12px;
 }
 
+.stack-bar {
+  display: flex;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+}
+
+.rectangle {
+  width: 9px;
+  height: 15px;
+}
+
+.bar {
+  width: 2px;
+  border: 1px solid #999;
+  height: 15px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.rectangle:hover .bar {
+  border: 1px solid #fff;
+}
+
 @media (min-aspect-ratio: 1660/1200) {
   .t {
     height: 25.125vh;
