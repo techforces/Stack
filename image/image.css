@@ -296,15 +296,11 @@ li {
 
 .t {
   font-family: T;
-  font-size: 33vh;
-  line-height: 25vh;
-  letter-spacing: -0.024em;
-
   display: flex;
   width: min-content;
   height: 25vh;
   left: 40px;
-  /* color: white; */
+  width: calc(100vw - 76px);
 }
 
 .t > div {
@@ -328,7 +324,7 @@ li {
 
 .tb {
   position: absolute;
-  top: calc(50% - 10vh);
+  top: calc(50% - 7vh);
 }
 
 .i-l {
@@ -413,4 +409,38 @@ li {
   top: 50px;
   right: 50px;
   font-size: 12px;
+}
+
+@media (min-aspect-ratio: 1660/1200) {
+  .t {
+    height: 25.125vh;
+    line-height: 27.125vh;
+    font-size: 37.5vh;
+  }
+
+  .t div div {
+    padding-left: 3.3333vw;
+    padding-right: 3.3333vw;
+  }
+}
+
+@media (max-aspect-ratio: 1660/1200) {
+  .t {
+    height: 19.87952vw;
+    line-height: 19.87952vw;
+    font-size: 26.50602vw;
+  }
+
+  .tt {
+    top: calc(50% - 25.6vw);
+  }
+
+  .tb {
+    top: calc(50% - 5vw);
+  }
+
+  .t div div {
+    padding-left: 2.40964vw;
+    padding-right: 2.40964vw;
+  }
 }

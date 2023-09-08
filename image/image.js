@@ -553,27 +553,30 @@ canvas.addEventListener("click", () => {
   }
 });
 
+window.addEventListener("resize", () => {
+  typo.resize();
+});
+
 // reduce plane
 document.addEventListener("keypress", (event) => {
-  if (event.key === " ") {
-    console.log("spacebar");
-    if (!caseIsOpen) {
-      // Hide EXPLORE button
-      exploreText.toPressed();
-      exploreLine.toBottom();
-      exploreIcon.toTop();
-      exploreBtn.style.pointerEvents = "none";
-
-      targetX = (planeWidth + gapMin) * index;
-      for (var i = 0; i < meshes.length; i++) {
-        reducePlane(meshes[i], uniforms[i]);
-      }
-    }
-  } else if (event.key === "c") {
-    closeCase();
-  } else if (event.keyCode === 9) {
-    console.log("tab");
-  }
+  // if (event.key === " ") {
+  //   console.log("spacebar");
+  //   if (!caseIsOpen) {
+  //     // Hide EXPLORE button
+  //     exploreText.toPressed();
+  //     exploreLine.toBottom();
+  //     exploreIcon.toTop();
+  //     exploreBtn.style.pointerEvents = "none";
+  //     targetX = (planeWidth + gapMin) * index;
+  //     for (var i = 0; i < meshes.length; i++) {
+  //       reducePlane(meshes[i], uniforms[i]);
+  //     }
+  //   }
+  // } else if (event.key === "c") {
+  //   closeCase();
+  // } else if (event.keyCode === 9) {
+  //   console.log("tab");
+  // }
 });
 
 document.addEventListener("wheel", (event) => {
