@@ -15,6 +15,8 @@ class Colors {
 
   selector = undefined;
 
+  TRANSITIONING = false;
+
   r = 51;
   g = 51;
   b = 51;
@@ -47,8 +49,8 @@ class Colors {
       t_g: this.t_g,
       t_b: this.t_b,
     };
-
-    gsap.to(value, 1.2, {
+    this.TRANSITIONING = true;
+    const anim = gsap.to(value, 1.2, {
       r: bgObj.r,
       g: bgObj.g,
       b: bgObj.b,
@@ -59,27 +61,31 @@ class Colors {
 
       ease: "power1.easeOut",
       onUpdate: () => {
-        this.r = value.r;
-        this.g = value.g;
-        this.b = value.b;
+        if (this.TRANSITIONING) {
+          this.r = value.r;
+          this.g = value.g;
+          this.b = value.b;
 
-        this.t_r = value.t_r;
-        this.t_g = value.t_g;
-        this.t_b = value.t_b;
-        this.body.style.backgroundColor = `rgb(${value.r}, ${value.g}, ${value.b})`;
-        this.body.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.t_r = value.t_r;
+          this.t_g = value.t_g;
+          this.t_b = value.t_b;
+          this.body.style.backgroundColor = `rgb(${value.r}, ${value.g}, ${value.b})`;
+          this.body.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
-        this.e_t_c.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.e_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.e_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.e_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.e_t_c.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.e_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.e_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.e_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
-        this.p_t_c.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.p_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.p_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
-        this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.p_t_c.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.p_l_c.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.p_t_line.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
-        this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+        } else {
+          anim.kill();
+        }
       },
     });
   }
@@ -93,6 +99,8 @@ class Colors {
       t_g: this.t_g,
       t_b: this.t_b,
     };
+
+    this.TRANSITIONING = false;
 
     gsap.to(value, 0.4, {
       r: 51,
