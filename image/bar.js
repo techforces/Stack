@@ -1,3 +1,5 @@
+import { gsap } from "gsap";
+
 class StackBar {
   // rectangles
   recs = undefined;
@@ -20,21 +22,43 @@ class StackBar {
   }
 
   openIndex(idx) {
-    if (this.current != undefined) {
-      this.recs[this.current].style.width = "9px";
-      this.bars[this.current].style.width = "2px";
-    }
+    this.closeIndex();
 
-    this.current = idx;
-    console.log(idx);
-    this.recs[idx].style.width = "28px";
-    this.bars[idx].style.width = "28px";
+    let value = {
+      rec: 9,
+      bar: 2,
+    };
+
+    gsap.to(value, 0.4, {
+      rec: 28,
+      bar: 28,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        this.recs[idx].style.width = `${value.rec}px`;
+        this.bars[idx].style.width = `${value.bar}px`;
+      },
+      onComplete: () => {
+        this.current = idx;
+      },
+    });
   }
 
   closeIndex() {
     if (this.current != undefined) {
-      this.recs[this.current].style.width = "9px";
-      this.bars[this.current].style.width = "2px";
+      let value = {
+        rec: 28,
+        bar: 28,
+      };
+
+      gsap.to(value, 0.35, {
+        rec: 9,
+        bar: 2,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          this.recs[this.current].style.width = `${value.rec}px`;
+          this.bars[this.current].style.width = `${value.bar}px`;
+        },
+      });
     }
   }
 }
