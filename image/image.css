@@ -423,6 +423,9 @@ li {
 .rectangle {
   width: 9px;
   height: 15px;
+  position: relative;
+  font-size: 12px;
+  display: flex;
 }
 
 .bar {
@@ -436,6 +439,38 @@ li {
 
 .rectangle:hover .bar {
   border: 1px solid #fff;
+}
+
+.bar-left {
+  overflow: hidden;
+  width: 0px;
+  height: 15px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.bar-left-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: max-content;
+  height: 100%;
+}
+
+.bar-right {
+  overflow: hidden;
+  width: 0px;
+  height: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.bar-right-content {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 @media (min-aspect-ratio: 1660/1200) {
