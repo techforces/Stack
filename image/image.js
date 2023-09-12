@@ -706,6 +706,8 @@ function update() {
         (perspective / 2) * Math.abs(impulse) * scale_coef +
         landDispZ * (i + 1);
 
+      bar.scaleBar(i, scale_coef * Math.abs(impulse));
+
       // Rotation (converted to radians)
       if (impulse > 0) {
         if (alpha > 0) {

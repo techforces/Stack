@@ -150,7 +150,7 @@ class Colors {
         for (var i = 0; i < data.length; i++) {
           this.bars[
             i
-          ].style.borderColor = `rgba(${value.t_r}, ${value.t_g}, ${value.t_b}, 0.1)`;
+          ].style.borderColor = `rgba(${value.t_r}, ${value.t_g}, ${value.t_b}, 0.5)`;
         }
       },
     });

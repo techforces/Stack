@@ -413,9 +413,9 @@ li {
 
 .stack-bar-container {
   position: absolute;
-  top: 50px;
+  top: 32px;
   left: 50%;
-  height: 30px;
+  height: 50px;
   transform: translateX(-50%);
   z-index: 12;
   overflow: hidden;
@@ -425,11 +425,12 @@ li {
 
 .stack-bar {
   display: flex;
+  align-items: center;
 }
 
 .rectangle {
   width: 9px;
-  height: 15px;
+  height: max-content;
   position: relative;
   font-size: 12px;
   display: flex;

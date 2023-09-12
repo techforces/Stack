@@ -135,7 +135,7 @@ class StackBar {
 
   showBar() {
     var value = {
-      y: -175,
+      y: -250,
     };
 
     gsap.to(value, 0.4, {
@@ -153,12 +153,16 @@ class StackBar {
     };
 
     gsap.to(value, 0.4, {
-      y: -175,
+      y: -250,
       ease: "power1.easeOut",
       onUpdate: () => {
         this.stack.style.transform = `translateY(${value.y}%)`;
       },
     });
+  }
+
+  scaleBar(idx, scale) {
+    this.bars[idx].style.height = `${(1 + scale * 2) * 15}px`;
   }
 }
 
