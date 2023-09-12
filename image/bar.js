@@ -10,6 +10,8 @@ class StackBar {
   rights = undefined;
   current = undefined;
 
+  OPEN = false;
+
   constructor() {
     this.stack = document.querySelector(".stack-bar");
 
@@ -63,37 +65,51 @@ class StackBar {
   }
 
   openIndex(idx) {
-    // if (idx != this.current) {
-    this.closeIndex();
+    if (idx != this.current || !this.OPEN) {
+      if (this.OPEN) {
+        this.closeIndex();
+      }
 
-    let value = {
-      rec: 9,
-      bar: 2,
-      l_c: 0,
-      r_c: 0,
-    };
+      this.bars[idx].style.opacity = "1";
 
-    gsap.to(value, 0.24, {
-      rec: 98,
-      bar: 28,
-      l_c: 25,
-      r_c: 25,
-      ease: "power1.easeOut",
-      onUpdate: () => {
-        this.recs[idx].style.width = `${value.rec}px`;
-        this.bars[idx].style.width = `${value.bar}px`;
-        this.lefts[idx].style.width = `${value.l_c}px`;
-        this.rights[idx].style.width = `${value.r_c}px`;
-      },
-      onComplete: () => {
-        this.current = idx;
-      },
-    });
-    // }
+      let value = {
+        rec: 9,
+        bar: 2,
+        l_c: 0,
+        r_c: 0,
+      };
+
+      gsap.to(value, 0.24, {
+        rec: 98,
+        bar: 28,
+        l_c: 25,
+        r_c: 25,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          this.recs[idx].style.width = `${value.rec}px`;
+          this.bars[idx].style.width = `${value.bar}px`;
+          this.lefts[idx].style.width = `${value.l_c}px`;
+          this.rights[idx].style.width = `${value.r_c}px`;
+        },
+        onComplete: () => {
+          this.current = idx;
+          this.OPEN = true;
+        },
+      });
+    }
   }
 
   closeIndex() {
     if (this.current != undefined) {
+      var elem = this.bars[this.current];
+      if (elem.style.removeProperty) {
+        elem.style.removeProperty("opacity");
+      } else {
+        elem.style.removeAttribute("opacity");
+      }
+
+      this.OPEN = false;
+
       let value = {
         rec: 98,
         bar: 28,
@@ -119,7 +135,7 @@ class StackBar {
 
   showBar() {
     var value = {
-      y: -115,
+      y: -175,
     };
 
     gsap.to(value, 0.4, {
@@ -137,7 +153,7 @@ class StackBar {
     };
 
     gsap.to(value, 0.4, {
-      y: -115,
+      y: -175,
       ease: "power1.easeOut",
       onUpdate: () => {
         this.stack.style.transform = `translateY(${value.y}%)`;

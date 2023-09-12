@@ -415,9 +415,12 @@ li {
   position: absolute;
   top: 50px;
   left: 50%;
+  height: 30px;
   transform: translateX(-50%);
   z-index: 12;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .stack-bar {
@@ -434,7 +437,8 @@ li {
 
 .bar {
   width: 2px;
-  border: 1px solid #999;
+  border: 1px solid #fff;
+  opacity: 0.4;
   height: 15px;
   box-sizing: border-box;
   margin: 0 auto;
@@ -442,7 +446,7 @@ li {
 }
 
 .rectangle:hover .bar {
-  border: 1px solid #fff;
+  opacity: 1;
 }
 
 .bar-left {
