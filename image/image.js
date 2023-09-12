@@ -182,8 +182,6 @@ const imageList = new ImageList();
 
 const coverDiv = document.querySelector(".cover");
 
-const colors = new Colors();
-
 /* Typography */
 const typo = new Typography();
 const info = new Information();
@@ -191,6 +189,7 @@ const info = new Information();
 /* StackBar */
 const bar = new StackBar();
 
+const colors = new Colors();
 let caseIsOpen = false;
 
 exploreBtn.addEventListener("click", (e) => {
@@ -220,6 +219,8 @@ exploreBtn.addEventListener("click", (e) => {
   projectsBtn.style.pointerEvents = "all";
 
   typo.squishText(index);
+
+  bar.hideBar();
 });
 
 projectsBtn.addEventListener("click", (e) => {
@@ -249,6 +250,8 @@ projectsBtn.addEventListener("click", (e) => {
   projectsBtn.style.pointerEvents = "none";
 
   typo.unsquishText(index);
+
+  bar.showBar();
 });
 
 function openCase() {

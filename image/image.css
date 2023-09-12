@@ -411,13 +411,17 @@ li {
   font-size: 12px;
 }
 
-.stack-bar {
-  display: flex;
+.stack-bar-container {
   position: absolute;
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
+  overflow: hidden;
+}
+
+.stack-bar {
+  display: flex;
 }
 
 .rectangle {

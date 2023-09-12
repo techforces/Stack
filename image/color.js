@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { data } from "./data";
 
 class Colors {
   body = undefined;
@@ -12,6 +13,8 @@ class Colors {
   e_t_c = undefined;
   e_t_line = undefined;
   e_s_i = undefined;
+
+  bars = undefined;
 
   selector = undefined;
 
@@ -38,6 +41,9 @@ class Colors {
     this.e_s_i = document.querySelector(".e-s-i");
 
     this.selector = document.querySelector(".selector-indicator");
+
+    this.bars = document.querySelectorAll(".bar");
+    console.log(this.bars);
   }
 
   toColor(bgObj, colObj) {
@@ -83,6 +89,12 @@ class Colors {
           this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
           this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
+          for (var i = 0; i < data.length; i++) {
+            this.bars[
+              i
+            ].style.borderColor = `rgba(${value.t_r}, ${value.t_g}, ${value.t_b}, 0.6)`;
+          }
         } else {
           anim.kill();
         }
@@ -134,6 +146,12 @@ class Colors {
         this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
         this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
+        for (var i = 0; i < data.length; i++) {
+          this.bars[
+            i
+          ].style.borderColor = `rgba(${value.t_r}, ${value.t_g}, ${value.t_b}, 0.6)`;
+        }
       },
     });
   }

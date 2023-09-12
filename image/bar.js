@@ -3,6 +3,7 @@ import { data } from "./data";
 
 class StackBar {
   // rectangles
+  stack = undefined;
   recs = undefined;
   bars = undefined;
   lefts = undefined;
@@ -10,7 +11,7 @@ class StackBar {
   current = undefined;
 
   constructor() {
-    let stack = document.querySelector(".stack-bar");
+    this.stack = document.querySelector(".stack-bar");
 
     for (var i = 0; i < data.length; i++) {
       var tmp_rec = document.createElement("div");
@@ -42,7 +43,7 @@ class StackBar {
       tmp_rec.appendChild(tmp_bar_left);
       tmp_rec.appendChild(tmp_bar);
       tmp_rec.appendChild(tmp_bar_right);
-      stack.appendChild(tmp_rec);
+      this.stack.appendChild(tmp_rec);
     }
 
     this.recs = document.querySelectorAll(".rectangle");
@@ -114,6 +115,34 @@ class StackBar {
         },
       });
     }
+  }
+
+  showBar() {
+    var value = {
+      y: -115,
+    };
+
+    gsap.to(value, 0.4, {
+      y: 0,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        this.stack.style.transform = `translateY(${value.y}%)`;
+      },
+    });
+  }
+
+  hideBar() {
+    var value = {
+      y: 0,
+    };
+
+    gsap.to(value, 0.4, {
+      y: -115,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        this.stack.style.transform = `translateY(${value.y}%)`;
+      },
+    });
   }
 }
 
