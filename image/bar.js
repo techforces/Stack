@@ -56,11 +56,10 @@ class StackBar {
 
     for (var i = 0; i < this.recs.length; i++) {
       this.bars[i] = this.recs[i].querySelector(".bar");
-      // this.recs[i].setAttribute("data-index", `i`);
       this.recs[i].dataset.index = i;
-      this.recs[i].addEventListener("click", (event) => {
-        this.openIndex(event.srcElement.dataset.index);
-      });
+      // this.recs[i].addEventListener("click", (event) => {
+      //   this.openIndex(event.srcElement.dataset.index);
+      // });
     }
   }
 
@@ -163,6 +162,10 @@ class StackBar {
 
   scaleBar(idx, scale) {
     this.bars[idx].style.height = `${(1 + scale * 2) * 15}px`;
+  }
+
+  returnRectangles() {
+    return this.recs;
   }
 }
 

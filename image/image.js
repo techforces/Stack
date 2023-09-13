@@ -188,6 +188,14 @@ const info = new Information();
 
 /* StackBar */
 const bar = new StackBar();
+const recs = bar.returnRectangles();
+console.log(recs);
+
+for (var i = 0; i < recs.length; i++) {
+  recs[i].addEventListener("click", (event) => {
+    scrollTo(event.srcElement.dataset.index);
+  });
+}
 
 const colors = new Colors();
 let caseIsOpen = false;
@@ -677,10 +685,27 @@ function loadImage(i) {
 loadImage(imgIndex);
 loader.load();
 
+function scrollTo(idx) {
+  gsap.to(camera.position, 0.8, {
+    x: meshes[idx].position.x,
+    ease: "power1.easeOut",
+  });
+
+  gsap.to({ val: imDelta }, 0.75, {
+    val: Math.min(400, (meshes[idx].position.x - camera.position.x) / 3),
+    onUpdate: function () {
+      imDelta = this.targets()[0].val;
+    },
+  });
+}
+
 function update() {
   if (isLoaded) {
     imDelta = imDelta * 0.92;
-    impulse = imDelta / imDeltaMax;
+
+    impulse = Math.min(Math.max(-1, imDelta / imDeltaMax), 1);
+    if (Math.abs(impulse) < 0.00005) impulse = 0;
+    console.log(impulse);
 
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~

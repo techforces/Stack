@@ -43,7 +43,6 @@ class Colors {
     this.selector = document.querySelector(".selector-indicator");
 
     this.bars = document.querySelectorAll(".bar");
-    console.log(this.bars);
   }
 
   toColor(bgObj, colObj) {
