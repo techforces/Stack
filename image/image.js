@@ -189,11 +189,14 @@ const info = new Information();
 /* StackBar */
 const bar = new StackBar();
 const recs = bar.returnRectangles();
-console.log(recs);
 
 for (var i = 0; i < recs.length; i++) {
   recs[i].addEventListener("click", (event) => {
-    scrollTo(event.srcElement.dataset.index);
+    if (enlarged) {
+      jumpTo(event.srcElement.dataset.index);
+    } else {
+      scrollTo(event.srcElement.dataset.index);
+    }
   });
 }
 
@@ -267,9 +270,11 @@ function openCase() {
 
   if (meshes[index - 1]) {
     prev = meshes[index - 1].offset_x;
+    console.log(prev);
   }
   if (meshes[index + 1]) {
     next = meshes[index + 1].offset_x;
+    console.log(next);
   }
 
   let value = {
@@ -294,11 +299,15 @@ function openCase() {
     });
   }
 
+  console.log(index, typeof index, meshes[index + 1]);
+
   if (meshes[index + 1]) {
+    console.log("next true");
     gsap.to(value, explr_interval, {
       next: window.innerWidth / 2 - currentWidth / 2 - gap,
       ease: explr_ease,
       onUpdate: function () {
+        console.log(this.targets()[0].next);
         meshes[index + 1].offset_x = this.targets()[0].next;
       },
     });
@@ -699,13 +708,78 @@ function scrollTo(idx) {
   });
 }
 
+function jumpTo(idx) {
+  index = parseInt(idx);
+
+  localShift = index * (currentWidth + gap) - absoluteShift;
+  absoluteShift = index * (currentWidth + gap);
+  camera.position.x -= localShift;
+
+  targetX = 0;
+
+  let val = {
+    x: camera.position.x,
+    i: idx,
+  };
+
+  const anim = gsap.to(val, 0.8, {
+    x: targetX,
+    ease: "power1.easeOut",
+    onUpdate: () => {
+      if (val.i == index) {
+        camera.position.x = val.x;
+      } else {
+        anim.kill();
+      }
+    },
+  });
+
+  if (lastIndex != index) {
+    typo.closeText(lastIndex, index);
+    info.closeText(lastIndex, index);
+
+    setTimeout(() => {
+      typo.openText(index);
+      info.openText(index);
+      bar.openIndex(index);
+    }, 150);
+
+    // from enlarged state to enlarged state
+    // Hide EXPLORE button
+    exploreText.toPressed();
+    exploreLine.toBottom();
+    exploreIcon.toTop();
+    exploreBtn.style.pointerEvents = "none";
+
+    colors.toColor(data[index].bgColor, data[index].color);
+
+    setTimeout(() => {
+      // Show EXPLORE button
+      exploreText.toVisible();
+      exploreLine.fromTop();
+      exploreIcon.fromBottom();
+      exploreBtn.style.pointerEvents = "all";
+    }, 500);
+  }
+
+  caseIndex = parseInt(idx);
+  imageList.adjustSelector(data[caseIndex]);
+  imageList.adjustStack(data[caseIndex]);
+
+  for (var i = 0; i < meshes.length; i++) {
+    uniforms[i].selected.value = false;
+  }
+  uniforms[index].selected.value = true;
+
+  lastIndex = index;
+}
+
 function update() {
   if (isLoaded) {
     imDelta = imDelta * 0.92;
 
     impulse = Math.min(Math.max(-1, imDelta / imDeltaMax), 1);
     if (Math.abs(impulse) < 0.00005) impulse = 0;
-    console.log(impulse);
 
     for (var i = 0; i < meshes.length; i++) {
       // Rotation coefficient: for wave effect ~
