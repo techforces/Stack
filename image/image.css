@@ -434,6 +434,7 @@ li {
   position: relative;
   font-size: 12px;
   display: flex;
+  align-items: center;
 }
 
 .bar {
@@ -456,7 +457,8 @@ li {
   height: 15px;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .bar-left-content {
@@ -473,7 +475,8 @@ li {
   height: 15px;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .bar-right-content {
