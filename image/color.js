@@ -114,9 +114,9 @@ class Colors {
     this.TRANSITIONING = false;
 
     gsap.to(value, 0.4, {
-      r: 51,
-      g: 51,
-      b: 51,
+      r: 20,
+      g: 20,
+      b: 20,
 
       t_r: 255,
       t_g: 255,
