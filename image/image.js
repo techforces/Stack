@@ -130,7 +130,69 @@ manager.onStart = function (url, itemsLoaded, itemsTotal) {
 manager.onLoad = function () {
   // console.log("Loading complete!");
 
-  createPlanes();
+  var value1 = {
+    x: 0,
+  };
+  var value2 = {
+    x: 0,
+  };
+  var value3 = {
+    x: 0,
+  };
+
+  gsap.to(value1, 0.4, {
+    x: 115,
+    delay: 0.2,
+    ease: "power1.easeOut",
+    onUpdate: () => {
+      firstDigit.style.transform = `translateX(${value1.x}%)`;
+    },
+  });
+
+  gsap.to(value2, 0.4, {
+    x: 115,
+    delay: 0.25,
+    ease: "power1.easeOut",
+    onUpdate: () => {
+      secondDigit.style.transform = `translateX(${value2.x}%)`;
+    },
+  });
+
+  gsap.to(value3, 0.4, {
+    x: 115,
+    delay: 0.3,
+    ease: "power1.easeOut",
+    onUpdate: () => {
+      thirdDigit.style.transform = `translateX(${value3.x}%)`;
+    },
+  });
+
+  console.log(logoLetters);
+  var values = [
+    { x: -115 },
+    { x: -115 },
+    { x: -115 },
+    { x: -115 },
+    { x: -115 },
+    { x: -115 },
+    { x: -115 },
+  ];
+  for (var i = 0; i < logoLetters.length; i++) {
+    const elem = logoLetters[i];
+    const delay = 0.4 + i * 0.05;
+    const val = values[i];
+    gsap.to(val, 0.4, {
+      x: 0,
+      delay: delay,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        console.log(elem);
+        elem.style.transform = `translateX(${val.x}%)`;
+      },
+    });
+  }
+
+  setTimeout(createPlanes, 100);
 };
 
 manager.onError = function () {
@@ -142,11 +204,32 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
   //   "Loading file: " +
   //     url +
   //     ".\nLoaded " +
-  //     itemsLoaded +
+  //     imgIndex +
   //     " of " +
-  //     itemsTotal +
+  //     data.length +
   //     " files."
   // );
+
+  const percentage = Math.floor((imgIndex / data.length) * 100);
+  let progressText;
+  if (percentage < 10) {
+    progressText = `00${percentage}`;
+    firstDigit.innerHTML = "0";
+    secondDigit.innerHTML = "0";
+    thirdDigit.innerHTML = `${percentage}`;
+  } else if (percentage < 100) {
+    progressText = `0${percentage}`;
+    firstDigit.innerHTML = "0";
+    secondDigit.innerHTML = progressText.charAt(1);
+    thirdDigit.innerHTML = progressText.charAt(2);
+  } else {
+    progressText = `100`;
+    firstDigit.innerHTML = "1";
+    secondDigit.innerHTML = "0";
+    thirdDigit.innerHTML = "0";
+  }
+
+  // loadingPerc.innerHTML = progressText;
 };
 
 /* Page transitions */
@@ -181,6 +264,11 @@ const projectIcon = new Icon(".p-s-c");
 const imageList = new ImageList();
 
 const coverDiv = document.querySelector(".cover");
+const loadingPerc = document.querySelector(".percent");
+const firstDigit = document.querySelector(".fst-digit");
+const secondDigit = document.querySelector(".snd-digit");
+const thirdDigit = document.querySelector(".trd-digit");
+const logoLetters = document.querySelectorAll(".logo-letter");
 
 /* Typography */
 const typo = new Typography();
@@ -270,11 +358,9 @@ function openCase() {
 
   if (meshes[index - 1]) {
     prev = meshes[index - 1].offset_x;
-    console.log(prev);
   }
   if (meshes[index + 1]) {
     next = meshes[index + 1].offset_x;
-    console.log(next);
   }
 
   let value = {
@@ -299,15 +385,11 @@ function openCase() {
     });
   }
 
-  console.log(index, typeof index, meshes[index + 1]);
-
   if (meshes[index + 1]) {
-    console.log("next true");
     gsap.to(value, explr_interval, {
       next: window.innerWidth / 2 - currentWidth / 2 - gap,
       ease: explr_ease,
       onUpdate: function () {
-        console.log(this.targets()[0].next);
         meshes[index + 1].offset_x = this.targets()[0].next;
       },
     });
@@ -685,7 +767,7 @@ function loadImage(i) {
       },
       undefined,
       function () {
-        loadImage(loadedImages);
+        loadImage(imgIndex);
       }
     );
   }

@@ -487,6 +487,40 @@ li {
   top: 0;
 }
 
+.percent {
+  display: flex;
+  position: absolute;
+  top: 32px;
+  left: 50px;
+  font-family: T;
+  font-size: 56px;
+  z-index: 13;
+}
+
+.digit {
+  width: max-content;
+  overflow: hidden;
+}
+
+.logo {
+  display: flex;
+  position: absolute;
+  top: 32px;
+  left: 50px;
+  font-family: T;
+  font-size: 56px;
+  z-index: 13;
+}
+
+.letter {
+  width: max-content;
+  overflow: hidden;
+}
+
+.logo-letter {
+  transform: translateX(-115%);
+}
+
 @media (min-aspect-ratio: 1660/1200) {
   .t {
     height: 25.125vh;
