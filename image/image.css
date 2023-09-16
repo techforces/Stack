@@ -385,6 +385,14 @@ li {
   text-transform: uppercase;
 }
 
+.nav > div {
+  overflow: hidden;
+}
+
+.nav > div > div {
+  transform: translateY(150%);
+}
+
 .email {
   position: absolute;
   bottom: 50px;
@@ -426,6 +434,7 @@ li {
 .stack-bar {
   display: flex;
   align-items: center;
+  opacity: 0;
 }
 
 .rectangle {

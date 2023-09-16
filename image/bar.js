@@ -167,6 +167,21 @@ class StackBar {
   returnRectangles() {
     return this.recs;
   }
+
+  appear() {
+    var value = {
+      opacity: 0,
+    };
+
+    gsap.to(value, 0.6, {
+      opacity: 1,
+      delay: 0.9,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        this.stack.style.opacity = `${value.opacity}`;
+      },
+    });
+  }
 }
 
 export default StackBar;

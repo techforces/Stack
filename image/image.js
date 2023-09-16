@@ -167,7 +167,6 @@ manager.onLoad = function () {
     },
   });
 
-  console.log(logoLetters);
   var values = [
     { x: -115 },
     { x: -115 },
@@ -186,11 +185,36 @@ manager.onLoad = function () {
       delay: delay,
       ease: "power1.easeOut",
       onUpdate: () => {
-        console.log(elem);
         elem.style.transform = `translateX(${val.x}%)`;
       },
     });
   }
+
+  var navVals = [
+    { y: 150 },
+    { y: 150 },
+    { y: 150 },
+    { y: 150 },
+    { y: 150 },
+    { y: 150 },
+  ];
+
+  for (var i = 0; i < navDivs.length; i++) {
+    const elem = navDivs[i];
+    const delay = 0.5 + i * 0.05;
+    const val = navVals[i];
+
+    gsap.to(val, 0.4, {
+      y: 0,
+      delay: delay,
+      ease: "power1.easeOut",
+      onUpdate: () => {
+        elem.style.transform = `translateY(${val.y}%)`;
+      },
+    });
+  }
+
+  bar.appear();
 
   setTimeout(createPlanes, 100);
 };
@@ -269,6 +293,9 @@ const firstDigit = document.querySelector(".fst-digit");
 const secondDigit = document.querySelector(".snd-digit");
 const thirdDigit = document.querySelector(".trd-digit");
 const logoLetters = document.querySelectorAll(".logo-letter");
+
+const navDivs = document.querySelectorAll(".nav > div > div");
+console.log(navDivs);
 
 /* Typography */
 const typo = new Typography();
