@@ -779,6 +779,15 @@ document.addEventListener("wheel", (event) => {
   }
 });
 
+window.addEventListener("resize", onWindowResize, false);
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
 /* Load textures */
 const loader = new THREE.TextureLoader(manager);
 const images = document.querySelectorAll(".image");
