@@ -60,14 +60,14 @@ let enlarged = false;
 let absoluteShift = 0;
 let localShift = 0;
 
-let planeWidth = 79;
+let planeWidth = 80;
 let planeHeight = 290;
-let planeWidthBig = 740;
-let planeHeightBig = 420;
+let planeWidthBig = 815;
+let planeHeightBig = 470;
 let currentWidth = planeWidth;
 let currentHeight = planeHeight;
 let gapMin = 15;
-let gapMax = 160;
+let gapMax = 180;
 let gap = gapMin;
 let planeRatio = planeWidth / planeHeight;
 
@@ -91,12 +91,12 @@ const waveRotationAngle = 33;
 // the higher the value, the shorter the duration
 const rotAnimDuration = 20;
 
-const maxWaveSize = window.innerWidth / 1.6;
-const waveHalf = maxWaveSize / 2;
+let maxWaveSize = window.innerWidth / 1.6;
+let waveHalf = maxWaveSize / 2;
 
 // color grading
-const coloredWidth = 300;
-const partiallyColoredWidth = 100;
+let coloredWidth = 300;
+let partiallyColoredWidth = 100;
 
 // explore transition settings
 const explr_interval = 0.5;
@@ -690,7 +690,64 @@ canvas.addEventListener("click", () => {
 
 window.addEventListener("resize", () => {
   typo.resize();
+  onWindowResize();
 });
+
+function onWindowResize() {
+  // console.log("min", planeWidth, planeHeight);
+  // console.log("max", planeWidthBig, planeHeightBig);
+
+  const newW = Math.min(Math.floor(window.innerWidth * 0.65), 815);
+  const newH = Math.floor(newW / 1.734);
+
+  const newMinW = Math.min(Math.floor(window.innerWidth * 0.066), 80);
+  const newMinH = Math.floor(newMinW * 3.625);
+
+  console.log("new", newW, newH);
+
+  const newGap = Math.min(Math.floor(window.innerWidth * 0.095), 180);
+  const newMinGap = Math.min(Math.floor(window.innerWidth * 0.015), 15);
+
+  planeWidthBig = newW;
+  planeHeightBig = newH;
+  gapMax = newGap;
+  gapMin = newMinGap;
+
+  planeWidth = newMinW;
+  planeHeight = newMinH;
+
+  minLength = (currentWidth + gap) * (images.length - 1);
+  maxLength = (planeWidthBig + gapMax) * (images.length - 1);
+
+  if (enlarged) {
+    currentWidth = planeWidthBig;
+    currentHeight = planeHeightBig;
+    gap = gapMax;
+    currLength = maxLength;
+  } else {
+    currentWidth = planeWidth;
+    currentHeight = planeHeight;
+    gap = gapMin;
+    currLength = minLength;
+  }
+
+  for (var i = 0; i < meshes.length; i++) {
+    meshes[i].geometry.dispose();
+    meshes[i].geometry = new THREE.PlaneGeometry(currentWidth, currentHeight);
+    uniforms[i].planeRatio = { value: currentWidth / currentHeight };
+  }
+
+  maxWaveSize = window.innerWidth / 1.6;
+  waveHalf = maxWaveSize / 2;
+
+  coloredWidth = window.innerWidth * 0.15625;
+  partiallyColoredWidth = coloredWidth / 3;
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
 // reduce plane
 document.addEventListener("keypress", (event) => {
@@ -778,15 +835,6 @@ document.addEventListener("wheel", (event) => {
     }
   }
 });
-
-window.addEventListener("resize", onWindowResize, false);
-
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
 
 /* Load textures */
 const loader = new THREE.TextureLoader(manager);

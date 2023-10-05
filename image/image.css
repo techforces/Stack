@@ -563,3 +563,10 @@ li {
     padding-right: 2.40964vw;
   }
 }
+
+@media (max-width: 1300px) {
+  .i-l,
+  .i-r {
+    display: none;
+  }
+}
