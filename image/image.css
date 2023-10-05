@@ -201,11 +201,11 @@ img {
 
 .case-img-container {
   position: absolute;
-  top: 125%;
+  top: 140%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 740px;
-  height: 420px;
+  width: min(65vw, 815px);
+  height: calc(min(65vw, 815px) / 1.734);
   background-color: #ddd;
 }
 .case-img-container img {
@@ -567,6 +567,12 @@ li {
 @media (max-width: 1300px) {
   .i-l,
   .i-r {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .image-selector {
     display: none;
   }
 }

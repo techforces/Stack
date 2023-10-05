@@ -290,7 +290,7 @@ class ImageList {
   idx = 0;
   prevIdx = 0;
 
-  imgPos = [50, 125, 125, 125, 125, 125, 125, 125, 125, 125];
+  imgPos = [50, 140, 140, 140, 140, 140, 140, 140, 140, 140];
 
   selector = undefined;
   minImgs = [];
@@ -371,13 +371,13 @@ class ImageList {
         });
       } else {
         gsap.to(value, 0.4, {
-          hide: 125,
+          hide: 140,
           show: 50,
           ease: "power1.easeOut",
           onStart: () => {
             for (var i = that.imgPos.length; i > show; i--) {
               if (i != hide) {
-                that.imgPos[i] = 125;
+                that.imgPos[i] = 140;
               }
             }
           },
@@ -395,7 +395,7 @@ class ImageList {
   resetStack() {
     this.prevIdx = 0;
     this.idx = 0;
-    this.imgPos = [125, 125, 125, 125, 125, 125, 125, 125, 125, 125];
+    this.imgPos = [140, 140, 140, 140, 140, 140, 140, 140, 140, 140];
     for (var i = 0; i < this.imgPos.length; i++) {
       if (i != this.idx) {
         this.images[i].style.top = `${this.imgPos[i]}%`;
@@ -437,7 +437,7 @@ class ImageList {
 
   openImages() {
     const value = {
-      top: 125,
+      top: 140,
       selectorY: 100,
     };
 
@@ -526,7 +526,7 @@ class ImageList {
     const that = this;
 
     gsap.to(value, 0.4, {
-      top: 125,
+      top: 140,
       selectorY: 100,
       ease: "power1.easeOut",
 

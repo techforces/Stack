@@ -62,8 +62,8 @@ let localShift = 0;
 
 let planeWidth = 80;
 let planeHeight = 290;
-let planeWidthBig = 815;
-let planeHeightBig = 470;
+let planeWidthBig = Math.min(Math.floor(window.innerWidth * 0.65), 815);
+let planeHeightBig = Math.floor(planeWidthBig / 1.734);
 let currentWidth = planeWidth;
 let currentHeight = planeHeight;
 let gapMin = 15;
