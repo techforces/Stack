@@ -60,8 +60,8 @@ let enlarged = false;
 let absoluteShift = 0;
 let localShift = 0;
 
-let planeWidth = 80;
-let planeHeight = 290;
+let planeWidth = Math.min(Math.floor(window.innerWidth * 0.066), 80);
+let planeHeight = planeWidth * 3.625;
 let planeWidthBig = Math.min(Math.floor(window.innerWidth * 0.65), 815);
 let planeHeightBig = Math.floor(planeWidthBig / 1.734);
 let currentWidth = planeWidth;
@@ -295,7 +295,6 @@ const thirdDigit = document.querySelector(".trd-digit");
 const logoLetters = document.querySelectorAll(".logo-letter");
 
 const navDivs = document.querySelectorAll(".nav > div > div");
-console.log(navDivs);
 
 /* Typography */
 const typo = new Typography();
@@ -702,8 +701,6 @@ function onWindowResize() {
 
   const newMinW = Math.min(Math.floor(window.innerWidth * 0.066), 80);
   const newMinH = Math.floor(newMinW * 3.625);
-
-  console.log("new", newW, newH);
 
   const newGap = Math.min(Math.floor(window.innerWidth * 0.095), 180);
   const newMinGap = Math.min(Math.floor(window.innerWidth * 0.015), 15);

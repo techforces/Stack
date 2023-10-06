@@ -2,12 +2,12 @@ export const data = [
   {
     id: 0,
     title: "first",
-    bgColor: { r: 213, g: 213, b: 213 },
+    bgColor: { r: 255, g: 255, b: 255 },
     color: { r: 190, g: 142, b: 50 },
     topTitle: "Autumn",
-    topGaps: [12, 3, 17, 2, 10, 4],
+    topGaps: [9, 3, 17, 2, 10, 4],
     botTitle: "Silence",
-    botGaps: [15, 5, 5, 2, 15, 5, 6],
+    botGaps: [12, 5, 5, 2, 15, 5, 6],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],

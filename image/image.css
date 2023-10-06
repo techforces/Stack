@@ -576,3 +576,9 @@ li {
     display: none;
   }
 }
+
+@media (max-width: 700px) {
+  .stack-bar-container {
+    display: none;
+  }
+}

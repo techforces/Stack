@@ -39,7 +39,14 @@ class Typography {
 
   constructor() {
     this.container = document.querySelector(".text-list");
-    this.screenFraction = window.innerWidth / 100;
+    if (window.innerWidth / window.innerHeight > 1.38) {
+      // min aspect ratio
+      this.screenFraction = window.innerWidth / 100;
+    } else {
+      // max aspect ratio
+      this.screenFraction = window.innerWidth / 141.5;
+    }
+    console.log(this.screenFraction);
 
     // Add text content from data.js
     for (var i = 0; i < data.length; i++) {
@@ -456,34 +463,31 @@ class Typography {
   }
 
   setDefaultPositions(idx) {
-    let sum = 0;
+    let offset = 0;
 
     for (var i = 0; i < this.ttCov[idx].length; i++) {
-      sum = this.ttLetMaxSum[idx][i];
-      this.ttCov[idx][i].style.left = `${sum}px`;
-      // if (this.ttLetWMax[idx][i].match(/\d+\.\d+/) == null) {
-      //   sum += parseFloat(this.ttLetWMax[idx][i].match(/\d+/)[0]);
-      // } else {
-      //   sum += parseFloat(this.ttLetWMax[idx][i].match(/\d+\.\d+/)[0]);
-      // }
+      offset = this.ttLetMaxSum[idx][i];
+      this.ttCov[idx][i].style.left = `${offset}px`;
     }
-    sum = 0;
+    offset = 0;
     if (this.tbCov[idx] != null) {
       for (var i = 0; i < this.tbCov[idx].length; i++) {
-        sum = this.tbLetMaxSum[idx][i];
-        // sum += data[idx].botGaps[i] * this.screenFraction;
-        this.tbCov[idx][i].style.left = `${sum}px`;
-        // if (this.tbLetWMax[idx][i].match(/\d+\.\d+/) == null) {
-        //   sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+/)[0]);
-        // } else {
-        //   sum += parseFloat(this.tbLetWMax[idx][i].match(/\d+\.\d+/)[0]);
-        // }
+        offset = this.tbLetMaxSum[idx][i];
+        this.tbCov[idx][i].style.left = `${offset}px`;
       }
     }
   }
 
   resize() {
-    this.screenFraction = window.innerWidth / 100;
+    if (window.innerWidth / window.innerHeight > 1.38) {
+      // min aspect ratio
+      this.screenFraction = window.innerWidth / 100;
+    } else {
+      // max aspect ratio
+      this.screenFraction = window.innerWidth / 141.5;
+    }
+
+    console.log(this.screenFraction);
 
     for (var i = 0; i < this.list.length; i++) {
       let maxSum = 0;
@@ -497,15 +501,20 @@ class Typography {
           .getComputedStyle(this.ttCovLet[i][j], null)
           .getPropertyValue("width");
 
+        this.ttLetMaxSum[i][j] = 0;
+        this.ttLetMinSum[i][j] = 0;
+
+        this.ttLetMaxSum[i][j] =
+          data[i].topGaps[j] * this.screenFraction + maxSum;
+        this.ttLetMinSum[i][j] = minSum;
+
+        maxSum += data[i].topGaps[j] * this.screenFraction;
+
         // get integer part if the value is not float
-        if (this.ttLetWMax[i][j].match(/\d+\.\d+/) == null) {
-          maxSum +=
-            parseFloat(this.ttLetWMax[i][j].match(/\d+/)[0]) +
-            data[i].topGaps[j] * this.screenFraction;
+        if (this.ttLetWMin[i][j].match(/\d+\.\d+/) == null) {
+          maxSum += parseFloat(this.ttLetWMin[i][j].match(/\d+/)[0]);
         } else {
-          maxSum +=
-            parseFloat(this.ttLetWMax[i][j].match(/\d+\.\d+/)[0]) +
-            data[i].topGaps * this.screenFraction;
+          maxSum += parseFloat(this.ttLetWMin[i][j].match(/\d+\.\d+/)[0]);
         }
 
         if (this.ttLetWMin[i][j].match(/\d+\.\d+/) == null) {
@@ -527,19 +536,21 @@ class Typography {
             .getComputedStyle(this.tbCovLet[i][j], null)
             .getPropertyValue("width");
 
-          // get integer part if the value is not float
-          if (this.tbLetWMax[i][j].match(/\d+\.\d+/) == null) {
-            maxSum +=
-              parseFloat(this.tbLetWMax[i][j].match(/\d+/)[0]) +
-              data[i].botGaps[j] * this.screenFraction;
-          } else {
-            maxSum +=
-              parseFloat(this.tbLetWMax[i][j].match(/\d+\.\d+/)[0]) +
-              data[i].botGaps[j] * this.screenFraction;
-          }
+          this.tbLetMaxSum[i][j] = 0;
+          this.tbLetMinSum[i][j] = 0;
 
-          this.tbLetMaxSum[i][j] = maxSum;
+          this.tbLetMaxSum[i][j] =
+            data[i].botGaps[j] * this.screenFraction + maxSum;
           this.tbLetMinSum[i][j] = minSum;
+
+          maxSum += data[i].botGaps[j] * this.screenFraction;
+
+          // get integer part if the value is not float
+          if (this.tbLetWMin[i][j].match(/\d+\.\d+/) == null) {
+            maxSum += parseFloat(this.tbLetWMin[i][j].match(/\d+/)[0]);
+          } else {
+            maxSum += parseFloat(this.tbLetWMin[i][j].match(/\d+\.\d+/)[0]);
+          }
 
           if (this.tbLetWMin[i][j].match(/\d+\.\d+/) == null) {
             minSum += parseFloat(this.tbLetWMin[i][j].match(/\d+/)[0]);
