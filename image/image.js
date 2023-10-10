@@ -748,24 +748,10 @@ function onWindowResize() {
 
 // reduce plane
 document.addEventListener("keypress", (event) => {
-  // if (event.key === " ") {
-  //   console.log("spacebar");
-  //   if (!caseIsOpen) {
-  //     // Hide EXPLORE button
-  //     exploreText.toPressed();
-  //     exploreLine.toBottom();
-  //     exploreIcon.toTop();
-  //     exploreBtn.style.pointerEvents = "none";
-  //     targetX = (planeWidth + gapMin) * index;
-  //     for (var i = 0; i < meshes.length; i++) {
-  //       reducePlane(meshes[i], uniforms[i]);
-  //     }
-  //   }
-  // } else if (event.key === "c") {
-  //   closeCase();
-  // } else if (event.keyCode === 9) {
-  //   console.log("tab");
-  // }
+  if (event.key === " ") {
+    console.log("spacebar");
+    startAtCase(Math.floor(Math.random() * 30));
+  }
 });
 
 document.addEventListener("wheel", (event) => {
@@ -935,6 +921,66 @@ function jumpTo(idx) {
   uniforms[index].selected.value = true;
 
   lastIndex = index;
+}
+
+function enlargePlanesInstantly() {
+  gap = gapMax;
+  currentWidth = planeWidthBig;
+  currentHeight = planeHeightBig;
+  currLength = maxLength;
+
+  for (var i = 0; i < meshes.length; i++) {
+    meshes[i].geometry.dispose();
+    meshes[i].geometry = new THREE.PlaneGeometry(currentWidth, currentHeight);
+    uniforms[i].planeRatio = { value: currentWidth / currentHeight };
+    meshes[i].position.x = (currentWidth + gap) * i - absoluteShift;
+  }
+}
+
+function startAtCase(num) {
+  enlargePlanesInstantly();
+  camera.position.x = 0;
+
+  caseIsOpen = true;
+  enlarged = true;
+
+  console.log(num);
+
+  index = num;
+  caseIndex = num;
+  imageList.adjustSelector(data[caseIndex]);
+  imageList.adjustStack(data[caseIndex]);
+
+  if (meshes[index - 1]) {
+    meshes[index - 1].offset_x =
+      -window.innerWidth / 2 + currentWidth / 2 + gap;
+  }
+
+  if (meshes[index + 1]) {
+    meshes[index + 1].offset_x = window.innerWidth / 2 - currentWidth / 2 - gap;
+  }
+
+  meshes[index].position.y = window.innerHeight / 2 + currentHeight / 2;
+
+  // Show PROJECTS button
+  projectText.toVisible();
+  projectLine.fromTop();
+  projectIcon.fromBottom();
+  projectsBtn.style.pointerEvents = "all";
+
+  imageList.openCase();
+
+  bar.hideInstantly();
+  bar.openIndex(num);
+
+  uniforms[index].selected.value = true;
+  colors.toColor(data[index].bgColor, data[index].color);
+
+  typo.openText(index);
+  info.openText(index);
+
+  typo.squishText(index);
+  // openCase();
 }
 
 function update() {
@@ -1157,7 +1203,7 @@ function createPlanes() {
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
-  // scene.add(marker);
+  scene.add(marker);
 }
 
 function createFpsCap(loop, fps = 60) {

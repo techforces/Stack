@@ -160,6 +160,10 @@ class StackBar {
     });
   }
 
+  hideInstantly() {
+    this.stack.style.transform = `translateY(-250%)`;
+  }
+
   scaleBar(idx, scale) {
     this.bars[idx].style.height = `${(1 + scale * 2) * 15}px`;
   }

@@ -426,6 +426,16 @@ class Typography {
     }
   }
 
+  squishInstantly(idx) {
+    for (var i = 0; i < this.ttCov[idx].length; i++) {
+      this.ttCov[idx][i].style.left = `${this.ttLetMinSum[idx][i]}px`;
+    }
+
+    for (var i = 0; i < this.tbCov[idx].length; i++) {
+      this.tbCov[idx][i].style.left = `${this.tbLetMinSum[idx][i]}px`;
+    }
+  }
+
   unsquishText(idx) {
     for (var i = 0; i < this.ttCov[idx].length; i++) {
       const value = {
