@@ -1,7 +1,8 @@
 export const data = [
   {
     id: 0,
-    title: "first",
+    title: "Autumn Silence",
+    url: "/autumn-silence",
     bgColor: { r: 255, g: 255, b: 255 },
     color: { r: 190, g: 142, b: 50 },
     topTitle: "Autumn",
@@ -33,7 +34,8 @@ export const data = [
   },
   {
     id: 1,
-    title: "first",
+    title: "Desert Nights",
+    url: "/desert-nights",
     bgColor: { r: 161, g: 99, b: 77 },
     color: { r: 237, g: 238, b: 240 },
     topTitle: "Desert",
@@ -65,7 +67,8 @@ export const data = [
   },
   {
     id: 2,
-    title: "first",
+    title: "Urban",
+    url: "/urban",
     bgColor: { r: 213, g: 213, b: 213 },
     color: { r: 42, g: 42, b: 42 },
     topTitle: "Urban",
@@ -97,7 +100,8 @@ export const data = [
   },
   {
     id: 3,
-    title: "first",
+    title: "Quiet Gaze",
+    url: "/quiet-gaze",
     bgColor: { r: 120, g: 95, b: 78 },
     color: { r: 205, g: 185, b: 121 },
     topTitle: "Quiet",
@@ -129,7 +133,8 @@ export const data = [
   },
   {
     id: 4,
-    title: "first",
+    title: "Flowers&Flowers",
+    url: "/flowers-and-flowers",
     bgColor: { r: 248, g: 248, b: 248 },
     color: { r: 211, g: 180, b: 38 },
     topTitle: "Flowers&",
@@ -161,7 +166,8 @@ export const data = [
   },
   {
     id: 5,
-    title: "first",
+    title: "DM",
+    url: "/dm",
     bgColor: { r: 51, g: 51, b: 51 },
     color: { r: 207, g: 196, b: 190 },
     topTitle: "DM",
@@ -193,7 +199,8 @@ export const data = [
   },
   {
     id: 6,
-    title: "first",
+    title: "Pure Craft",
+    url: "/pure-craft",
     bgColor: { r: 213, g: 226, b: 207 },
     color: { r: 221, g: 158, b: 124 },
     topTitle: "Pure",
@@ -225,7 +232,8 @@ export const data = [
   },
   {
     id: 7,
-    title: "first",
+    title: "Dead Forest",
+    url: "/dead-forest",
     bgColor: { r: 12, g: 24, b: 17 },
     color: { r: 215, g: 222, b: 236 },
     topTitle: "Dead",
@@ -257,7 +265,8 @@ export const data = [
   },
   {
     id: 8,
-    title: "first",
+    title: "Morning Sun",
+    url: "/morning-sun",
     bgColor: { r: 247, g: 234, b: 222 },
     color: { r: 139, g: 167, b: 168 },
     topTitle: "Morning",
@@ -289,7 +298,8 @@ export const data = [
   },
   {
     id: 9,
-    title: "first",
+    title: "Stool",
+    url: "/stool",
     bgColor: { r: 222, g: 222, b: 222 },
     color: { r: 255, g: 142, b: 50 },
     topTitle: "Stool",
@@ -322,7 +332,8 @@ export const data = [
 
   {
     id: 10,
-    title: "first",
+    title: "Foreign Lakes",
+    url: "/foreign-lakes",
     bgColor: { r: 219, g: 226, b: 234 },
     color: { r: 192, g: 112, b: 5 },
     topTitle: "Foreign",
@@ -354,7 +365,8 @@ export const data = [
   },
   {
     id: 11,
-    title: "first",
+    title: "Italian Views",
+    url: "/italian-views",
     bgColor: { r: 207, g: 217, b: 229 },
     color: { r: 201, g: 49, b: 20 },
     topTitle: "Italian",
@@ -387,7 +399,8 @@ export const data = [
 
   {
     id: 12,
-    title: "first",
+    title: "Warm Beach",
+    url: "/warm-beach",
     bgColor: { r: 216, g: 239, b: 255 },
     color: { r: 216, g: 165, b: 52 },
     topTitle: "Warm",
@@ -419,7 +432,8 @@ export const data = [
   },
   {
     id: 13,
-    title: "first",
+    title: "Film History",
+    url: "/film-history",
     bgColor: { r: 206, g: 206, b: 217 },
     color: { r: 28, g: 28, b: 26 },
     topTitle: "Film",
@@ -451,7 +465,8 @@ export const data = [
   },
   {
     id: 14,
-    title: "first",
+    title: "Castlevania",
+    url: "/castlevania",
     bgColor: { r: 199, g: 195, b: 184 },
     color: { r: 189, g: 96, b: 74 },
     topTitle: "Castlevania",
@@ -483,7 +498,8 @@ export const data = [
   },
   {
     id: 15,
-    title: "first",
+    title: "Carribean Expo",
+    url: "/carribean-expo",
     bgColor: { r: 128, g: 176, b: 211 },
     color: { r: 211, g: 33, b: 0 },
     topTitle: "Carribean",
@@ -515,7 +531,8 @@ export const data = [
   },
   {
     id: 16,
-    title: "first",
+    title: "Rock&Stone",
+    url: "/rock-and-stone",
     bgColor: { r: 221, g: 221, b: 221 },
     color: { r: 128, g: 176, b: 0 },
     topTitle: "Rock&",
@@ -547,7 +564,8 @@ export const data = [
   },
   {
     id: 17,
-    title: "first",
+    title: "Highway Chill",
+    url: "/highway-chill",
     bgColor: { r: 154, g: 153, b: 152 },
     color: { r: 255, g: 182, b: 40 },
     topTitle: "Highway",
@@ -579,7 +597,8 @@ export const data = [
   },
   {
     id: 18,
-    title: "first",
+    title: "African Safari",
+    url: "/african-safari",
     bgColor: { r: 156, g: 168, b: 182 },
     color: { r: 41, g: 32, b: 26 },
     topTitle: "African",
@@ -612,7 +631,8 @@ export const data = [
 
   {
     id: 19,
-    title: "first",
+    title: "Magic Hour",
+    url: "/magic-hour",
     bgColor: { r: 144, g: 151, b: 152 },
     color: { r: 205, g: 197, b: 187 },
     topTitle: "Magic",
@@ -644,7 +664,8 @@ export const data = [
   },
   {
     id: 20,
-    title: "first",
+    title: "Norway Train",
+    url: "/norway-train",
     bgColor: { r: 183, g: 202, b: 203 },
     color: { r: 176, g: 65, b: 19 },
     topTitle: "Norway",
@@ -676,7 +697,8 @@ export const data = [
   },
   {
     id: 21,
-    title: "first",
+    title: "Clement",
+    url: "/clement",
     bgColor: { r: 65, g: 51, b: 40 },
     color: { r: 166, g: 189, b: 88 },
     topTitle: "Clement",
@@ -708,7 +730,8 @@ export const data = [
   },
   {
     id: 22,
-    title: "first",
+    title: "Vietam Today",
+    url: "/vietnam-today",
     bgColor: { r: 241, g: 229, b: 171 },
     color: { r: 65, g: 70, b: 64 },
     topTitle: "Vietam",
@@ -740,7 +763,8 @@ export const data = [
   },
   {
     id: 23,
-    title: "first",
+    title: "MAGA MAGA",
+    url: "/maga-maga",
     bgColor: { r: 68, g: 64, b: 53 },
     color: { r: 225, g: 211, b: 190 },
     topTitle: "MAGA",
@@ -772,7 +796,8 @@ export const data = [
   },
   {
     id: 24,
-    title: "first",
+    title: "Civil Peace",
+    url: "/civil-peace",
     bgColor: { r: 225, g: 184, b: 163 },
     color: { r: 250, g: 254, b: 255 },
     topTitle: "Civil",
@@ -804,7 +829,8 @@ export const data = [
   },
   {
     id: 25,
-    title: "first",
+    title: "Quiet Space",
+    url: "/quiet-space",
     bgColor: { r: 17, g: 11, b: 7 },
     color: { r: 223, g: 150, b: 63 },
     topTitle: "Quiet",
@@ -836,7 +862,8 @@ export const data = [
   },
   {
     id: 26,
-    title: "first",
+    title: "Solid Rock",
+    url: "/solid-rock",
     bgColor: { r: 253, g: 253, b: 253 },
     color: { r: 83, g: 70, b: 38 },
     topTitle: "Solid",
@@ -868,7 +895,8 @@ export const data = [
   },
   {
     id: 27,
-    title: "first",
+    title: "Grand Hotel",
+    url: "/grand-hotel",
     bgColor: { r: 51, g: 51, b: 51 },
     color: { r: 255, g: 255, b: 255 },
     topTitle: "Grand",
@@ -900,7 +928,8 @@ export const data = [
   },
   {
     id: 28,
-    title: "first",
+    title: "Spring Lili",
+    url: "/spring-lili",
     bgColor: { r: 228, g: 212, b: 187 },
     color: { r: 81, g: 120, b: 221 },
     topTitle: "Spring",
@@ -932,10 +961,11 @@ export const data = [
   },
   {
     id: 29,
-    title: "first",
+    title: "Earth Roots",
+    url: "/earth-roots",
     bgColor: { r: 196, g: 199, b: 205 },
     color: { r: 117, g: 79, b: 57 },
-    topTitle: "Earthy",
+    topTitle: "Earth",
     topGaps: [12, 3, 7, 2, 10, 4, 1, 5, 2],
     botTitle: "Roots",
     botGaps: [15, 5, 25, 2, 15, 5, 6],

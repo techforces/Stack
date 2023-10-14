@@ -46,7 +46,6 @@ class Typography {
       // max aspect ratio
       this.screenFraction = window.innerWidth / 141.5;
     }
-    console.log(this.screenFraction);
 
     // Add text content from data.js
     for (var i = 0; i < data.length; i++) {
@@ -496,8 +495,6 @@ class Typography {
       // max aspect ratio
       this.screenFraction = window.innerWidth / 141.5;
     }
-
-    console.log(this.screenFraction);
 
     for (var i = 0; i < this.list.length; i++) {
       let maxSum = 0;

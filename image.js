@@ -4,7 +4,6 @@ import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
 import { Text, ImageList, Line, Icon } from "./ui";
 import { Typography, Information } from "./text";
-import routes from "./routes";
 import { CustomEase } from "gsap/all";
 import Colors from "./color";
 import StackBar from "./bar";
@@ -113,6 +112,9 @@ const initLandAlpha = -90;
 let landDispX = 0;
 let landDispZ = 0;
 let landAlpha = 0;
+
+let routeIsDetected = false;
+let routeNum = undefined;
 
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -324,9 +326,11 @@ exploreBtn.addEventListener("click", (e) => {
 
   if (typeof history.pushState != "undefined") {
     var obj = {
-      title: "First",
-      url: "/image/first",
+      title: data[index].title,
+      url: data[index].url,
     };
+
+    document.title = "Stack — " + obj.title;
 
     history.pushState(obj, obj.title, obj.url);
   }
@@ -355,9 +359,11 @@ projectsBtn.addEventListener("click", (e) => {
 
   if (typeof history.pushState != "undefined") {
     var obj = {
-      title: "Hello",
-      url: "/image/image.html",
+      title: "Stack",
+      url: "/",
     };
+
+    document.title = obj.title;
 
     history.pushState(obj, obj.title, obj.url);
   }
@@ -746,13 +752,12 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// reduce plane
-document.addEventListener("keypress", (event) => {
-  if (event.key === " ") {
-    console.log("spacebar");
-    startAtCase(Math.floor(Math.random() * 30));
-  }
-});
+// document.addEventListener("keypress", (event) => {
+//   if (event.key === " ") {
+//     console.log("spacebar");
+//     startAtCase(Math.floor(Math.random() * 30));
+//   }
+// });
 
 document.addEventListener("wheel", (event) => {
   if (!enlarged) {
@@ -944,9 +949,8 @@ function startAtCase(num) {
   caseIsOpen = true;
   enlarged = true;
 
-  console.log(num);
-
   index = num;
+  lastIndex = num;
   caseIndex = num;
   imageList.adjustSelector(data[caseIndex]);
   imageList.adjustStack(data[caseIndex]);
@@ -1104,7 +1108,11 @@ function update() {
         alpha: landAlpha,
       };
       // Start displacement animation
-      gsap.to(value, 1.2, {
+      let duration = 1.2;
+      if (routeIsDetected) {
+        duration = 0;
+      }
+      gsap.to(value, duration, {
         dispX: 0,
         dispZ: 0,
         alpha: 0,
@@ -1121,6 +1129,9 @@ function update() {
       setTimeout(() => {
         coverDiv.style.display = "none";
       }, 10);
+      if (routeIsDetected) {
+        startAtCase(routeNum);
+      }
       isSetup = true;
     } else {
       // Initial Positioning, for performance optimization!
@@ -1129,6 +1140,7 @@ function update() {
         meshes[i].position.x = ((currentWidth + gap) * i) / 10;
       }
 
+      detectRoute();
       isRendered = true;
     }
 
@@ -1203,7 +1215,20 @@ function createPlanes() {
   const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   const marker = new THREE.Mesh(markerGeo, markerMat);
 
-  scene.add(marker);
+  // scene.add(marker);
+}
+
+function detectRoute() {
+  const path = window.location.pathname;
+
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].url == path) {
+      document.title = "Stack — " + data[i].title;
+      routeIsDetected = true;
+      routeNum = i;
+      break;
+    }
+  }
 }
 
 function createFpsCap(loop, fps = 60) {
