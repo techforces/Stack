@@ -6,5 +6,3 @@ Some ThreeJS, WebGL, shader experiments
 
 # Start up
 `npx vite`
-
-(Temporarily): open second experiment at `http://localhost:5173/image.html`
