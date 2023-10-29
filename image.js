@@ -90,7 +90,7 @@ const waveRotationAngle = 33;
 // the higher the value, the shorter the duration
 const rotAnimDuration = 20;
 
-let maxWaveSize = window.innerWidth / 1.6;
+let maxWaveSize = window.innerWidth / 2;
 let waveHalf = maxWaveSize / 2;
 
 // color grading
@@ -989,7 +989,7 @@ function startAtCase(num) {
 
 function update() {
   if (isLoaded) {
-    imDelta = imDelta * 0.92;
+    imDelta = imDelta * 0.95;
 
     impulse = Math.min(Math.max(-1, imDelta / imDeltaMax), 1);
     if (Math.abs(impulse) < 0.00005) impulse = 0;
@@ -998,6 +998,8 @@ function update() {
       // Rotation coefficient: for wave effect ~
       const diff = camera.position.x - meshes[i].position.x;
       const abs_diff = Math.abs(diff);
+
+      uniforms[i].impulse.value = Math.min(1, Math.abs(impulse) * 1.7);
 
       // Alpha is an angle based on displacement.
       // Sin(Max(-1, Min([-inf, +inf], 1)
@@ -1012,11 +1014,13 @@ function update() {
         ) * waveRotationAngle;
 
       // Scaling coefficient: for wave effect ~
-      const scale_coef =
-        1 - Math.min(1, 0.25 + Math.pow(abs_diff / waveHalf, 2));
+      const scale_coef = 1 - Math.min(1, Math.pow(abs_diff / waveHalf, 2));
+
       meshes[i].position.z =
         (perspective / 2) * Math.abs(impulse) * scale_coef +
         landDispZ * (i + 1);
+      // const scale = 1 + 0.5 * scale_coef * Math.abs(impulse);
+      // meshes[i].scale.set(scale, scale, scale);
 
       bar.scaleBar(i, scale_coef * Math.abs(impulse));
 
@@ -1024,9 +1028,9 @@ function update() {
       if (impulse > 0) {
         if (alpha > 0) {
           // To create a rounded shape of the wave we need to compensate for the rotation and subtract the alpha
-          alpha *= 2.2;
+          alpha *= 1.5;
         } else {
-          alpha *= 0.9;
+          alpha *= 0.8;
         }
 
         meshes[i].rotation.y =
@@ -1035,9 +1039,9 @@ function update() {
         // meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
       } else {
         if (alpha < 0) {
-          alpha *= 2.2;
+          alpha *= 1.5;
         } else {
-          alpha *= 0.9;
+          alpha *= 0.8;
         }
 
         meshes[i].rotation.y =
@@ -1186,6 +1190,15 @@ function createPlanes() {
       },
       selected: {
         value: false,
+      },
+      windowHalf: {
+        value: window.innerWidth / 2,
+      },
+      waveHalf: {
+        value: waveHalf,
+      },
+      impulse: {
+        value: impulse,
       },
     });
 
