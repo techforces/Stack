@@ -497,13 +497,59 @@ function updateRaycaster() {
   const intersects = raycaster.intersectObjects(meshes);
 
   if (intersects.length > 0) {
+    // If the intersected object is not colored, then color it
+    if (!uniforms[intersects[0].object.arr_id].hovered.value) {
+      const val = {
+        rate: uniforms[intersects[0].object.arr_id].hoverRate.value,
+      };
+      gsap.to(val, 0.5, {
+        rate: 1,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          uniforms[intersects[0].object.arr_id].hoverRate.value = val.rate;
+        },
+      });
+    }
+
+    // Loop through every mesh, if the mesh is colored, but not hovered, then decolor it
     for (var i = 0; i < meshes.length; i++) {
-      uniforms[i].hovered.value = false;
+      const indx = i;
+      if (
+        uniforms[indx].hovered.value &&
+        !uniforms[intersects[0].object.arr_id].hovered.value
+      ) {
+        const val = {
+          rate: uniforms[indx].hoverRate.value,
+        };
+        gsap.to(val, 0.5, {
+          rate: 0,
+          ease: "power1.easeOut",
+          onUpdate: () => {
+            console.log(val.rate);
+            uniforms[indx].hoverRate.value = val.rate;
+          },
+        });
+      }
+      uniforms[indx].hovered.value = false;
     }
     uniforms[intersects[0].object.arr_id].hovered.value = true;
   } else {
-    for (var i = 0; i < meshes.length; i++) {
-      uniforms[i].hovered.value = false;
+    for (let i = 0; i < meshes.length; i++) {
+      const indx = i;
+      if (uniforms[indx].hovered.value) {
+        const val = {
+          rate: uniforms[indx].hoverRate.value,
+        };
+        gsap.to(val, 0.5, {
+          rate: 0,
+          ease: "power1.easeOut",
+          onUpdate: () => {
+            console.log(val.rate);
+            uniforms[indx].hoverRate.value = val.rate;
+          },
+        });
+      }
+      uniforms[indx].hovered.value = false;
     }
   }
 }
@@ -1000,6 +1046,7 @@ function update() {
       const abs_diff = Math.abs(diff);
 
       uniforms[i].impulse.value = Math.min(1, Math.abs(impulse) * 1.7);
+      // uniforms[i].hoverRate.value = hoverRate;
 
       // Alpha is an angle based on displacement.
       // Sin(Max(-1, Min([-inf, +inf], 1)
@@ -1048,45 +1095,6 @@ function update() {
           ((impulse * (-rotAngle - alpha) + landAlpha * (i + 1)) * Math.PI) /
           180;
       }
-
-      // color grade
-      let colorGrade = 0;
-      if (abs_diff > coloredWidth + partiallyColoredWidth) {
-        colorGrade = 0;
-      } else if (abs_diff <= coloredWidth) {
-        colorGrade = 1;
-      } else {
-        colorGrade = 1 - (abs_diff - coloredWidth) / partiallyColoredWidth;
-      }
-
-      colorGrade = colorGrade * Math.min(1, Math.abs(impulse) * 2);
-
-      // greyscale/color animation on hover/click
-      if (uniforms[i].selected.value) {
-        uniforms[i].mixValue.value = Math.min(
-          1,
-          Math.max(0, uniforms[i].mixValue.value + 0.1)
-        );
-      } else if (uniforms[i].hovered.value && !enlarged) {
-        uniforms[i].mixValue.value = Math.min(
-          1,
-          Math.max(0, uniforms[i].mixValue.value + 0.1)
-        );
-      } else if (uniforms[i].hovered.value) {
-        uniforms[i].mixValue.value = Math.min(
-          0.5,
-          Math.max(0, uniforms[i].mixValue.value + 0.1)
-        );
-      } else {
-        uniforms[i].mixValue.value = Math.min(
-          1,
-          Math.max(0, uniforms[i].mixValue.value - 0.1)
-        );
-      }
-      uniforms[i].mixValue.value = Math.max(
-        uniforms[i].mixValue.value,
-        colorGrade
-      );
     }
 
     // update positioning
@@ -1181,6 +1189,9 @@ function createPlanes() {
       },
       hovered: {
         value: false,
+      },
+      hoverRate: {
+        value: hoverRate,
       },
       mixValue: {
         value: 0,
