@@ -1180,7 +1180,9 @@ function createPlanes() {
     const imageRatio = textures[i].image.width / textures[i].image.height;
     uniforms.push({
       u_image: { type: "t", value: textures[i] },
-      u_time: { value: 0 },
+      pixelRatio: {
+        value: window.devicePixelRatio,
+      },
       imageRatio: {
         value: imageRatio,
       },
