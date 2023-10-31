@@ -116,6 +116,9 @@ let landAlpha = 0;
 let routeIsDetected = false;
 let routeNum = undefined;
 
+/* MATH CONSTANTS */
+const toDegree = Math.PI / 180;
+
 const manager = new THREE.LoadingManager();
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
   // console.log(
@@ -1081,8 +1084,7 @@ function update() {
         }
 
         meshes[i].rotation.y =
-          ((impulse * (-rotAngle + alpha) + landAlpha * (i + 1)) * Math.PI) /
-          180;
+          (impulse * (-rotAngle + alpha) + landAlpha * (i + 1)) * toDegree;
         // meshes[i].rotation.y = impulse * ((-rotAngle * Math.PI) / 180);
       } else {
         if (alpha < 0) {
@@ -1092,8 +1094,7 @@ function update() {
         }
 
         meshes[i].rotation.y =
-          ((impulse * (-rotAngle - alpha) + landAlpha * (i + 1)) * Math.PI) /
-          180;
+          (impulse * (-rotAngle - alpha) + landAlpha * (i + 1)) * toDegree;
       }
     }
 
