@@ -2,7 +2,7 @@ import * as THREE from "three";
 import vertexShader from "./imageVertexShader.glsl";
 import fragmentShader from "./imageFragmentShader.glsl";
 import gsap from "gsap";
-import { Text, ImageList, Line, Icon } from "./ui";
+import { Text, ImageList, Line, Icon, About } from "./ui";
 import { Typography, Information } from "./text";
 import { CustomEase } from "gsap/all";
 import Colors from "./color";
@@ -216,6 +216,9 @@ manager.onLoad = function () {
       onUpdate: () => {
         elem.style.transform = `translateY(${val.y}%)`;
       },
+      onComplete: () => {
+        elem.style.pointerEvents = "all";
+      },
     });
   }
 
@@ -271,7 +274,7 @@ manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 
 /* Raycaster */
 const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+const mouse = new THREE.Vector2(999, 999);
 
 /* UI */
 const exploreBtn = document.querySelector(".e-btn");
@@ -319,8 +322,14 @@ for (var i = 0; i < recs.length; i++) {
   });
 }
 
+/* Colors */
 const colors = new Colors();
 let caseIsOpen = false;
+
+/* About */
+const about = new About();
+about.setResetColors(colors.resetColors.bind(colors));
+about.setChangeColor(colors.changeColor.bind(colors));
 
 exploreBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -528,7 +537,6 @@ function updateRaycaster() {
           rate: 0,
           ease: "power1.easeOut",
           onUpdate: () => {
-            console.log(val.rate);
             uniforms[indx].hoverRate.value = val.rate;
           },
         });
@@ -547,7 +555,6 @@ function updateRaycaster() {
           rate: 0,
           ease: "power1.easeOut",
           onUpdate: () => {
-            console.log(val.rate);
             uniforms[indx].hoverRate.value = val.rate;
           },
         });
@@ -748,9 +755,6 @@ window.addEventListener("resize", () => {
 });
 
 function onWindowResize() {
-  // console.log("min", planeWidth, planeHeight);
-  // console.log("max", planeWidthBig, planeHeightBig);
-
   const newW = Math.min(Math.floor(window.innerWidth * 0.65), 815);
   const newH = Math.floor(newW / 1.734);
 
@@ -783,14 +787,16 @@ function onWindowResize() {
     currLength = minLength;
   }
 
+  maxWaveSize = window.innerWidth / 2;
+  waveHalf = maxWaveSize / 2;
+
   for (var i = 0; i < meshes.length; i++) {
     meshes[i].geometry.dispose();
     meshes[i].geometry = new THREE.PlaneGeometry(currentWidth, currentHeight);
     uniforms[i].planeRatio = { value: currentWidth / currentHeight };
+    uniforms[i].waveHalf.value = waveHalf;
+    uniforms[i].windowHalf.value = window.innerWidth / 2;
   }
-
-  maxWaveSize = window.innerWidth / 1.6;
-  waveHalf = maxWaveSize / 2;
 
   coloredWidth = window.innerWidth * 0.15625;
   partiallyColoredWidth = coloredWidth / 3;
@@ -809,65 +815,69 @@ function onWindowResize() {
 // });
 
 document.addEventListener("wheel", (event) => {
-  if (!enlarged) {
-    if (
-      camera.position.x > 100 - absoluteShift &&
-      currLength - camera.position.x - absoluteShift > 100
-    ) {
-      // Scrolling animation for wave
-      const newDelta = Math.max(
-        -imDeltaMax,
-        Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
-      );
+  if (!about.isOpen) {
+    if (!enlarged) {
+      // console.log(about.isOpen);
+      if (
+        camera.position.x > 100 - absoluteShift &&
+        currLength - camera.position.x - absoluteShift > 100
+      ) {
+        // Scrolling animation for wave
+        const newDelta = Math.max(
+          -imDeltaMax,
 
-      // Smoothly transition imDelta to new value
-      // 0.2 on windows with high fps
-      // 0 on mac with low fps, quickfix
-      var isTrackpad = false;
-      var duration = 0.2;
-      if (event.wheelDeltaY) {
-        if (event.wheelDeltaY === event.deltaY * -3) {
+          Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
+        );
+
+        // Smoothly transition imDelta to new value
+        // 0.2 on windows with high fps
+        // 0 on mac with low fps, quickfix
+        var isTrackpad = false;
+        var duration = 0.2;
+        if (event.wheelDeltaY) {
+          if (event.wheelDeltaY === event.deltaY * -3) {
+            isTrackpad = true;
+            duration = 0;
+          }
+        } else if (event.deltaMode === 0) {
           isTrackpad = true;
           duration = 0;
         }
-      } else if (event.deltaMode === 0) {
-        isTrackpad = true;
-        duration = 0;
+
+        gsap.to({ val: imDelta }, duration, {
+          val: newDelta,
+          onUpdate: function () {
+            imDelta = this.targets()[0].val;
+          },
+        });
       }
 
-      gsap.to({ val: imDelta }, duration, {
-        val: newDelta,
-        onUpdate: function () {
-          imDelta = this.targets()[0].val;
-        },
-      });
-    }
+      // Move Camera
+      const targetPosX = Math.max(
+        -absoluteShift,
+        Math.min(
+          currLength - absoluteShift,
+          camera.position.x + event.deltaY * 2.7
+        )
+      );
+      gsap.to(camera.position, 0.5, { x: targetPosX });
+    } else {
+      if (!caseIsOpen) {
+        // Hide EXPLORE button
+        exploreText.toPressed();
+        exploreLine.toBottom();
+        exploreIcon.toTop();
+        exploreBtn.style.pointerEvents = "none";
 
-    // Move Camera
-    const targetPosX = Math.max(
-      -absoluteShift,
-      Math.min(
-        currLength - absoluteShift,
-        camera.position.x + event.deltaY * 2.7
-      )
-    );
-    gsap.to(camera.position, 0.5, { x: targetPosX });
-  } else {
-    if (!caseIsOpen) {
-      // Hide EXPLORE button
-      exploreText.toPressed();
-      exploreLine.toBottom();
-      exploreIcon.toTop();
-      exploreBtn.style.pointerEvents = "none";
+        typo.closeText(index, index);
+        info.closeText(index, index);
+        bar.closeIndex();
+        colors.resetColors();
 
-      typo.closeText(index, index);
-      info.closeText(index, index);
-      bar.closeIndex();
-      colors.resetColors();
-
-      // targetX = (planeWidth + gapMin) * index;
-      for (var i = 0; i < meshes.length; i++) {
-        reducePlane(meshes[i], uniforms[i]);
+        // targetX = (planeWidth + gapMin) * index;
+        for (var i = 0; i < meshes.length; i++) {
+          reducePlane(meshes[i], uniforms[i]);
+        }
       }
     }
   }
@@ -1195,9 +1205,6 @@ function createPlanes() {
       },
       hoverRate: {
         value: hoverRate,
-      },
-      mixValue: {
-        value: 0,
       },
       opacity: {
         value: opacity,

@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import { data } from "./data";
 
 class Text {
   // for transform translateY in %
@@ -546,4 +547,213 @@ class ImageList {
   }
 }
 
-export { ImageList, Text, Line, Icon };
+class About {
+  about = undefined;
+  about_btn = undefined;
+  aboutContent = undefined;
+  isOpen = false;
+  aboutTitle = undefined;
+  aboutListEls = undefined;
+  aboutLines = undefined;
+
+  resetColors = undefined;
+  changeColor = undefined;
+
+  constructor() {
+    this.about = document.querySelector(".about");
+    this.about_btn = document.querySelector(".about-btn");
+    this.about_btn.addEventListener("click", (e) => {
+      if (this.isOpen) {
+        this.closeAbout();
+      } else {
+        this.openAbout();
+      }
+    });
+    this.aboutContent = document.querySelector(".about-content");
+    this.aboutTitle = document.querySelectorAll(".about-letter");
+    this.aboutLines = document.querySelectorAll(".about-line");
+
+    const ls = document.createElement("div");
+    ls.classList.add("about-list");
+    this.aboutContent.appendChild(ls);
+    for (var i = 0; i < data.length; i++) {
+      const el = document.createElement("div");
+      const el2 = document.createElement("div");
+      el2.classList.add("about-list-el");
+      el2.innerHTML = data[i].title;
+      el.appendChild(el2);
+      ls.appendChild(el);
+    }
+    this.aboutListEls = document.querySelectorAll(".about-list-el");
+  }
+
+  setResetColors(func) {
+    this.resetColors = func;
+  }
+
+  setChangeColor(func) {
+    this.changeColor = func;
+  }
+
+  openAbout() {
+    this.setIsOpen(true);
+    this.resetColors();
+
+    this.about.style.pointerEvents = "all";
+
+    const val = {
+      opacity: 0,
+    };
+    gsap.to(val, 0.3, {
+      opacity: 1,
+      onUpdate: () => {
+        this.about.style.opacity = val.opacity;
+      },
+    });
+
+    for (let i = 0; i < this.aboutTitle.length; i++) {
+      const val2 = {
+        x: -115,
+        idx: i,
+      };
+
+      const el = this.aboutTitle[i];
+      const delay = i * 0.024;
+
+      const anim = gsap.to(val2, 0.5, {
+        x: 0,
+        delay: delay,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          if (this.isOpen) {
+            el.style.transform = `translateX(${val2.x}%)`;
+          } else {
+            anim.kill();
+          }
+        },
+      });
+    }
+
+    for (let i = 0; i < this.aboutListEls.length; i++) {
+      const val3 = {
+        y: 115,
+        idx: i,
+      };
+
+      const el = this.aboutListEls[i];
+      const delay = i * 0.024;
+
+      const anim = gsap.to(val3, 0.5, {
+        y: 0,
+        delay: delay,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          if (this.isOpen) {
+            el.style.transform = `translateY(${val3.y}%)`;
+          } else {
+            anim.kill();
+          }
+        },
+      });
+    }
+
+    for (let i = 0; i < this.aboutLines.length; i++) {
+      const val4 = {
+        y: 115,
+        idx: i,
+      };
+
+      const el = this.aboutLines[i];
+
+      const anim = gsap.to(val4, 0.5, {
+        y: 0,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          if (this.isOpen) {
+            el.style.transform = `translateY(${val4.y}%)`;
+          } else {
+            anim.kill();
+          }
+        },
+      });
+    }
+  }
+
+  closeAbout() {
+    this.setIsOpen(false);
+    this.changeColor();
+
+    this.about.style.pointerEvents = "none";
+
+    const val = {
+      opacity: 1,
+    };
+    gsap.to(val, 0.3, {
+      opacity: 0,
+      onUpdate: () => {
+        this.about.style.opacity = val.opacity;
+      },
+    });
+
+    for (let i = 0; i < this.aboutTitle.length; i++) {
+      const val2 = {
+        x: 0,
+        idx: i,
+      };
+
+      const el = this.aboutTitle[i];
+
+      gsap.to(val2, 0.5, {
+        x: 115,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.transform = `translateX(${val2.x}%)`;
+        },
+      });
+    }
+
+    for (let i = 0; i < this.aboutListEls.length; i++) {
+      const val3 = {
+        y: 0,
+        idx: i,
+      };
+
+      const el = this.aboutListEls[i];
+
+      gsap.to(val3, 0.5, {
+        y: -115,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.transform = `translateY(${val3.y}%)`;
+        },
+      });
+    }
+
+    for (let i = 0; i < this.aboutLines.length; i++) {
+      const val4 = {
+        y: 0,
+        idx: i,
+      };
+
+      const el = this.aboutLines[i];
+
+      gsap.to(val4, 0.5, {
+        y: -115,
+        ease: "power1.easeOut",
+        onUpdate: () => {
+          el.style.transform = `translateY(${val4.y}%)`;
+        },
+      });
+    }
+  }
+
+  setIsOpen(val) {
+    this.isOpen = val;
+  }
+
+  isOpen() {
+    return this.isOpen;
+  }
+}
+
+export { ImageList, Text, Line, Icon, About };

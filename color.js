@@ -14,6 +14,9 @@ class Colors {
   e_t_line = undefined;
   e_s_i = undefined;
 
+  about = undefined;
+  about_u = undefined;
+
   bars = undefined;
 
   selector = undefined;
@@ -27,6 +30,14 @@ class Colors {
   t_r = 255;
   t_g = 255;
   t_b = 255;
+
+  new_r = undefined;
+  new_g = undefined;
+  new_b = undefined;
+
+  new_t_r = undefined;
+  new_t_g = undefined;
+  new_t_b = undefined;
 
   constructor() {
     this.body = document.querySelector("body");
@@ -43,9 +54,26 @@ class Colors {
     this.selector = document.querySelector(".selector-indicator");
 
     this.bars = document.querySelectorAll(".bar");
+    this.about = document.querySelector(".about-btn");
+    this.about_u = document.querySelector(".about-btn-underline");
   }
 
   toColor(bgObj, colObj) {
+    this.setColor(bgObj, colObj);
+    this.changeColor();
+  }
+
+  setColor(bgObj, colObj) {
+    this.new_r = bgObj.r;
+    this.new_g = bgObj.g;
+    this.new_b = bgObj.b;
+
+    this.new_t_r = colObj.r;
+    this.new_t_g = colObj.g;
+    this.new_t_b = colObj.b;
+  }
+
+  changeColor() {
     var value = {
       r: this.r,
       g: this.g,
@@ -56,13 +84,13 @@ class Colors {
     };
     this.TRANSITIONING = true;
     const anim = gsap.to(value, 1.2, {
-      r: bgObj.r,
-      g: bgObj.g,
-      b: bgObj.b,
+      r: this.new_r,
+      g: this.new_g,
+      b: this.new_b,
 
-      t_r: colObj.r,
-      t_g: colObj.g,
-      t_b: colObj.b,
+      t_r: this.new_t_r,
+      t_g: this.new_t_g,
+      t_b: this.new_t_b,
 
       ease: "power1.easeOut",
       onUpdate: () => {
@@ -89,6 +117,9 @@ class Colors {
 
           this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
+          this.about.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+          this.about_u.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
           for (var i = 0; i < data.length; i++) {
             this.bars[
               i
@@ -102,6 +133,7 @@ class Colors {
   }
 
   resetColors() {
+    console.log("reset");
     var value = {
       r: this.r,
       g: this.g,
@@ -145,6 +177,9 @@ class Colors {
         this.p_s_i.style.stroke = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
         this.selector.style.borderColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+
+        this.about.style.color = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
+        this.about_u.style.backgroundColor = `rgb(${value.t_r}, ${value.t_g}, ${value.t_b})`;
 
         for (var i = 0; i < data.length; i++) {
           this.bars[

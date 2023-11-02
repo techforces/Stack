@@ -37,7 +37,6 @@ canvas {
   width: 100%;
   height: 100%;
   z-index: 11;
-  /* display: none; */
 }
 
 .cover {
@@ -66,7 +65,7 @@ img {
   position: absolute;
   top: 83%;
   left: 50%;
-  z-index: 12;
+  z-index: 15;
   user-select: none;
   transform: translateX(-50%);
 
@@ -111,7 +110,7 @@ img {
   display: block;
   transform: translateY(-20%);
   transition-duration: all 1s;
-  z-index: 14;
+  z-index: 15;
 }
 
 .e-t-line {
@@ -127,7 +126,7 @@ img {
   top: 6%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 12;
+  z-index: 15;
   user-select: none;
 
   /* color: white; */
@@ -170,7 +169,7 @@ img {
   position: relative;
   transform: translateY(-20%);
   transition-duration: all 1s;
-  z-index: 14;
+  z-index: 15;
 }
 
 .p-t-line {
@@ -195,7 +194,7 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 14;
+  z-index: 30;
   pointer-events: none;
 }
 
@@ -278,7 +277,17 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 12;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.top-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 35;
   pointer-events: none;
 }
 
@@ -410,13 +419,24 @@ li {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+
+  cursor: pointer;
 }
 
-.about {
+.about-btn {
   position: absolute;
   top: 50px;
   right: 50px;
   font-size: 12px;
+  cursor: pointer;
+  z-index: 30;
+}
+
+.about-btn-underline {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
 }
 
 .stack-bar-container {
@@ -503,7 +523,7 @@ li {
   left: 50px;
   font-family: T;
   font-size: 56px;
-  z-index: 13;
+  z-index: 15;
 }
 
 .digit {
@@ -518,7 +538,7 @@ li {
   left: 50px;
   font-family: T;
   font-size: 56px;
-  z-index: 13;
+  z-index: 15;
 }
 
 .letter {
@@ -528,6 +548,73 @@ li {
 
 .logo-letter {
   transform: translateX(-115%);
+}
+
+.about-letter {
+  transform: translateX(-115%);
+}
+
+.about {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #141414;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.about-title {
+  display: flex;
+  position: absolute;
+  top: 20%;
+  left: 50px;
+  font-family: T;
+  font-size: 256px;
+  z-index: 35;
+}
+
+.about-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 35;
+  pointer-events: none;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #fff;
+}
+
+.about-list {
+  position: absolute;
+  top: 20%;
+  left: 60%;
+}
+
+.about-list > div,
+.about-description > div {
+  width: max-content;
+  height: min-content;
+  overflow: hidden;
+}
+
+.about-list-el {
+  transform: translateY(115%);
+}
+
+.about-description {
+  position: absolute;
+  width: 40%;
+  top: 60%;
+  left: 50px;
+}
+
+.about-line {
+  transform: translateY(115%);
 }
 
 @media (min-aspect-ratio: 1660/1200) {
@@ -574,6 +661,10 @@ li {
 @media (max-width: 1200px) {
   .image-selector {
     display: none;
+  }
+
+  .about-list {
+    display: block;
   }
 }
 
