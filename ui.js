@@ -353,13 +353,13 @@ class ImageList {
 
       if (show > hide) {
         gsap.to(value, 0.4, {
-          hide: -25,
+          hide: -50,
           show: 50,
           ease: "power1.easeOut",
           onStart: () => {
             for (var i = 0; i < show; i++) {
               if (i != hide) {
-                that.imgPos[i] = -25;
+                that.imgPos[i] = -50;
               }
             }
           },
