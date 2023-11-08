@@ -679,7 +679,7 @@ function reducePlane(mesh, uniform) {
 
 // enlarge on click
 canvas.addEventListener("click", () => {
-  if (!transitioning && !changing) {
+  if (!transitioning && !changing && Math.abs(impulse) <= 0.09) {
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(meshes);
 
@@ -872,9 +872,9 @@ document.addEventListener("wheel", (event) => {
         typo.closeText(index, index);
         info.closeText(index, index);
         bar.closeIndex();
+        colors.colorsToDefault();
         colors.resetColors();
 
-        // targetX = (planeWidth + gapMin) * index;
         for (var i = 0; i < meshes.length; i++) {
           reducePlane(meshes[i], uniforms[i]);
         }

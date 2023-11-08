@@ -664,7 +664,11 @@ li {
   }
 
   .about-list {
-    display: block;
+    display: none;
+  }
+
+  .about-title > .letter {
+    font-size: 180px;
   }
 }
 

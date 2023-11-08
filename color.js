@@ -82,6 +82,7 @@ class Colors {
       t_g: this.t_g,
       t_b: this.t_b,
     };
+
     this.TRANSITIONING = true;
     const anim = gsap.to(value, 1.2, {
       r: this.new_r,
@@ -132,8 +133,16 @@ class Colors {
     });
   }
 
+  colorsToDefault() {
+    this.new_r = 20;
+    this.new_g = 20;
+    this.new_b = 20;
+    this.new_t_r = 255;
+    this.new_t_g = 255;
+    this.new_t_b = 255;
+  }
+
   resetColors() {
-    console.log("reset");
     var value = {
       r: this.r,
       g: this.g,
