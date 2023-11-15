@@ -13,7 +13,7 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
       top: "Explore the scenes of Beautiful mountains",
@@ -46,11 +46,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Explore the scenes of captivating deserts",
+      bot: "and experience wonderful nights.",
     },
     images: [
       "/2/1.jpg",
@@ -79,11 +79,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Urban life",
+      bot: "Melancholic aesthetics",
     },
     images: [
       "/3/1.jpg",
@@ -112,11 +112,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Rooms entirely wrapped",
+      bot: "in darkness",
     },
     images: [
       "/4/1.jpg",
@@ -145,11 +145,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Embrace happy moments",
+      bot: "with a bouquet of flowers for your loved ones",
     },
     images: [
       undefined,
@@ -178,11 +178,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Taking care of",
+      bot: "your little companions",
     },
     images: [
       "/6/1.jpg",
@@ -211,11 +211,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Embracing and supporting",
+      bot: "the beauty of traditonal crafts",
     },
     images: [
       undefined,
@@ -244,11 +244,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Explore the mysterious sights",
+      bot: "of dark and ancient forests",
     },
     images: [
       "/8/1.jpg",
@@ -277,11 +277,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Highlight those rare",
+      bot: "moments of morning delight",
     },
     images: [
       "/9/1.jpg",
@@ -310,11 +310,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Creating minimalistic and",
+      bot: "functional chairs",
     },
     images: [
       "/10/1.jpg",
@@ -344,11 +344,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Explore the scenes of peaceful",
+      bot: "and charming lakes",
     },
     images: [
       "/11/1.jpg",
@@ -377,11 +377,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Appreciating the beauty of old",
+      bot: "and peaceful Italy",
     },
     images: [
       undefined,
@@ -411,11 +411,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Enjoying warmth of the sun",
+      bot: "and salty water",
     },
     images: [
       "/13/1.jpg",
@@ -444,11 +444,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Reel stories",
+      bot: "timeless glory",
     },
     images: [
       "/14/1.jpg",
@@ -477,11 +477,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Beware the shadows",
+      bot: "embrace the fangs",
     },
     images: [
       undefined,
@@ -510,11 +510,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Sailing horizons",
+      bot: "connecting shores",
     },
     images: [
       undefined,
@@ -543,11 +543,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Echoes of strength",
+      bot: "forged in stone",
     },
     images: [
       "/17/1.jpg",
@@ -576,11 +576,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Open roads",
+      bot: "endless thrills",
     },
     images: [
       "/18/1.jpg",
@@ -609,11 +609,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Wild whispers",
+      bot: "untamed wonders",
     },
     images: [
       "/19/1.jpg",
@@ -643,11 +643,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Chasing dreams in",
+      bot: "the magic hour's glow",
     },
     images: [
       "/20/1.jpg",
@@ -676,11 +676,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Journey through fjords",
+      bot: "a train of enchantment",
     },
     images: [
       "/21/1.jpg",
@@ -709,11 +709,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "In the garden of life",
+      bot: "find your bloom",
     },
     images: [
       "/22/1.jpg",
@@ -742,11 +742,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Tradition meets innovation",
+      bot: "Vietnam's vibrant today",
     },
     images: [
       undefined,
@@ -775,11 +775,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Elevate life",
+      bot: "one piece at a time",
     },
     images: [
       "/24/1.jpg",
@@ -808,11 +808,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Tracing history on tracks",
+      bot: "city whispers in trams",
     },
     images: [
       "/25/1.jpg",
@@ -841,11 +841,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "In the cosmic shadows",
+      bot: "secrets unfold",
     },
     images: [
       "/26/1.jpg",
@@ -874,11 +874,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Carved by time",
+      bot: "echoes of endurance",
     },
     images: [
       "/27/1.jpg",
@@ -907,11 +907,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Where luxury meets legacy",
+      bot: "indulge in grand tales",
     },
     images: [
       "/28/1.jpg",
@@ -933,18 +933,18 @@ export const data = [
     bgColor: { r: 228, g: 212, b: 187 },
     color: { r: 81, g: 120, b: 221 },
     topTitle: "Spring",
-    topGaps: [0, 6, 14, 2, 5, 11, 5, 1, 9, 2, 1, 0, 1],
+    topGaps: [8, 6, 14, 2, 5, 11, 5, 1, 9, 2, 1, 0, 1],
     botTitle: "Tulip",
-    botGaps: [4, 1, 5, 12, 17, 5, 0],
+    botGaps: [12, 1, 5, 12, 17, 5, 0],
     infoLeft: {
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Tulip whispers",
+      bot: "spring's vibrant embrace",
     },
     images: [
       "/29/1.jpg",
@@ -973,11 +973,11 @@ export const data = [
       a: ["Completed", "March 2023"],
       b: ["Type", "Promotional"],
       c: ["Role", "Frontend Dev"],
-      d: ["Client", "MGM Studios - Watson DC"],
+      d: ["Client", "A very cool studio"],
     },
     infoRight: {
-      top: "Explore the scenes of Beautiful mountains",
-      bot: "and their serenity.",
+      top: "Grounded in roots",
+      bot: "thriving in the embrace of Earth",
     },
     images: [
       "/30/1.jpg",

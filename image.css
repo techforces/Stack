@@ -591,8 +591,9 @@ li {
 
 .about-list {
   position: absolute;
-  top: 20%;
-  left: 60%;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10%;
 }
 
 .about-list > div,
