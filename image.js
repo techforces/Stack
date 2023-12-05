@@ -1182,72 +1182,83 @@ function onAnimationFrame(time) {
 requestAnimationFrame(onAnimationFrame);
 
 function createPlanes() {
-  const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const warning = document.getElementsByClassName("mobile-warning")[0];
 
-  // Create planes (literally) and assign uniforms
-  for (var i = 0; i < images.length; i++) {
-    images[i].style.opacity = "0";
+  if (
+    /windows phone/i.test(userAgent) ||
+    /android/i.test(userAgent) ||
+    (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
+  ) {
+    warning.style.display = "flex";
+  } else {
+    const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
 
-    const imageRatio = textures[i].image.width / textures[i].image.height;
-    uniforms.push({
-      u_image: { type: "t", value: textures[i] },
-      pixelRatio: {
-        value: window.devicePixelRatio,
-      },
-      imageRatio: {
-        value: imageRatio,
-      },
-      planeRatio: {
-        value: planeRatio,
-      },
-      hovered: {
-        value: false,
-      },
-      hoverRate: {
-        value: hoverRate,
-      },
-      opacity: {
-        value: opacity,
-      },
-      selected: {
-        value: false,
-      },
-      windowHalf: {
-        value: window.innerWidth / 2,
-      },
-      waveHalf: {
-        value: waveHalf,
-      },
-      impulse: {
-        value: impulse,
-      },
-    });
+    // Create planes (literally) and assign uniforms
+    for (var i = 0; i < images.length; i++) {
+      images[i].style.opacity = "0";
 
-    var planeMaterial = new THREE.ShaderMaterial({
-      uniforms: uniforms[i],
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      defines: {
-        PR: window.devicePixelRatio.toFixed(1),
-      },
-    });
+      const imageRatio = textures[i].image.width / textures[i].image.height;
+      uniforms.push({
+        u_image: { type: "t", value: textures[i] },
+        pixelRatio: {
+          value: window.devicePixelRatio,
+        },
+        imageRatio: {
+          value: imageRatio,
+        },
+        planeRatio: {
+          value: planeRatio,
+        },
+        hovered: {
+          value: false,
+        },
+        hoverRate: {
+          value: hoverRate,
+        },
+        opacity: {
+          value: opacity,
+        },
+        selected: {
+          value: false,
+        },
+        windowHalf: {
+          value: window.innerWidth / 2,
+        },
+        waveHalf: {
+          value: waveHalf,
+        },
+        impulse: {
+          value: impulse,
+        },
+      });
 
-    meshes.push(new THREE.Mesh(planeGeometry, planeMaterial));
-    meshes[i].arr_id = i;
-    meshes[i].offset_x = 0;
-    scene.add(meshes[i]);
+      var planeMaterial = new THREE.ShaderMaterial({
+        uniforms: uniforms[i],
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        defines: {
+          PR: window.devicePixelRatio.toFixed(1),
+        },
+      });
+
+      meshes.push(new THREE.Mesh(planeGeometry, planeMaterial));
+      meshes[i].arr_id = i;
+      meshes[i].offset_x = 0;
+      scene.add(meshes[i]);
+    }
+
+    // Set scene limits for camera
+    minLength = (currentWidth + gap) * (images.length - 1);
+    maxLength = (planeWidthBig + gapMax) * (images.length - 1);
+    currLength = minLength;
+    isLoaded = true;
+
+    // Red dot
+    const markerGeo = new THREE.PlaneGeometry(10, 10);
+    const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const marker = new THREE.Mesh(markerGeo, markerMat);
   }
-
-  // Set scene limits for camera
-  minLength = (currentWidth + gap) * (images.length - 1);
-  maxLength = (planeWidthBig + gapMax) * (images.length - 1);
-  currLength = minLength;
-  isLoaded = true;
-
-  // Red dot
-  const markerGeo = new THREE.PlaneGeometry(10, 10);
-  const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const marker = new THREE.Mesh(markerGeo, markerMat);
 
   // scene.add(marker);
 }

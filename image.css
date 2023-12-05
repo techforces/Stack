@@ -23,11 +23,15 @@ a:visited {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   z-index: 10;
   overflow: hidden;
   opacity: 0;
+}
+
+.container img {
+  display: none;
 }
 
 canvas {
@@ -43,8 +47,8 @@ canvas {
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 12;
   background-color: #141414;
 }
@@ -556,8 +560,8 @@ li {
 
 .about {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #141414;
   top: 0;
   left: 0;
@@ -580,8 +584,8 @@ li {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 35;
   pointer-events: none;
   text-transform: uppercase;
@@ -616,6 +620,21 @@ li {
 
 .about-line {
   transform: translateY(115%);
+}
+
+.mobile-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: wheat;
+  z-index: 20;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  display: none;
+  align-items: center;
 }
 
 @media (min-aspect-ratio: 1660/1200) {
@@ -676,5 +695,9 @@ li {
 @media (max-width: 700px) {
   .stack-bar-container {
     display: none;
+  }
+
+  body {
+    width: 100vw;
   }
 }
