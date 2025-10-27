@@ -814,10 +814,15 @@ function onWindowResize() {
 //   }
 // });
 
+// Smoothly transition imDelta to new value
+// 0.2 on windows with high fps
+// 0 on mac with low fps, quickfix
+let isTrackpad = false;
+let trackpadDuration = 0.2;
+
 document.addEventListener("wheel", (event) => {
   if (!about.isOpen) {
     if (!enlarged) {
-      // console.log(about.isOpen);
       if (
         camera.position.x > 100 - absoluteShift &&
         currLength - camera.position.x - absoluteShift > 100
@@ -829,22 +834,17 @@ document.addEventListener("wheel", (event) => {
           Math.min(imDeltaMax, imDelta + event.deltaY / 1.7)
         );
 
-        // Smoothly transition imDelta to new value
-        // 0.2 on windows with high fps
-        // 0 on mac with low fps, quickfix
-        var isTrackpad = false;
-        var duration = 0.2;
         if (event.wheelDeltaY) {
           if (event.wheelDeltaY === event.deltaY * -3) {
             isTrackpad = true;
-            duration = 0;
+            trackpadDuration = 0;
           }
         } else if (event.deltaMode === 0) {
           isTrackpad = true;
-          duration = 0;
+          trackpadDuration = 0;
         }
 
-        gsap.to({ val: imDelta }, duration, {
+        gsap.to({ val: imDelta }, trackpadDuration, {
           val: newDelta,
           onUpdate: function () {
             imDelta = this.targets()[0].val;
