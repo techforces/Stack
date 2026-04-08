@@ -9,5 +9,3 @@ Some ThreeJS, WebGL, shader experiments
 # Start up
 
 `npx vite`
-
-e
